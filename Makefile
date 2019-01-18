@@ -6,12 +6,12 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/01/18 00:39:39 by cempassi         ###   ########.fr        #
+#    Updated: 2019/01/18 19:49:49 by cempassi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
-LIB = libftprintf.a
+LIB = libft.a
 
 CC = Clang
 COMPILE = $(CC) -c
@@ -53,6 +53,9 @@ $(NAME): $(LIB) $(OPATH) $(OBJS) $(INCS)
 
 $(OBJS) : $(OPATH)%.o : %.c $(INCS)
 	$(COMPILE) $(CFLAGS) $(IFLAGS) $< -o $@
+
+$(LIB) :
+	$(MAKE) -C $(LPATH)
 
 $(LIBDB) :
 	$(MAKE) -C $(LPATH) debug
