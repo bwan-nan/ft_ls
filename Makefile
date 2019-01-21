@@ -6,7 +6,7 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/01/18 00:39:39 by cempassi         ###   ########.fr        #
+#    Updated: 2019/01/21 19:03:44 by bwan-nan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,8 @@ LIPATH = libft/includes/
 INCS += 
 SRCS += main.c
 SRCS += ft_ls.c
+SRCS += display.c
+SRCS += formatting.c
 DSYM = $(NAME).dSYM
 
 OBJS = $(patsubst %.c, $(OPATH)%.o, $(SRCS))
@@ -61,13 +63,11 @@ $(OPATH):
 	$(MKDIR) $@
 
 clean :
-	$(MAKE) -C $(LPATH) clean
 	$(CLEANUP) $(OBJS)
 	$(CLEANUP) $(OPATH)
 	$(CLEANUP) $(DSYM)
 
 fclean : clean
-	$(MAKE) -C $(LPATH) fclean
 	$(CLEANUP) $(OPATH)
 	$(CLEANUP) $(NAME)
 
