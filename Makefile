@@ -6,7 +6,7 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/01/18 19:49:49 by cempassi         ###   ########.fr        #
+#    Updated: 2019/01/18 20:01:09 by cempassi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ debug : $(LIB) $(SRCS)
 	$(DEBUG) $(DFLAGS) $(CFLAGS) -o $(NAME) $^
 
 $(NAME): $(LIB) $(OPATH) $(OBJS) $(INCS)
-	$(CC) -o $@ $(LIB) $(OBJS)
+	$(CC) -o $@ $(LPATH)$(LIB) $(OBJS)
 
 $(OBJS) : $(OPATH)%.o : %.c $(INCS)
 	$(COMPILE) $(CFLAGS) $(IFLAGS) $< -o $@
