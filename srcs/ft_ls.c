@@ -6,74 +6,62 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/18 01:40:03 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/21 18:54:20 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_list	*create_lst(DIR *current, char *path)
+t_list	*create_list(DIR *current, char *path)
 {
 	t_status	file;
-	t_list		*lst;
+	t_list		*files_list;
 	char		*holder;
 
-	lst = NULL;
-	while ((file.file = readdir(current)))
+	files_list = NULL;
+	while ((file.dirent = readdir(current)))
 	{
-		file.path = ft_strjoin(path, "/");		
-		holder = ft_strjoin(file.path, file.file->d_name);	
+		file.path = ft_strjoin(path, "/");
+		holder = ft_strjoin(file.path, file.dirent->d_name);
 		stat(holder, &file.info);
 		ft_strdel(&file.path);
 		file.path = holder;
-		ft_lstaddback(&lst, ft_lstnew(&file, sizeof(t_status)));
+		ft_lstaddback(&files_list, ft_lstnew(&file, sizeof(t_status)));
 	}
-	return (lst);
+	return (files_list);
 }
 
-void	printlst(t_list *lst)
-{
-	t_status	*tmp;
-
-	while (lst)
-	{
-		tmp = ((t_status *)lst->data);
-		ft_printf("%s\n",tmp->file->d_name);
-		lst = lst->next;
-	}
-}
-
-int		backtrack(t_list *lst)
+int		backtrack(t_list *files_list)
 {
 	t_status	*tmp;
 	char		*holder;
 
-	while (lst)
+	while (files_list)
 	{
-		tmp = (t_status *)(lst->data);
-		if (S_ISDIR(tmp->info.st_mode) && !ft_strequ(tmp->file->d_name , ".") 
-			&& 	!ft_strequ(tmp->file->d_name , "..") && *tmp->file->d_name != '.')
+		tmp = (t_status *)(files_list->data);
+		if (S_ISDIR(tmp->info.st_mode) && !ft_strequ(tmp->dirent->d_name, ".")
+				&& !ft_strequ(tmp->dirent->d_name, ".."))
 		{
 			holder = tmp->path;
-			tmp->dirlst = create_lst(opendir(tmp->path), tmp->path);
-			printlst(tmp->dirlst);
-			backtrack (tmp->dirlst);
-			ft_lstdel(&(tmp->dirlst), NULL);
+			tmp->dirlist = create_list(opendir(tmp->path), tmp->path);
+			print_list(tmp->dirlist);
+			backtrack(tmp->dirlist);
+			ft_lstdel(&(tmp->dirlist), NULL);
 			ft_strdel(&holder);
 		}
-		lst = lst->next;
+		files_list = files_list->next;
 	}
 	return (0);
 }
 
 int		ft_ls(void)
 {
-	DIR 		*current;
-	t_list		*lst;
+	DIR			*current;
+	t_list		*files_list;
 
-	current = opendir (".");
-	lst = create_lst(current, ".");
-	printlst(lst);
-	backtrack(lst);	
-	return (1);
+	current = opendir(".");
+	files_list = create_list(current, ".");
+	print_list(files_list);
+	backtrack(files_list);
+	return (0);
 }

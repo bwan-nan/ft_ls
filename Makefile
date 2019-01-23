@@ -6,12 +6,12 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/01/18 20:01:09 by cempassi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 LIB = libft.a
+LIBDB = libftdb.a
 
 CC = Clang
 COMPILE = $(CC) -c
@@ -36,12 +36,15 @@ LIPATH = libft/includes/
 INCS += 
 SRCS += main.c
 SRCS += ft_ls.c
+SRCS += display.c
+SRCS += formatting.c
 DSYM = $(NAME).dSYM
 
 OBJS = $(patsubst %.c, $(OPATH)%.o, $(SRCS))
 
 vpath  %.c srcs/
 vpath  %.h includes/
+vpath  %.a Libft/
 
 all : $(LIB) $(NAME)
 
@@ -64,13 +67,11 @@ $(OPATH):
 	$(MKDIR) $@
 
 clean :
-	$(MAKE) -C $(LPATH) clean
 	$(CLEANUP) $(OBJS)
 	$(CLEANUP) $(OPATH)
 	$(CLEANUP) $(DSYM)
 
 fclean : clean
-	$(MAKE) -C $(LPATH) fclean
 	$(CLEANUP) $(OPATH)
 	$(CLEANUP) $(NAME)
 
