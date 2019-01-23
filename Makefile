@@ -10,8 +10,8 @@
 # **************************************************************************** #
 
 NAME = ft_ls
-LIB = libft.a
-LIBDB = libftdb.a
+LIB = $(LPATH)libft.a
+LIBDB = $(LPATH)libftdb.a
 
 CC = Clang
 COMPILE = $(CC) -c
@@ -44,15 +44,15 @@ OBJS = $(patsubst %.c, $(OPATH)%.o, $(SRCS))
 
 vpath  %.c srcs/
 vpath  %.h includes/
-vpath  %.a Libft/
 
 all : $(LIB) $(NAME)
 
-debug : $(LIB) $(SRCS)
-	$(DEBUG) $(DFLAGS) $(CFLAGS) -o $(NAME) $^
+debug : $(LIBDB) $(SRCS)
+	$(MAKE) -C $(LPATH) debug
+	$(DEBUG) $(DFLAGS) $(CFLAGS) -o $(NAME) $^ 
 
 $(NAME): $(LIB) $(OPATH) $(OBJS) $(INCS)
-	$(CC) -o $@ $(LPATH)$(LIB) $(OBJS)
+	$(CC) -o $@ $(LIB) $(OBJS)
 
 $(OBJS) : $(OPATH)%.o : %.c $(INCS)
 	$(COMPILE) $(CFLAGS) $(IFLAGS) $< -o $@
@@ -67,11 +67,13 @@ $(OPATH):
 	$(MKDIR) $@
 
 clean :
+	$(MAKE) -C $(LPATH) clean
 	$(CLEANUP) $(OBJS)
 	$(CLEANUP) $(OPATH)
 	$(CLEANUP) $(DSYM)
 
 fclean : clean
+	$(MAKE) -C $(LPATH) fclean
 	$(CLEANUP) $(OPATH)
 	$(CLEANUP) $(NAME)
 

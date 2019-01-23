@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/21 18:54:20 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/23 23:05:10 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,18 @@ t_list	*create_list(DIR *current, char *path)
 {
 	t_status	file;
 	t_list		*files_list;
-	char		*holder;
+	t_list		*node;
 
 	files_list = NULL;
+	file.path = NULL;
 	while ((file.dirent = readdir(current)))
 	{
-		file.path = ft_strjoin(path, "/");
-		holder = ft_strjoin(file.path, file.dirent->d_name);
-		stat(holder, &file.info);
+		ft_asprintf(&file.path, "%s/%s", path, file.dirent->d_name);
+		stat(file.path, &file.info);
+		node = ft_lstnew(&file, sizeof(t_status));
+		((t_status *)(node->data))->path = ft_strdup(file.path);
+		ft_lstaddback(&files_list, node);
 		ft_strdel(&file.path);
-		file.path = holder;
-		ft_lstaddback(&files_list, ft_lstnew(&file, sizeof(t_status)));
 	}
 	return (files_list);
 }
@@ -35,6 +36,7 @@ int		backtrack(t_list *files_list)
 {
 	t_status	*tmp;
 	char		*holder;
+	DIR			*current;
 
 	while (files_list)
 	{
@@ -43,9 +45,11 @@ int		backtrack(t_list *files_list)
 				&& !ft_strequ(tmp->dirent->d_name, ".."))
 		{
 			holder = tmp->path;
-			tmp->dirlist = create_list(opendir(tmp->path), tmp->path);
+			tmp->dirlist = create_list((current = opendir(tmp->path)), tmp->path);
+			ft_putchar('\n');
 			print_list(tmp->dirlist);
 			backtrack(tmp->dirlist);
+			closedir(current);
 			ft_lstdel(&(tmp->dirlist), NULL);
 			ft_strdel(&holder);
 		}
@@ -54,14 +58,16 @@ int		backtrack(t_list *files_list)
 	return (0);
 }
 
-int		ft_ls(void)
+int		ft_ls(t_prgm *glob)
 {
 	DIR			*current;
 	t_list		*files_list;
 
-	current = opendir(".");
-	files_list = create_list(current, ".");
+	current = opendir(glob->pwd);
+	files_list = create_list(current, glob->pwd);
 	print_list(files_list);
-	backtrack(files_list);
+	if(glob->option & LS_RR)
+		backtrack(files_list);
+	closedir(current);
 	return (0);
 }
