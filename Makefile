@@ -6,12 +6,13 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/01/21 19:03:44 by bwan-nan         ###   ########.fr        #
+#    Updated: 2019/01/23 11:55:30 by cempassi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
-LIB = libftprintf.a
+LIB = libft.a
+LIBDB = libftdb.a
 
 CC = Clang
 COMPILE = $(CC) -c
@@ -44,6 +45,7 @@ OBJS = $(patsubst %.c, $(OPATH)%.o, $(SRCS))
 
 vpath  %.c srcs/
 vpath  %.h includes/
+vpath  %.a Libft/
 
 all : $(LIB) $(NAME)
 
@@ -51,10 +53,13 @@ debug : $(LIB) $(SRCS)
 	$(DEBUG) $(DFLAGS) $(CFLAGS) -o $(NAME) $^
 
 $(NAME): $(LIB) $(OPATH) $(OBJS) $(INCS)
-	$(CC) -o $@ $(LIB) $(OBJS)
+	$(CC) -o $@ $(LPATH)$(LIB) $(OBJS)
 
 $(OBJS) : $(OPATH)%.o : %.c $(INCS)
 	$(COMPILE) $(CFLAGS) $(IFLAGS) $< -o $@
+
+$(LIB) :
+	$(MAKE) -C $(LPATH) 
 
 $(LIBDB) :
 	$(MAKE) -C $(LPATH) debug
