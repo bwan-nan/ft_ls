@@ -6,7 +6,7 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/01/23 11:55:30 by cempassi         ###   ########.fr        #
+#    Updated: 2019/01/23 17:48:16 by bwan-nan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRCS += main.c
 SRCS += ft_ls.c
 SRCS += display.c
 SRCS += formatting.c
+SRCS += parsing.c
 DSYM = $(NAME).dSYM
 
 OBJS = $(patsubst %.c, $(OPATH)%.o, $(SRCS))

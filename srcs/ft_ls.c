@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/21 18:54:20 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/23 18:04:09 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int		backtrack(t_list *files_list)
 		{
 			holder = tmp->path;
 			tmp->dirlist = create_list(opendir(tmp->path), tmp->path);
+			ft_putchar('\n');
 			print_list(tmp->dirlist);
 			backtrack(tmp->dirlist);
 			ft_lstdel(&(tmp->dirlist), NULL);
@@ -54,7 +55,7 @@ int		backtrack(t_list *files_list)
 	return (0);
 }
 
-int		ft_ls(void)
+int		ft_ls(unsigned char flags)
 {
 	DIR			*current;
 	t_list		*files_list;
@@ -62,6 +63,7 @@ int		ft_ls(void)
 	current = opendir(".");
 	files_list = create_list(current, ".");
 	print_list(files_list);
-	backtrack(files_list);
+	if (flags & LS_R)
+		backtrack(files_list);
 	return (0);
 }

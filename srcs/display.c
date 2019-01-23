@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/21 18:58:02 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/23 17:54:01 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,6 @@ static void		display_time(time_t last_modification)
 	ft_printf("%.12s ", full_date);
 }
 
-void			display_working_directory(char *path)
-{
-	char	*working_directory;
-
-	working_directory = ft_strsub(path, 0, ft_strlen(path) - 2);
-	ft_printf("%s\n", working_directory);
-	ft_strdel(&working_directory);
-}
-
 void			print_list(t_list *files_list)
 {
 	t_status	*tmp;
@@ -73,19 +64,18 @@ void			print_list(t_list *files_list)
 	get_the_right_size(files_list, size);
 	tmp = (t_status *)(files_list->data);
 	if (!ft_strequ(tmp->path, "./."))
-		display_working_directory(tmp->path);
+		ft_printf("%.*s\n", ft_strlen(tmp->path) - 2, tmp->path);
 	ft_printf("total %d\n", size[2]);
 	while (files_list)
 	{
 		tmp = (t_status *)(files_list->data);
 		display_permissions(tmp->info.st_mode);
-		ft_printf("%*d ", size[0], tmp->info.st_nlink);
+		ft_printf(" %*d ", size[0], tmp->info.st_nlink);
 		ft_printf("%s ", (getpwuid(tmp->info.st_uid))->pw_name);
-		ft_printf("%s ", (getgrgid(tmp->info.st_gid))->gr_name);
-		ft_printf("%*d ", size[1], tmp->info.st_size);
+		ft_printf(" %s ", (getgrgid(tmp->info.st_gid))->gr_name);
+		ft_printf(" %*d ", size[1], tmp->info.st_size);
 		display_time(tmp->info.st_mtime);
 		ft_printf("%s\n", tmp->dirent->d_name);
 		files_list = files_list->next;
 	}
-	ft_putchar('\n');
 }

@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/21 18:00:41 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/23 18:03:23 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@
 # include <pwd.h>
 # include <grp.h>
 # include <uuid/uuid.h>
+
+# define OPTIONS "l1RratG"
+
+# define LS_L		1
+# define LS_1		2
+# define LS_R		4
+# define LS_LOW_R	8
+# define LS_A		16
+# define LS_T		32
+# define LS_G		64
 
 typedef struct dirent		t_dirent;
 typedef struct stat			t_stat;
@@ -35,8 +45,10 @@ typedef struct				s_status
 	t_group					group;
 }							t_status;
 
-int		ft_ls(void);
+int		ft_ls(unsigned char flags);
 void	print_list(t_list *files_list);
 void	get_the_right_size(t_list *files_list, int *tab);
+int		merge_sort(t_list **files_list, int (*cmp)(void *, void *));
+int		parsing(int ac, char **av, unsigned char *flags);
 
 #endif
