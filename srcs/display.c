@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/23 22:37:09 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/24 12:02:01 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void			print_list(t_list *files_list)
 		ft_printf(" %s ", (getgrgid(tmp->info.st_gid))->gr_name);
 		ft_printf(" %*d ", size[1], tmp->info.st_size);
 		display_time(tmp->info.st_mtime);
-		ft_printf("%s\n", tmp->dirent->d_name);
+		ft_printf("%s\n", tmp->name);
 		files_list = files_list->next;
 	}
 }

@@ -6,52 +6,29 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/23 23:05:10 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/24 12:09:14 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_list	*create_list(DIR *current, char *path)
-{
-	t_status	file;
-	t_list		*files_list;
-	t_list		*node;
-
-	files_list = NULL;
-	file.path = NULL;
-	while ((file.dirent = readdir(current)))
-	{
-		ft_asprintf(&file.path, "%s/%s", path, file.dirent->d_name);
-		stat(file.path, &file.info);
-		node = ft_lstnew(&file, sizeof(t_status));
-		((t_status *)(node->data))->path = ft_strdup(file.path);
-		ft_lstaddback(&files_list, node);
-		ft_strdel(&file.path);
-	}
-	return (files_list);
-}
-
 int		backtrack(t_list *files_list)
 {
 	t_status	*tmp;
-	char		*holder;
 	DIR			*current;
 
 	while (files_list)
 	{
 		tmp = (t_status *)(files_list->data);
-		if (S_ISDIR(tmp->info.st_mode) && !ft_strequ(tmp->dirent->d_name, ".")
-				&& !ft_strequ(tmp->dirent->d_name, ".."))
+		if (S_ISDIR(tmp->info.st_mode) && !ft_strequ(tmp->name, ".")
+				&& !ft_strequ(tmp->name, ".."))
 		{
-			holder = tmp->path;
-			tmp->dirlist = create_list((current = opendir(tmp->path)), tmp->path);
+			create_list((current = opendir(tmp->path)), tmp->path, &tmp->dirlist);
 			ft_putchar('\n');
 			print_list(tmp->dirlist);
 			backtrack(tmp->dirlist);
+			ft_lstdel(&(tmp->dirlist), del_node);
 			closedir(current);
-			ft_lstdel(&(tmp->dirlist), NULL);
-			ft_strdel(&holder);
 		}
 		files_list = files_list->next;
 	}
@@ -64,10 +41,12 @@ int		ft_ls(t_prgm *glob)
 	t_list		*files_list;
 
 	current = opendir(glob->pwd);
-	files_list = create_list(current, glob->pwd);
+	files_list = NULL;
+	create_list(current, glob->pwd, &files_list);
 	print_list(files_list);
 	if(glob->option & LS_RR)
 		backtrack(files_list);
+	ft_lstdel(&files_list, del_node);
 	closedir(current);
 	return (0);
 }

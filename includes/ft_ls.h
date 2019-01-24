@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/23 23:04:00 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/24 11:50:58 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef struct group		t_group;
 typedef struct				s_status
 {
 	char					*path;
-	t_dirent				*dirent;
+	char					*name;
+	ino_t					inode;
 	t_list					*dirlist;
 	t_stat					info;
 	t_group					group;
@@ -47,8 +48,9 @@ typedef struct				s_prgm
 }							t_prgm;
 
 int		ft_ls(t_prgm *glob);
-int		namecmp(void * data1, void *data2);
 void	print_list(t_list *files_list);
 void	get_the_right_size(t_list *files_list, int *tab);
 
+void	del_node(void **data);
+int		create_list(DIR *current, char *path, t_list **files_list);
 #endif

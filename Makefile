@@ -38,6 +38,7 @@ SRCS += main.c
 SRCS += ft_ls.c
 SRCS += display.c
 SRCS += formatting.c
+SRCS += list.c
 DSYM = $(NAME).dSYM
 
 OBJS = $(patsubst %.c, $(OPATH)%.o, $(SRCS))
@@ -46,6 +47,9 @@ vpath  %.c srcs/
 vpath  %.h includes/
 
 all : $(LIB) $(NAME)
+
+run : all
+	./ft_ls
 
 debug : $(LIBDB) $(SRCS)
 	$(MAKE) -C $(LPATH) debug
