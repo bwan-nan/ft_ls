@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/24 20:22:11 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/24 22:19:11 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		backtrack(t_list *files_list, t_prgm *glob)
 			if (tmp->dirlist)
 			{
 				ft_putchar('\n');
-				print_list(tmp->dirlist, glob);
+				long_output(tmp->dirlist, glob);
 				backtrack(tmp->dirlist, glob);
 				ft_lstdel(&(tmp->dirlist), del_node);
 			}
@@ -40,16 +40,16 @@ int		backtrack(t_list *files_list, t_prgm *glob)
 	return (0);
 }
 
-int		ft_ls(t_prgm *glob)
+int		list_directory(t_prgm *glob, char *path)
 {
 	DIR			*current;
 	t_list		*files_list;
 
-	current = opendir(".");
+	current = opendir(path);
 	files_list = NULL;
-	ft_strcpy(glob->dir, ".");
-	create_list(current, ".", &files_list, glob);
-	print_list(files_list, glob);
+	ft_strcpy(glob->dir, path);
+	create_list(current, path, &files_list, glob);
+	long_output(files_list, glob);
 	if(glob->option & LS_RR)
 		backtrack(files_list, glob);
 	ft_lstdel(&files_list, del_node);

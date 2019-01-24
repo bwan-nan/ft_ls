@@ -6,38 +6,48 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/23 17:35:57 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/24 21:58:38 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static int		get_len(int number)
+static size_t	nbrlen(int nbr)
 {
-	int		i;
-
-	i = 1;
-	while (number /= 10)
-		i++;
-	return (i);
+	if (nbr >= 1000000000) 
+		return (10);
+    if (nbr >= 100000000)  
+		return (9);
+    if (nbr >= 10000000)   
+		return (8);
+    if (nbr >= 1000000)    
+		return (7);
+    if (nbr >= 100000)     
+		return (6);
+    if (nbr >= 10000)      
+		return (5);
+    if (nbr >= 1000)       
+		return (4);
+    if (nbr >= 100)        
+		return (3);
+    if (nbr >= 10)         
+		return (2);
+    return (1);
 }
 
-void			get_the_right_size(t_list *files_list, int *tab)
+void			padding(t_list *lst, size_t *nlink, size_t *size, size_t *total)
 {
 	t_status	*tmp;
-	int			len;
+	size_t		len;
 
-	tab[0] = 0;
-	tab[1] = 0;
-	tab[2] = 0;
-	while (files_list)
+	while (lst)
 	{
-		tmp = (t_status *)(files_list->data);
-		if ((len = get_len(tmp->info.st_nlink)) > tab[0])
-			tab[0] = len;
-		if ((len = get_len(tmp->info.st_size)) > tab[1])
-			tab[1] = len;
-		tab[2] += tmp->info.st_blocks;
-		files_list = files_list->next;
+		tmp = (t_status *)(lst->data);
+		if ((len = nbrlen(tmp->info.st_nlink)) > *nlink)
+			*nlink = len;
+		if ((len = nbrlen(tmp->info.st_size)) > *size)
+			*size = len;
+		*total += tmp->info.st_blocks;
+		lst = lst->next;
 	}
 }
