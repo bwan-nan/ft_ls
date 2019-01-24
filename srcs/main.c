@@ -6,12 +6,30 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/24 13:37:17 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/24 17:45:47 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+unsigned int	basic(char c, unsigned char option)
+{
+	if (c =='l')
+	{
+		option |= LS_L;
+		option &= ~LS_1;
+	}
+	if (c == '1')
+	{
+		option |= LS_1;
+		option &= ~LS_L;
+	}
+	if (c == 'R')
+		option |= LS_RR;
+	if (c == 'a')
+		option |= LS_A;
+	return (option);
+}
 unsigned int	options(int ac, char **av)
 {
 	int c;
@@ -22,20 +40,7 @@ unsigned int	options(int ac, char **av)
 	{
 		if (c == '?')
 			return ('?');
-		if (c =='l')
-		{
-			option |= LS_L;
-			option &= ~LS_1;
-		}
-		if (c == '1')
-		{
-			option |= LS_1;
-			option &= ~LS_L;
-		}
-		if (c == 'R')
-			option |= LS_RR;
-		if (c == 'a')
-			option |= LS_A;
+		option = basic(c, option);
 	}
 	return (option);
 }
@@ -59,10 +64,7 @@ int		main(int ac, char **av, char **env)
 	if (ac > 1)
 	{
 		if ((glob.option = options(ac, av)) == '?')
-		{
-			ft_printf("usage: ft_ls [-%s] [file ...]\n", OPTION);
-			return (1);
-		}
+			return (ft_printf("usage: ft_ls [-%s] [file ...]\n", OPTION) ? 1 : 0);
 		ft_ls(&glob);
 		ft_printf("%.8b\n", glob.option);	
 	}
