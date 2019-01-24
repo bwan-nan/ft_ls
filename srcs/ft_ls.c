@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/24 13:34:54 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/24 20:22:11 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,15 @@ int		backtrack(t_list *files_list, t_prgm *glob)
 				&& !ft_strequ(tmp->name, ".."))
 		{
 			current = opendir(tmp->path);
+			ft_strcpy(glob->dir, tmp->path);
 			create_list(current, tmp->path, &tmp->dirlist, glob);
-			ft_putchar('\n');
-			print_list(tmp->dirlist);
-			backtrack(tmp->dirlist, glob);
-			ft_lstdel(&(tmp->dirlist), del_node);
+			if (tmp->dirlist)
+			{
+				ft_putchar('\n');
+				print_list(tmp->dirlist, glob);
+				backtrack(tmp->dirlist, glob);
+				ft_lstdel(&(tmp->dirlist), del_node);
+			}
 			closedir(current);
 		}
 		files_list = files_list->next;
@@ -41,10 +45,11 @@ int		ft_ls(t_prgm *glob)
 	DIR			*current;
 	t_list		*files_list;
 
-	current = opendir(glob->pwd);
+	current = opendir(".");
 	files_list = NULL;
-	create_list(current, glob->pwd, &files_list, glob);
-	print_list(files_list);
+	ft_strcpy(glob->dir, ".");
+	create_list(current, ".", &files_list, glob);
+	print_list(files_list, glob);
 	if(glob->option & LS_RR)
 		backtrack(files_list, glob);
 	ft_lstdel(&files_list, del_node);

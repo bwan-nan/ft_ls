@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/24 12:02:01 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/24 20:25:20 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,15 @@ static void		display_time(time_t last_modification)
 	ft_printf("%.12s ", full_date);
 }
 
-void			display_working_directory(char *path)
-{
-	char	*working_directory;
-
-	working_directory = ft_strsub(path, 0, ft_strlen(path) - 2);
-	ft_printf("%s\n", working_directory);
-	ft_strdel(&working_directory);
-}
-
-void			print_list(t_list *files_list)
+void			print_list(t_list *files_list, t_prgm *glob)
 {
 	t_status	*tmp;
 	int			size[3];
 
 	get_the_right_size(files_list, size);
 	tmp = (t_status *)(files_list->data);
-	ft_printf("%s\n", tmp->path);
+	if (!ft_strequ(glob->dir, ".") && glob->option & LS_RR)
+		ft_printf("%s\n", glob->dir);
 	ft_printf("total %d\n", size[2]);
 	while (files_list)
 	{

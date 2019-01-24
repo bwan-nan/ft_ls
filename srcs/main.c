@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/24 17:45:47 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/24 19:02:48 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ unsigned int	basic(char c, unsigned char option)
 		option |= LS_A;
 	return (option);
 }
+
 unsigned int	options(int ac, char **av)
 {
 	int c;

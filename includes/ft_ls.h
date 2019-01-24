@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/24 13:36:11 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/24 19:51:30 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,12 @@ typedef struct				s_prgm
 {
 	unsigned int			option;
 	char					*pwd;
+	char					*home;
+	char					dir[255];
 }							t_prgm;
 
 int		ft_ls(t_prgm *glob);
-void	print_list(t_list *files_list);
+void	print_list(t_list *files_list, t_prgm *glob);
 void	get_the_right_size(t_list *files_list, int *tab);
 
 void	del_node(void **data);
