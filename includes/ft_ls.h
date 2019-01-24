@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/24 12:36:55 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/24 13:36:11 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define LS_L 1
 # define LS_1 2
 # define LS_RR 4
+# define LS_A 8
 
 typedef struct dirent		t_dirent;
 typedef struct stat			t_stat;
@@ -52,5 +53,6 @@ void	print_list(t_list *files_list);
 void	get_the_right_size(t_list *files_list, int *tab);
 
 void	del_node(void **data);
-int		create_list(DIR *current, char *path, t_list **files_list);
+int		create_list(DIR *current, char *path, t_list **files_list,\
+		t_prgm *glob);
 #endif

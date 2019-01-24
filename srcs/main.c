@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/23 23:06:30 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/24 13:37:17 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ unsigned int	options(int ac, char **av)
 		}
 		if (c == 'R')
 			option |= LS_RR;
+		if (c == 'a')
+			option |= LS_A;
 	}
 	return (option);
 }
