@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/23 18:03:59 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/24 12:50:46 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int		main(int ac, char **av)
 	unsigned char	flags;
 	int				i;
 
+	flags = 0;
 	if (ac == 1)
 		ft_ls(flags);
 	if (ac > 1)

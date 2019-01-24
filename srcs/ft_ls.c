@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/23 18:04:09 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/24 12:52:01 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		backtrack(t_list *files_list)
 			ft_putchar('\n');
 			print_list(tmp->dirlist);
 			backtrack(tmp->dirlist);
-			ft_lstdel(&(tmp->dirlist), NULL);
+			ft_lstdel(&(tmp->dirlist), del_node);
 			ft_strdel(&holder);
 		}
 		files_list = files_list->next;
