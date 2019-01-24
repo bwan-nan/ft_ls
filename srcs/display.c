@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/24 13:09:42 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/24 16:33:52 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ void			print_list(t_list *files_list)
 
 	get_the_right_size(files_list, size);
 	tmp = (t_status *)(files_list->data);
-	if (!ft_strequ(tmp->path, "./."))
-		ft_printf("%s\n", tmp->name);
+	//if (!ft_strequ(tmp->path, "."))
+	//	ft_printf("%s\n", tmp->name);
 	ft_printf("total %d\n", size[2]);
 	while (files_list)
 	{

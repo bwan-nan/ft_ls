@@ -6,12 +6,14 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/24 13:07:50 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/24 17:28:38 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS
 # define FT_LS
+
+
 # include "ft_printf.h"
 # include "libft.h"
 # include <dirent.h>
@@ -21,10 +23,6 @@
 # include <pwd.h>
 # include <grp.h>
 # include <uuid/uuid.h>
-# define OPTION "1lRa"
-# define LS_L 1
-# define LS_1 2
-# define LS_RR 4
 
 # define OPTIONS "l1RratG"
 
@@ -51,19 +49,21 @@ typedef struct				s_status
 	t_group					group;
 }							t_status;
 
-int		ft_ls(unsigned char flags);
 typedef struct				s_prgm
 {
-	unsigned int			option;
+	unsigned int			options;
 	char					*pwd;
+	char					**arg;
 }							t_prgm;
 
 int		ft_ls(t_prgm *glob);
 void	print_list(t_list *files_list);
 void	get_the_right_size(t_list *files_list, int *tab);
-int		merge_sort(t_list **files_list, int (*cmp)(void *, void *));
-int		parsing(int ac, char **av, unsigned char *flags);
+void	merge_sort(t_list **source, int (*cmp)(void *, void *));
+int		parsing(int ac, char **av, unsigned int *flags);
+
+int		sort_ascii(void *a, void *b);
 
 void	del_node(void **data);
-int		create_list(DIR *current, char *path, t_list **files_list);
+int		create_list(DIR *current, char *path, t_list **files_list, t_prgm *glob);
 #endif

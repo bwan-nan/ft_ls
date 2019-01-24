@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 16:00:07 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/23 17:51:34 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/24 16:28:01 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int		ft_strchr_index(char *str, char c)
 	return (-1);
 }
 
-static int		flags_handling(char *str, unsigned char *flags)
+static int		flags_handling(char *str, unsigned int *flags)
 {
 	int		n;
 
@@ -41,7 +41,7 @@ static int		flags_handling(char *str, unsigned char *flags)
 	return (1);
 }
 
-int				parsing(int ac, char **av, unsigned char *flags)
+int				parsing(int ac, char **av, unsigned int *flags)
 {
 	int	i;
 
@@ -50,14 +50,16 @@ int				parsing(int ac, char **av, unsigned char *flags)
 	{
 		if (av[1][0] == '-' && av[1][1])
 		{
-			while (++i < ac)
+			while (++i < ac && av[i][0] == '-' && av[i][1])
 			{
-				if (av[i][1] == '-' && av[i][2] == '-' && !av[i][2])
+				if (av[i][0] == '-' && av[i][1] == '-' && !av[i][2])
 					return (i + 1);
 				if (flags_handling(av[i], flags) == -1)
 					return (-1);
 			}
 		}
+		else
+			return (i + 1);
 	}
 	return (i);
 }

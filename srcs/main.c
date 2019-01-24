@@ -6,63 +6,61 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/24 13:13:17 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/24 18:05:57 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-unsigned int	options(int ac, char **av)
-{
-	int c;
-	unsigned int option;
-
-	option = 0;
-	while ((c = ft_getopt(ac, av, OPTION)) != -1)	
-	{
-		if (c == '?')
-			return ('?');
-		if (c =='l')
-		{
-			option |= LS_L;
-			option &= ~LS_1;
-		}
-		if (c == '1')
-		{
-			option |= LS_1;
-			option &= ~LS_L;
-		}
-		if (c == 'R')
-			option |= LS_RR;
-	}
-	return (option);
-}
+#include <stdlib.h>
 
 int		main(int ac, char **av, char **env)
 {
 	t_prgm			glob;
-	int				i = 0;
+	char			*pwd;
+	int				i;
 
-	glob.option = 0;
+	i = 0;
+	glob.options= 0;
 	while (env[i])
 	{
 		if (ft_strnequ(env[i], "PWD=", 4))
-			glob.pwd = ft_strsub(env[i], 4, ft_strlen(&env[i][3]));
+			pwd = ft_strsub(env[i], 4, ft_strlen(&env[i][3]));
 		i++;
 	}
+	glob.pwd = pwd;
 	if (ac == 1)
 	{
 		ft_ls(&glob);
 	}
 	if (ac > 1)
 	{
-		if ((glob.option = options(ac, av)) == '?')
+		if ((i = parsing(ac, av, &glob.options)) == -1)
 		{
-			ft_printf("usage: ft_ls [-%s] [file ...]\n", OPTION);
+			ft_printf("usage: ft_ls [-%s] [file ...]\n", OPTIONS);
 			return (1);
 		}
-		ft_ls(&glob);
-		ft_printf("%.8b\n", glob.option);	
+		if (i == ac)
+			ft_ls(&glob);
+		else
+		{
+			while (i < ac)
+			{
+				if (ft_strequ(av[i], "~"))
+				{
+					//segfault ???
+					glob.pwd = ft_strdup("/Users");
+					ft_printf("%s\n", glob.pwd);
+				}
+				else
+					glob.pwd = ft_strdup(pwd);
+				ft_asprintf(&glob.pwd, "/%s",  av[i]);
+				ft_printf("i = %d ; glob.pwd = %s \n", i, glob.pwd);
+				ft_ls(&glob);
+				free(glob.pwd);
+				i++;
+			}
+		}
+		ft_printf("%.8b\n", glob.options);	
 	}
 	return (0);
 }
