@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/23 17:54:01 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/24 13:09:42 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void			print_list(t_list *files_list)
 	get_the_right_size(files_list, size);
 	tmp = (t_status *)(files_list->data);
 	if (!ft_strequ(tmp->path, "./."))
-		ft_printf("%.*s\n", ft_strlen(tmp->path) - 2, tmp->path);
+		ft_printf("%s\n", tmp->name);
 	ft_printf("total %d\n", size[2]);
 	while (files_list)
 	{
@@ -75,7 +75,7 @@ void			print_list(t_list *files_list)
 		ft_printf(" %s ", (getgrgid(tmp->info.st_gid))->gr_name);
 		ft_printf(" %*d ", size[1], tmp->info.st_size);
 		display_time(tmp->info.st_mtime);
-		ft_printf("%s\n", tmp->dirent->d_name);
+		ft_printf("%s\n", tmp->name);
 		files_list = files_list->next;
 	}
 }

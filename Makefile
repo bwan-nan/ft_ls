@@ -6,13 +6,13 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/01/23 17:48:16 by bwan-nan         ###   ########.fr        #
+#    Updated: 2019/01/24 13:07:07 by bwan-nan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
-LIB = libft.a
-LIBDB = libftdb.a
+LIB = $(LPATH)libft.a
+LIBDB = $(LPATH)libftdb.a
 
 CC = Clang
 COMPILE = $(CC) -c
@@ -40,27 +40,31 @@ SRCS += ft_ls.c
 SRCS += display.c
 SRCS += formatting.c
 SRCS += parsing.c
+SRCS += list.c
 DSYM = $(NAME).dSYM
 
 OBJS = $(patsubst %.c, $(OPATH)%.o, $(SRCS))
 
 vpath  %.c srcs/
 vpath  %.h includes/
-vpath  %.a Libft/
 
 all : $(LIB) $(NAME)
 
-debug : $(LIB) $(SRCS)
-	$(DEBUG) $(DFLAGS) $(CFLAGS) -o $(NAME) $^
+run : all
+	./ft_ls
+
+debug : $(LIBDB) $(SRCS)
+	$(MAKE) -C $(LPATH) debug
+	$(DEBUG) $(DFLAGS) $(CFLAGS) -o $(NAME) $^ 
 
 $(NAME): $(LIB) $(OPATH) $(OBJS) $(INCS)
-	$(CC) -o $@ $(LPATH)$(LIB) $(OBJS)
+	$(CC) -o $@ $(LIB) $(OBJS)
 
 $(OBJS) : $(OPATH)%.o : %.c $(INCS)
 	$(COMPILE) $(CFLAGS) $(IFLAGS) $< -o $@
 
 $(LIB) :
-	$(MAKE) -C $(LPATH) 
+	$(MAKE) -C $(LPATH)
 
 $(LIBDB) :
 	$(MAKE) -C $(LPATH) debug
@@ -69,11 +73,13 @@ $(OPATH):
 	$(MKDIR) $@
 
 clean :
+	$(MAKE) -C $(LPATH) clean
 	$(CLEANUP) $(OBJS)
 	$(CLEANUP) $(OPATH)
 	$(CLEANUP) $(DSYM)
 
 fclean : clean
+	$(MAKE) -C $(LPATH) fclean
 	$(CLEANUP) $(OPATH)
 	$(CLEANUP) $(NAME)
 
