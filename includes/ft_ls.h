@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/25 15:35:22 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/25 16:57:19 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,14 @@
 # include <sys/ioctl.h>
 # include <uuid/uuid.h>
 
-# define OPTION "1lRa"
-# define LS_L 1
-# define LS_1 2
-# define LS_RR 4
-# define LS_A 8
+# define OPTION		"l1Ratuf"
+# define LS_L		1
+# define LS_1		2
+# define LS_RR		4
+# define LS_A		8
+# define LS_T		16
+# define LS_U		32
+# define LS_F		64
 
 typedef struct dirent		t_dirent;
 typedef struct stat			t_stat;
@@ -49,7 +52,7 @@ typedef struct				s_status
 
 typedef struct				s_prgm
 {
-	unsigned int			options;
+	unsigned int			option;
 	char					*pwd;
 	char					*home;
 	char					**args;
@@ -70,4 +73,9 @@ int		name_filter(void *data, void *filter);
 void	del_node(void **data);
 int		create_list(DIR *current, char *path, t_list **files_list,\
 		t_prgm *glob);
+
+void	merge_sort(t_list **source, int (*cmp)(void *, void *));
+int		sort_ascii(void *a, void *b);
+int		sort_time_modified(void *a, void *b);
+int		sort_last_access(void *a, void *b);
 #endif

@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/25 15:37:44 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/25 17:33:04 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,22 @@ unsigned int	basic(char c, unsigned char option)
 		option |= LS_RR;
 	if (c == 'a')
 		option |= LS_A;
+	if (c == 't')
+		option |= LS_T;
+	if (c == 'u')
+		option |= LS_U;
+	if (c == 'f')
+	{
+		option |= LS_U;
+		option |= LS_A;
+	}
 	return (option);
 }
 
 unsigned int	options(int ac, char **av)
 {
-	int c;
-	unsigned int option;
+	int				c;
+	unsigned int	option;
 
 	option = 0;
 	while ((c = ft_getopt(ac, av, OPTION)) != -1)
@@ -46,6 +55,13 @@ unsigned int	options(int ac, char **av)
 		option = basic(c, option);
 	}
 	return (option);
+}
+
+static void		glob_del(t_prgm *glob)
+{
+	ft_strdel(&glob->pwd);
+	ft_strdel(&glob->home);
+	ft_memdel((void **)(&glob->args));
 }
 
 unsigned int	get_env(char **env, t_prgm *glob)
@@ -81,7 +97,6 @@ int		main(int ac, char **av, char **env)
 	else
 		list_files(&glob, ".");
 	ft_printf("%.8b\n", glob.option);
-	ft_strdel(&glob.pwd);
-	ft_strdel(&glob.home);
+	glob_del(&glob);
 	return (0);
 }

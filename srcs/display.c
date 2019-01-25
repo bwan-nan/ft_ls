@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/25 15:36:21 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/25 17:35:32 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,19 @@ void			basic_output(t_list *files_list, t_prgm *glob)
 	ft_putchar('\n');
 }
 
+static void		sorting_order(t_list **files_list, t_prgm *glob)
+{
+	if (glob->option & LS_T)
+		merge_sort(files_list, &sort_time_modified);
+	else if (glob->option & LS_U)
+		merge_sort(files_list, &sort_last_access);
+	else
+		merge_sort(files_list, &sort_ascii);
+}
+
 void			output_handler(t_list *files_list, t_prgm *glob)
 {
+	sorting_order(&files_list, glob);
 	if (glob->option & LS_L)
 		long_output(files_list, glob);
 	else if (glob->option & LS_1)
