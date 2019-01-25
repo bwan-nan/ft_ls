@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/25 02:18:16 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/25 14:59:00 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ void			line_display(t_status *file, size_t nlink, size_t size)
 	permissions[8] = file->info.st_mode & S_IWOTH ? 'w' : '-';
 	permissions[9] = file->info.st_mode & S_IXOTH ? 'x' : '-';
 	permissions[10] = '\0';
-	ft_printf("%s  %*d %s  %s  %*d %.12s %s\n", permissions
+	ft_printf("%s  %*d %s  %s  %*d %.12s %s\n"
+			, permissions
 			, nlink, file->info.st_nlink
 			, (getpwuid(file->info.st_uid))->pw_name
 			, (getgrgid(file->info.st_gid))->gr_name
