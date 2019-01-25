@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/25 17:39:19 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/25 17:42:35 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ unsigned int	options(int ac, char **av)
 		option = basic(c, option);
 	}
 	return (option);
+}
+
+static void		glob_init(t_prgm *glob)
+{
+	glob->pwd = NULL;
+	glob->home = NULL;
+	glob->args = NULL;
+	ft_bzero(glob->dir, DIR_MAX);
 }
 
 static void		glob_del(t_prgm *glob)
