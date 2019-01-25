@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/25 01:49:22 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/25 16:47:23 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/ioctl.h>
 # include <uuid/uuid.h>
 # define OPTION "1lRa"
+# define DIR_MAX 255
 # define LS_L 1
 # define LS_1 2
 # define LS_RR 4
@@ -50,7 +51,7 @@ typedef struct				s_prgm
 	char					*pwd;
 	char					*home;
 	char					**args;
-	char					dir[255];
+	char					dir[DIR_MAX];
 }							t_prgm;
 
 
@@ -63,7 +64,8 @@ void	line_display(t_status *file, size_t nlink, size_t size);
 void	padding(t_list *lst, size_t *nlink, size_t *size, size_t *total);
 int		basic_padding(t_list *lst, size_t *total);
 
-int		name_filter(void *data, void *filter);
+int		file_filter(void *data, void *filter);
+int		dir_filter(void *data, void *filter);
 void	del_node(void **data);
 int		create_list(DIR *current, char *path, t_list **files_list,\
 		t_prgm *glob);

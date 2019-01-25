@@ -6,16 +6,16 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 10:03:03 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/25 01:53:29 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/25 16:15:04 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int		name_filter(void *data, void *filter)
+int		file_filter(void *data, void *filter)
 {
 	t_status	*current;
-	t_prgm		*glob;	
+	t_prgm		*glob;
 	int			i;
 
 	i = 0;
@@ -23,7 +23,27 @@ int		name_filter(void *data, void *filter)
 	glob = (t_prgm *)filter;
 	while (glob->args[i])
 	{
-		if(ft_strequ(current->name, glob->args[i]))
+		if(ft_strequ(current->name, glob->args[i])
+			&& !S_ISDIR(current->info.st_mode))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int		dir_filter(void *data, void *filter)
+{
+	t_status	*current;
+	t_prgm		*glob;
+	int			i;
+
+	i = 0;
+	current = (t_status *)data;
+	glob = (t_prgm *)filter;
+	while (glob->args[i])
+	{
+		if(ft_strequ(current->name, glob->args[i])
+			&& S_ISDIR(current->info.st_mode))
 			return (1);
 		i++;
 	}
@@ -53,7 +73,11 @@ void	del_node(void **data)
 {
 	t_status *tmp;
 
+	if (!data || !*data)
+		return ;
 	tmp = (t_status *)(*data);
-	ft_strdel(&tmp->path);
-	ft_strdel(&tmp->name);
+	if (*tmp->path)
+		ft_strdel(&tmp->path);
+	if (*tmp->name)
+		ft_strdel(&tmp->name);
 }

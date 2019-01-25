@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/25 02:16:11 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/25 16:37:04 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,21 @@ unsigned int	options(int ac, char **av)
 	return (option);
 }
 
+static void		glob_init(t_prgm *glob)
+{
+	glob->pwd = NULL;
+	glob->home = NULL;
+	glob->args = NULL;
+	ft_bzero(glob->dir, DIR_MAX);
+}
+
+static void		glob_del(t_prgm *glob)
+{
+	ft_strdel(&glob->pwd);
+	ft_strdel(&glob->home);
+	ft_memdel((void **)(&glob->args));
+}
+
 unsigned int	get_env(char **env, t_prgm *glob)
 {
 	int		i;
@@ -71,6 +86,7 @@ int		main(int ac, char **av, char **env)
 	int				i;
 
 	i= 0;
+	glob_init(&glob);
 	glob.option = 0;
 	get_env(env, &glob);
 	if ((glob.option = options(ac, av)) == '?')
@@ -81,7 +97,6 @@ int		main(int ac, char **av, char **env)
 	else
 		list_files(&glob, ".");
 	ft_printf("%.8b\n", glob.option);
-	ft_strdel(&glob.pwd);
-	ft_strdel(&glob.home);
+	glob_del(&glob);
 	return (0);
 }
