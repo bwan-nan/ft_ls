@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/24 21:21:32 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/25 02:16:11 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,10 @@ int		main(int ac, char **av, char **env)
 	if ((glob.option = options(ac, av)) == '?')
 		return (ft_printf("usage: ft_ls [-%s] [file ...]\n", OPTION) ? 1 : 0);
 	glob.args = ft_getargs(ac, av);
-	if (ac == 1 || glob.args == NULL)
+	if (glob.args == NULL)
 		list_directory(&glob, ".");
 	else
-	{
-		list_directory(&glob, ".");
-	}
+		list_files(&glob, ".");
 	ft_printf("%.8b\n", glob.option);
 	ft_strdel(&glob.pwd);
 	ft_strdel(&glob.home);
