@@ -6,76 +6,82 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/24 16:33:52 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/25 15:36:21 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static char		get_file_type(int mode)
-{
-	if (S_ISREG(mode))
-		return ('-');
-	else if (S_ISDIR(mode))
-		return ('d');
-	else if (S_ISCHR(mode))
-		return ('c');
-	else if (S_ISBLK(mode))
-		return ('b');
-	else if (S_ISFIFO(mode))
-		return ('f');
-	else if (S_ISLNK(mode))
-		return ('l');
-	else
-		return ('s');
-}
-
-static void		display_permissions(int mode)
-{
-	char	permissions[11];
-
-	permissions[0] = get_file_type(mode);
-	permissions[1] = mode & S_IRUSR ? 'r' : '-';
-	permissions[2] = mode & S_IWUSR ? 'w' : '-';
-	permissions[3] = mode & S_IXUSR ? 'x' : '-';
-	permissions[4] = mode & S_IRGRP ? 'r' : '-';
-	permissions[5] = mode & S_IWGRP ? 'w' : '-';
-	permissions[6] = mode & S_IXGRP ? 'x' : '-';
-	permissions[7] = mode & S_IROTH ? 'r' : '-';
-	permissions[8] = mode & S_IWOTH ? 'w' : '-';
-	permissions[9] = mode & S_IXOTH ? 'x' : '-';
-	permissions[10] = '\0';
-	ft_printf("%s ", permissions);
-}
-
-static void		display_time(time_t last_modification)
-{
-	char	*full_date;
-
-	full_date = ctime(&last_modification) + 4;
-	ft_printf("%.12s ", full_date);
-}
-
-void			print_list(t_list *files_list)
+void			long_output(t_list *files_list, t_prgm *glob)
 {
 	t_status	*tmp;
-	int			size[3];
+	size_t		nlink_max;
+	size_t		size_max;
+	size_t		total;
 
-	get_the_right_size(files_list, size);
+	nlink_max = 0;
+	size_max = 0;
+	total = 0;
+	padding(files_list, &nlink_max, &size_max, &total);
 	tmp = (t_status *)(files_list->data);
-	//if (!ft_strequ(tmp->path, "."))
-	//	ft_printf("%s\n", tmp->name);
-	ft_printf("total %d\n", size[2]);
+	if (!ft_strequ(glob->dir, ".") && glob->option & LS_RR)
+		ft_printf("%s\n", glob->dir);
+	ft_printf("total %d\n", total);
 	while (files_list)
 	{
 		tmp = (t_status *)(files_list->data);
-		display_permissions(tmp->info.st_mode);
-		ft_printf(" %*d ", size[0], tmp->info.st_nlink);
-		ft_printf("%s ", (getpwuid(tmp->info.st_uid))->pw_name);
-		ft_printf(" %s ", (getgrgid(tmp->info.st_gid))->gr_name);
-		ft_printf(" %*d ", size[1], tmp->info.st_size);
-		display_time(tmp->info.st_mtime);
-		ft_printf("%s\n", tmp->name);
+		line_display(tmp, nlink_max, size_max);
 		files_list = files_list->next;
 	}
+}
+
+void			list_output(t_list *files_list, t_prgm *glob)
+{
+	if (!ft_strequ(glob->dir, ".") && glob->option & LS_RR)
+		ft_printf("%s\n", glob->dir);
+	while (files_list)
+	{
+		ft_printf("%s\n", ((t_status *)(files_list->data))->name);	
+		files_list = files_list->next;
+	}
+}
+
+void			basic_output(t_list *files_list, t_prgm *glob)
+{
+	t_status 	*tmp;
+	t_winsize	window;
+	size_t		total;
+	size_t		width;
+	size_t		printed;
+
+	total = 0;
+	printed = 0;
+	width = basic_padding(files_list, &total);
+	ioctl(0, TIOCGWINSZ, &window);
+	if (!ft_strequ(glob->dir, ".") && glob->option & LS_RR)
+		ft_printf("%s\n", glob->dir);
+	while (total > window.ws_col)
+		total = total / 2;	
+	while (files_list)
+	{
+		tmp = ((t_status *)(files_list)->data);
+		printed += ft_printf("%-*s", width, tmp->name);	
+		if (printed > total)
+		{
+			ft_putchar('\n');
+			printed = 0;
+		}
+		files_list = files_list->next;
+	}
+	ft_putchar('\n');
+}
+
+void			output_handler(t_list *files_list, t_prgm *glob)
+{
+	if (glob->option & LS_L)
+		long_output(files_list, glob);
+	else if (glob->option & LS_1)
+		list_output(files_list, glob);
+	else
+		basic_output(files_list, glob);
 }

@@ -60,7 +60,7 @@ debug : $(LIBDB) $(SRCS)
 	$(DEBUG) $(DFLAGS) $(CFLAGS) -o $(NAME) $^ 
 
 $(NAME): $(LIB) $(OPATH) $(OBJS) $(INCS)
-	$(CC) -o $@ $(LIB) $(OBJS)
+	$(CC) -o $@ $< $(OBJS)
 
 $(OBJS) : $(OPATH)%.o : %.c $(INCS)
 	$(COMPILE) $(CFLAGS) $(IFLAGS) $< -o $@
