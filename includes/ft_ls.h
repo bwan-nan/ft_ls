@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/25 16:57:19 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/25 17:37:28 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct				s_prgm
 	char					*pwd;
 	char					*home;
 	char					**args;
-	char					dir[255];
+	char					dir[DIR_MAX];
 }							t_prgm;
 
 
@@ -69,7 +69,8 @@ void	line_display(t_status *file, size_t nlink, size_t size);
 void	padding(t_list *lst, size_t *nlink, size_t *size, size_t *total);
 int		basic_padding(t_list *lst, size_t *total);
 
-int		name_filter(void *data, void *filter);
+int		file_filter(void *data, void *filter);
+int		dir_filter(void *data, void *filter);
 void	del_node(void **data);
 int		create_list(DIR *current, char *path, t_list **files_list,\
 		t_prgm *glob);
