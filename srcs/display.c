@@ -6,11 +6,16 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/26 09:13:42 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/26 13:02:18 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+void			error_output(t_list *lst)
+{
+	ft_dprintf(2, "ls: %s: No such file or directory\n",(char *)lst->data);
+}
 
 void			long_output(t_list *files_list, t_prgm *glob)
 {
@@ -24,7 +29,7 @@ void			long_output(t_list *files_list, t_prgm *glob)
 	total = 0;
 	padding(files_list, &nlink_max, &size_max, &total);
 	tmp = (t_status *)(files_list->data);
-	if (!ft_strequ(glob->dir, ".") && glob->option & LS_RR && files_list->next)
+	if (!ft_strequ(glob->dir, ".") || glob->args)
 		ft_printf("%s:\n", glob->dir);
 	ft_printf("total %d\n", total);
 	while (files_list)

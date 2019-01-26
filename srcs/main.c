@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/26 07:37:53 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/26 12:58:18 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void		glob_init(t_prgm *glob)
 	ft_bzero(glob->dir, DIR_MAX);
 }
 
-static void		glob_del(t_prgm *glob)
+void		glob_del(t_prgm *glob)
 {
 	ft_strdel(&glob->pwd);
 	ft_strdel(&glob->home);
@@ -34,7 +34,6 @@ int				main(int ac, char **av, char **env)
 
 	i= 0;
 	glob_init(&glob);
-	glob.option = 0;
 	get_env(env, &glob);
 	if ((glob.option = options(ac, av)) == '?')
 		return (ft_printf("usage: ft_ls [-%s] [file ...]\n", OPTION) ? 1 : 0);

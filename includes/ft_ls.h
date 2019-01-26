@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/26 08:01:15 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/26 12:54:07 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ typedef struct stat		t_stat;
 typedef struct passwd	t_passwd;
 typedef struct group	t_group;
 typedef struct winsize	t_winsize;
+
+typedef enum			e_opt
+{
+	E_L = 1,
+	E_1 = 2,
+	E_R = 4,
+	E_A = 8,
+}						t_opt;
 
 typedef struct			s_status
 {
@@ -65,6 +73,7 @@ int						listalldir(t_prgm *glob, t_list *files_list);
 int						list_directory(t_prgm *glob, char *path);
 int						list_files(t_prgm *glob, char *path);
 
+void					error_output(t_list *lst);
 void					output_handler(t_list *files_list, t_prgm *glob);
 void					long_output(t_list *files_list, t_prgm *glob);
 void					line_display(t_status *file, size_t nlink, size_t size);
