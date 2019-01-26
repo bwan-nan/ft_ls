@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/26 12:59:28 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/26 13:15:02 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,9 @@ int		list_files(t_prgm *glob, char *path)
 	file_lst = access_file(glob, file_lst, NULL);
 	dir_lst = ft_lstfilter(&main_lst, glob, dir_filter);
 	access_dir(glob, &dir_lst);
-	ft_lstiter(glob->args, error_output);
+	//ft_lstiter(glob->args, error_output);
 	output_handler(file_lst, glob);
-	if (dir_lst)
+	if (dir_lst && file_lst)
 		ft_putchar('\n');
 	list_directory_args(glob, dir_lst);
 	ft_lstdel(&file_lst, NULL);
