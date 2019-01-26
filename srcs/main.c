@@ -6,11 +6,12 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/25 16:37:04 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/26 02:44:52 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
 
 unsigned int	basic(char c, unsigned char option)
 {
@@ -60,7 +61,7 @@ static void		glob_del(t_prgm *glob)
 {
 	ft_strdel(&glob->pwd);
 	ft_strdel(&glob->home);
-	ft_memdel((void **)(&glob->args));
+	ft_lstdel(&glob->args, NULL);
 }
 
 unsigned int	get_env(char **env, t_prgm *glob)
@@ -80,6 +81,30 @@ unsigned int	get_env(char **env, t_prgm *glob)
 	return (1);
 }
 
+void	tilde_replace(t_prgm *glob)
+{
+	t_list	*tmp;
+	char	*holder;
+
+	tmp = glob->args;
+	while (tmp)
+	{
+		if(ft_strequ((char *)(tmp->data), "~"))
+		{
+			ft_memdel(&tmp->data);
+			tmp->data = (void *)ft_strdup(glob->home);
+		}
+		else if (ft_strnequ((char *)(tmp->data), "~/", 2))
+		{
+			holder = NULL;
+			ft_asprintf(&holder, "%s%s", glob->home, tmp + 2);
+			ft_memdel(&tmp->data);
+			tmp->data = (void *)holder;
+		}
+		tmp = tmp->next;
+	}
+}
+
 int		main(int ac, char **av, char **env)
 {
 	t_prgm			glob;
@@ -91,7 +116,8 @@ int		main(int ac, char **av, char **env)
 	get_env(env, &glob);
 	if ((glob.option = options(ac, av)) == '?')
 		return (ft_printf("usage: ft_ls [-%s] [file ...]\n", OPTION) ? 1 : 0);
-	glob.args = ft_getargs(ac, av);
+	glob.args = ft_getargslst(ac, av);
+	tilde_replace(&glob);
 	if (glob.args == NULL)
 		list_directory(&glob, ".");
 	else
