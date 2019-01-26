@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 10:03:03 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/26 06:52:15 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/26 13:30:21 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_list	*dir_node(t_prgm *glob, char *path, char *name, t_status *file)
 		stat(file->path, &file->info);
 		ft_asprintf(&file->name, "%s", name);
 		node = ft_lstnew(file, sizeof(t_status));
+		closedir(current);
 		return (node);
 	}
 	return (node);
