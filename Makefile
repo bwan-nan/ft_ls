@@ -33,12 +33,16 @@ IPATH = includes/
 LPATH = libft/
 LIPATH = libft/includes/
 
-INCS += 
+INCS += ft_ls.h 
 SRCS += main.c
-SRCS += ft_ls.c
+SRCS += lstargs.c
 SRCS += display.c
+SRCS += basic_formating.c
 SRCS += formatting.c
 SRCS += list.c
+SRCS += filters.c
+SRCS += listdir.c
+SRCS += args.c
 DSYM = $(NAME).dSYM
 
 OBJS = $(patsubst %.c, $(OPATH)%.o, $(SRCS))
@@ -59,7 +63,7 @@ $(NAME): $(LIB) $(OPATH) $(OBJS) $(INCS)
 	$(CC) -o $@ $< $(OBJS)
 
 $(OBJS) : $(OPATH)%.o : %.c $(INCS)
-	$(COMPILE) $(CFLAGS) $(IFLAGS) $< -o $@
+	$(COMPILE) $(CFLAGS) $< -o $@
 
 $(LIB) :
 	$(MAKE) -C $(LPATH)

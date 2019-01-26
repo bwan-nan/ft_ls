@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/26 05:43:11 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/26 08:01:15 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,45 +29,63 @@
 # define LS_RR 4
 # define LS_A 8
 
-typedef struct dirent		t_dirent;
-typedef struct stat			t_stat;
-typedef struct passwd		t_passwd;
-typedef struct group		t_group;
-typedef struct winsize		t_winsize;
+typedef struct dirent	t_dirent;
+typedef struct stat		t_stat;
+typedef struct passwd	t_passwd;
+typedef struct group	t_group;
+typedef struct winsize	t_winsize;
 
-typedef struct				s_status
+typedef struct			s_status
 {
-	char					*path;
-	char					*name;
-	t_list					*dirlist;
-	t_stat					info;
-	t_group					group;
-}							t_status;
+	char				*path;
+	char				*name;
+	t_list				*dirlist;
+	t_stat				info;
+	t_group				group;
+}						t_status;
 
-typedef struct				s_prgm
+typedef struct			s_prgm
 {
-	unsigned int			option;
-	char					*pwd;
-	char					*home;
-	t_list					*args;
-	char					dir[DIR_MAX];
-}							t_prgm;
+	unsigned int		option;
+	char				*pwd;
+	char				*home;
+	t_list				*args;
+	char				dir[DIR_MAX];
+}						t_prgm;
 
+typedef struct			s_display
+{
+	size_t				width;
+	size_t				total;
+	size_t				printed;
+	t_winsize			window;
+}						t_display;
 
-int		list_directory(t_prgm *glob, char *path);
-int		list_files(t_prgm *glob, char *path);
+int						listalldir(t_prgm *glob, t_list *files_list);
+int						list_directory(t_prgm *glob, char *path);
+int						list_files(t_prgm *glob, char *path);
 
-void	output_handler(t_list *files_list, t_prgm *glob);
-void	long_output(t_list *files_list, t_prgm *glob);
-void	line_display(t_status *file, size_t nlink, size_t size);
-void	padding(t_list *lst, size_t *nlink, size_t *size, size_t *total);
-int		basic_padding(t_list *lst, size_t *total);
+void					output_handler(t_list *files_list, t_prgm *glob);
+void					long_output(t_list *files_list, t_prgm *glob);
+void					line_display(t_status *file, size_t nlink, size_t size);
+void					basic_padding(t_list *lst, t_display *info);
+void					basic_default(t_prgm *glob, t_list *lst,\
+						t_display *info);
+void					padding(t_list *lst, size_t *nlink, size_t *size,\
+						size_t *total);
 
-int		dir_name_filter(void *data, void *filter);
-int		file_name_filter(void *data, void *filter);
-int		file_filter(void *data, void *filter);
-int		dir_filter(void *data, void *filter);
-void	del_node(void **data);
-int		create_list(DIR *current, char *path, t_list **files_list,\
-		t_prgm *glob);
+int						dir_name_filter(void *data, void *filter);
+int						file_name_filter(void *data, void *filter);
+int						file_filter(void *data, void *filter);
+int						dir_filter(void *data, void *filter);
+void					del_node(void **data);
+int						create_list(DIR *current, char *path,
+						t_list **files_list, t_prgm *glob);
+
+unsigned int			basic(char c, unsigned char option);
+unsigned int			options(int ac, char **av);
+unsigned int			get_env(char **env, t_prgm *glob);
+void					tilde_replace(t_prgm *glob);
+t_list					*dir_node(t_prgm *glob, char *path, char *name,\
+						t_status *file);
 #endif

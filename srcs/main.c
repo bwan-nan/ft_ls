@@ -6,48 +6,11 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/26 02:44:52 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/26 07:37:53 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-
-unsigned int	basic(char c, unsigned char option)
-{
-	if (c =='l')
-	{
-		option |= LS_L;
-		option &= ~LS_1;
-	}
-	if (c == '1')
-	{
-		option |= LS_1;
-		option &= ~LS_L;
-	}
-	if (c == 'R')
-		option |= LS_RR;
-	if (c == 'a')
-		option |= LS_A;
-	return (option);
-}
-
-unsigned int	options(int ac, char **av)
-{
-	int c;
-	unsigned int option;
-
-	option = 0;
-	while ((c = ft_getopt(ac, av, OPTION)) != -1)
-	{
-		if (c == 0)
-			return (0);
-		if (c == '?')
-			return ('?');
-		option = basic(c, option);
-	}
-	return (option);
-}
 
 static void		glob_init(t_prgm *glob)
 {
@@ -64,48 +27,7 @@ static void		glob_del(t_prgm *glob)
 	ft_lstdel(&glob->args, NULL);
 }
 
-unsigned int	get_env(char **env, t_prgm *glob)
-{
-	int		i;
-
-	i = 0;
-
-	while (env[i])
-	{
-		if (ft_strnequ(env[i], "PWD=", 4))
-			glob->pwd = ft_strsub(env[i], 4, ft_strlen(&env[i][3]));
-		if (ft_strnequ(env[i], "HOME=", 5))
-			glob->home = ft_strsub(env[i], 5, ft_strlen(&env[i][3]));
-		i++;
-	}
-	return (1);
-}
-
-void	tilde_replace(t_prgm *glob)
-{
-	t_list	*tmp;
-	char	*holder;
-
-	tmp = glob->args;
-	while (tmp)
-	{
-		if(ft_strequ((char *)(tmp->data), "~"))
-		{
-			ft_memdel(&tmp->data);
-			tmp->data = (void *)ft_strdup(glob->home);
-		}
-		else if (ft_strnequ((char *)(tmp->data), "~/", 2))
-		{
-			holder = NULL;
-			ft_asprintf(&holder, "%s%s", glob->home, tmp + 2);
-			ft_memdel(&tmp->data);
-			tmp->data = (void *)holder;
-		}
-		tmp = tmp->next;
-	}
-}
-
-int		main(int ac, char **av, char **env)
+int				main(int ac, char **av, char **env)
 {
 	t_prgm			glob;
 	int				i;
@@ -122,7 +44,6 @@ int		main(int ac, char **av, char **env)
 		list_directory(&glob, ".");
 	else
 		list_files(&glob, ".");
-	ft_printf("%.8b\n", glob.option);
 	glob_del(&glob);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/25 14:59:00 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/26 08:03:10 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,6 @@ static char		get_file_type(int mode)
 		return ('l');
 	else
 		return ('s');
-}
-
-int				basic_padding(t_list *lst, size_t *total)
-{
-	t_list		*tmp;
-	size_t		width;
-	size_t		len;
-
-	width = 15;
-	tmp = lst;
-	while (tmp)
-	{
-		if ((len = ft_strlen(((t_status *)tmp->data)->name)) > width)
-		{
-			width = len + 5;
-			tmp = lst;
-			*total = 0;
-			continue;
-		}
-		tmp = tmp->next;
-		*total += width;
-	}
-	return (width);
 }
 
 void			padding(t_list *lst, size_t *nlink, size_t *size, size_t *total)
