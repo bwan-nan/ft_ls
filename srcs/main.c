@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/26 12:58:18 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/26 14:00:27 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void		glob_del(t_prgm *glob)
 {
 	ft_strdel(&glob->pwd);
 	ft_strdel(&glob->home);
+	ft_strdel(&glob->colors);
 	ft_lstdel(&glob->args, NULL);
 }
 
@@ -35,6 +36,7 @@ int				main(int ac, char **av, char **env)
 	i= 0;
 	glob_init(&glob);
 	get_env(env, &glob);
+	ft_printf("%s \n%s\n%s\n", glob.pwd, glob.home, glob.colors);
 	if ((glob.option = options(ac, av)) == '?')
 		return (ft_printf("usage: ft_ls [-%s] [file ...]\n", OPTION) ? 1 : 0);
 	glob.args = ft_getargslst(ac, av);
