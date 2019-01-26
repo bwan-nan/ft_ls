@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:49:01 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/26 12:29:04 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/26 13:52:18 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ unsigned int	get_env(char **env, t_prgm *glob)
 			glob->pwd = ft_strsub(env[i], 4, ft_strlen(&env[i][3]));
 		if (ft_strnequ(env[i], "HOME=", 5))
 			glob->home = ft_strsub(env[i], 5, ft_strlen(&env[i][3]));
+		if (ft_strnequ(env[i], "LSCOLORS=", 8))
+			glob->colors = ft_strsub(env[i], 8, ft_strlen(&env[i][3]));
 		i++;
 	}
 	return (1);

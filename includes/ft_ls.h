@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/26 12:54:07 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/26 13:51:20 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct			s_prgm
 	unsigned int		option;
 	char				*pwd;
 	char				*home;
+	char				*colors;
 	t_list				*args;
 	char				dir[DIR_MAX];
 }						t_prgm;
