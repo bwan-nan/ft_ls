@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/25 17:38:12 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/25 17:46:01 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ int		list_files(t_prgm *glob, char *path)
 	DIR			*current;
 	t_list		*files_list;
 	t_list		*sub_file_list;
-	//t_list		*sub_dir_list;
-	
+	t_list		*sub_dir_list;
+
 	current = opendir(path);
 	files_list = NULL;
 	ft_strcpy(glob->dir, path);
@@ -78,3 +78,4 @@ int		list_files(t_prgm *glob, char *path)
 	closedir(current);
 	return (0);
 }
+

@@ -6,13 +6,13 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/25 17:42:35 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/25 18:17:54 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-unsigned int	basic(char c, unsigned char option)
+unsigned int		basic(char c, unsigned int option)
 {
 	if (c =='l')
 	{

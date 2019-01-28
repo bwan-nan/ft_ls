@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 14:19:01 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/25 16:34:02 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/25 18:00:49 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ int		sort_time_modified(void *a, void *b)
 
 	file1 = (t_status *)a;
 	file2 = (t_status *)b;
-	return (file1->info.st_mtime < file2->info.st_mtime);
+	if (file1->info.st_mtime < file2->info.st_mtime)
+		return (1);
+	return (0);
 }
 
 /*
@@ -51,5 +53,7 @@ int		sort_last_access(void *a, void *b)
 
 	file1 = (t_status *)a;
 	file2 = (t_status *)b;
-	return (file1->info.st_atime < file2->info.st_atime);
+	if (file1->info.st_atime < file2->info.st_atime)
+		return (1);
+	return (0);
 }
