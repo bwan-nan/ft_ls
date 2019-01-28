@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/28 11:18:31 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/28 19:12:19 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,17 @@
 # include <sys/ioctl.h>
 # include <uuid/uuid.h>
 
-# define OPTION		"l1Ratuf"
+# define OPTION		"l1RatumSrT"
 # define LS_L		1
 # define LS_1		2
 # define LS_RR		4
 # define LS_A		8
 # define LS_T		16
 # define LS_U		32
-# define LS_F		64
+# define LS_M		64
+# define LS_S		128
+# define LS_R		256
+# define LS_TT		512
 
 # define DIR_MAX	255
 
@@ -44,10 +47,16 @@ typedef struct winsize	t_winsize;
 
 typedef enum			e_opt
 {
-	E_L = 1,
-	E_1 = 2,
-	E_R = 4,
-	E_A = 8,
+	E_L = LS_L,
+	E_1 = LS_1,
+	E_RR = LS_RR,
+	E_A = LS_A,
+	E_T = LS_T,
+	E_U = LS_U,
+	E_M = LS_M,
+	E_S = LS_S,
+	E_R = LS_R,
+	E_TT = LS_TT,
 }						t_opt;
 
 typedef struct			s_status
@@ -84,7 +93,7 @@ int						list_files(t_prgm *glob, char *path);
 void					error_output(t_list *lst);
 void					output_handler(t_list *files_list, t_prgm *glob);
 void					long_output(t_list *files_list, t_prgm *glob);
-void					line_display(t_status *file, size_t nlink, size_t size);
+void					line_display(t_prgm *glob, t_status *file, size_t nlink, size_t size);
 void					basic_padding(t_list *lst, t_display *info);
 void					basic_default(t_prgm *glob, t_list *lst,\
 						t_display *info);
@@ -100,10 +109,6 @@ int						create_list(DIR *current, char *path,
 						t_list **files_list, t_prgm *glob);
 
 
-void	merge_sort(t_list **source, int (*cmp)(void *, void *));
-int		sort_ascii(void *a, void *b);
-int		sort_time_modified(void *a, void *b);
-int		sort_last_access(void *a, void *b);
 
 unsigned int			basic(char c, unsigned char option);
 unsigned int			options(int ac, char **av);
@@ -111,4 +116,13 @@ unsigned int			get_env(char **env, t_prgm *glob);
 void					tilde_replace(t_prgm *glob);
 t_list					*dir_node(t_prgm *glob, char *path, char *name,\
 						t_status *file);
+
+void					sort_list(t_list **files_list, t_prgm *glob);
+void					merge_sort(t_list **source, int (*cmp)(void *, void *));
+int						sort_ascii(void *a, void *b);
+int						sort_time_modified(void *a, void *b);
+int						sort_last_access(void *a, void *b);
+int						sort_by_size(void *a, void *b);
+
+void					list_with_commas(t_list *files_list, t_prgm *glob);
 #endif

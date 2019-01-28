@@ -6,7 +6,7 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/01/25 17:58:25 by bwan-nan         ###   ########.fr        #
+#    Updated: 2019/01/28 19:13:24 by bwan-nan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,14 +41,14 @@ SRCS += display.c
 SRCS += basic_formating.c
 SRCS += formatting.c
 SRCS += list.c
-<<<<<<< HEAD
+SRCS += sort_list.c
 SRCS += merge_sort.c
 SRCS += sort_options.c
-=======
 SRCS += filters.c
 SRCS += listdir.c
 SRCS += args.c
->>>>>>> sandbox
+SRCS += display_options.c
+
 DSYM = $(NAME).dSYM
 
 OBJS = $(patsubst %.c, $(OPATH)%.o, $(SRCS))

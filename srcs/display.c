@@ -6,11 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2019/01/25 17:35:32 by bwan-nan         ###   ########.fr       */
-=======
-/*   Updated: 2019/01/26 13:02:18 by cempassi         ###   ########.fr       */
->>>>>>> sandbox
+/*   Updated: 2019/01/28 19:09:19 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +35,7 @@ void			long_output(t_list *files_list, t_prgm *glob)
 	while (files_list)
 	{
 		tmp = (t_status *)(files_list->data);
-		line_display(tmp, nlink_max, size_max);
+		line_display(glob, tmp, nlink_max, size_max);
 		files_list = files_list->next;
 	}
 }
@@ -78,35 +74,12 @@ void			output_handler(t_list *files_list, t_prgm *glob)
 			long_output(files_list, glob);
 		else if (glob->option & LS_1)
 			list_output(files_list, glob);
+		else if (glob->option & LS_M)
+			list_with_commas(files_list, glob);
 		else
 		{
 			basic_output(files_list, glob);
 			ft_putchar('\n');
 		}
 	}
-<<<<<<< HEAD
-	ft_putchar('\n');
-}
-
-static void		sorting_order(t_list **files_list, t_prgm *glob)
-{
-	if (glob->option & LS_T)
-		merge_sort(files_list, &sort_time_modified);
-	else if (glob->option & LS_U)
-		merge_sort(files_list, &sort_last_access);
-	else
-		merge_sort(files_list, &sort_ascii);
-}
-
-void			output_handler(t_list *files_list, t_prgm *glob)
-{
-	sorting_order(&files_list, glob);
-	if (glob->option & LS_L)
-		long_output(files_list, glob);
-	else if (glob->option & LS_1)
-		list_output(files_list, glob);
-	else
-		basic_output(files_list, glob);
-=======
->>>>>>> sandbox
 }

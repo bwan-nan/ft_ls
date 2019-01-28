@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/26 08:03:10 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/28 18:00:10 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void			padding(t_list *lst, size_t *nlink, size_t *size, size_t *total)
 	}
 }
 
-void			line_display(t_status *file, size_t nlink, size_t size)
+void			line_display(t_prgm *glob, t_status *file, size_t nlink, size_t size)
 {
 	char	permissions[11];
 
@@ -85,12 +85,12 @@ void			line_display(t_status *file, size_t nlink, size_t size)
 	permissions[8] = file->info.st_mode & S_IWOTH ? 'w' : '-';
 	permissions[9] = file->info.st_mode & S_IXOTH ? 'x' : '-';
 	permissions[10] = '\0';
-	ft_printf("%s  %*d %s  %s  %*d %.12s %s\n"
+	ft_printf("%s  %*d %s  %s  %*d %.*s %s\n"
 			, permissions
 			, nlink, file->info.st_nlink
 			, (getpwuid(file->info.st_uid))->pw_name
 			, (getgrgid(file->info.st_gid))->gr_name
 			, size, file->info.st_size
-			, ctime(&file->info.st_mtime) + 4
+			, glob->option & LS_TT ? 20 : 12, ctime(&file->info.st_mtime) + 4
 			, file->name);
 }

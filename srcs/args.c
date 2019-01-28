@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:49:01 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/26 14:02:39 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/28 17:56:39 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ unsigned int	get_option(int ac, char **av, t_opt *opt)
 		else if (c == '?')
 			return ('?');
 		else if ((c == 'l' && option & LS_1) || (c == '1' && option & LS_L))
-			option ^= 3;
+			option ^= LS_1 + LS_L;
+		else if ((c == 'l' && option & LS_M) || (c == 'm' && option & LS_L))
+			option ^= LS_M + LS_L;
 		else
 			option |= opt[c];
 	}
@@ -38,8 +40,14 @@ unsigned int	options(int ac, char **av)
 
 	opt['l'] = E_L;
 	opt['1'] = E_1;
-	opt['R'] = E_R;
+	opt['R'] = E_RR;
 	opt['a'] = E_A;
+	opt['t'] = E_T;
+	opt['u'] = E_U;
+	opt['m'] = E_M;
+	opt['S'] = E_S;
+	opt['r'] = E_R;
+	opt['T'] = E_TT;
 	return (get_option(ac, av, opt));
 }
 

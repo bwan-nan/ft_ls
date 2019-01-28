@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/28 11:20:05 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/28 17:48:18 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int				main(int ac, char **av, char **env)
 	i= 0;
 	glob_init(&glob);
 	get_env(env, &glob);
-	ft_printf("%s \n%s\n%s\n", glob.pwd, glob.home, glob.colors);
+//	ft_printf("%s \n%s\n%s\n", glob.pwd, glob.home, glob.colors);
 	if ((glob.option = options(ac, av)) == '?')
 		return (ft_printf("usage: ft_ls [-%s] [file ...]\n", OPTION) ? 1 : 0);
 	glob.args = ft_getargslst(ac, av);
