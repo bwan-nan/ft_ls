@@ -6,13 +6,13 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 15:02:58 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/24 17:10:12 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/28 21:02:08 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static t_list		*merge_lists(t_list *a, t_list *b, int (*cmp)(void *, void *))
+static t_list	*merge_lists(t_list *a, t_list *b, int (*cmp)(void *, void *))
 {
 	t_list		*merged_list;
 
@@ -34,7 +34,7 @@ static t_list		*merge_lists(t_list *a, t_list *b, int (*cmp)(void *, void *))
 	return (merged_list);
 }
 
-static void			partition(t_list *head, t_list **front, t_list **back)
+static void		partition(t_list *head, t_list **front, t_list **back)
 {
 	t_list		*fast;
 	t_list		*slow;

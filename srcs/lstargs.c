@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/28 19:31:23 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/28 21:06:01 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		check_path(char **args, char **name, int i)
 		return (0);
 	path = NULL;
 	ft_asprintf(&path, "/%s", args[0]);
-	while(*(args + 1 + i++))
+	while (*(args + 1 + i++))
 	{
 		if ((current = opendir(path)))
 		{
@@ -41,6 +41,7 @@ int		check_path(char **args, char **name, int i)
 	ft_freetab(&args);
 	return (1);
 }
+
 void	list_directory_args(t_prgm *glob, t_list *dir_lst)
 {
 	DIR			*current;
@@ -54,12 +55,12 @@ void	list_directory_args(t_prgm *glob, t_list *dir_lst)
 		current = opendir(tmp->path);
 		if (turn == 0 && !dir_lst->next)
 			ft_strcpy(glob->dir, ".");
-		else 
+		else
 			ft_strcpy(glob->dir, tmp->path);
 		create_list(current, tmp->path, &tmp->dirlist, glob);
 		output_handler(tmp->dirlist, glob);
 		if (glob->option & LS_RR)
-			listalldir(glob, tmp->dirlist);
+			listalldir(glob, tmp->dirlist, NULL);
 		ft_lstdel(&(tmp->dirlist), del_node);
 		closedir(current);
 		if ((dir_lst = dir_lst->next))
@@ -71,9 +72,9 @@ void	list_directory_args(t_prgm *glob, t_list *dir_lst)
 void	current_dir(t_status *tmp, t_list **file, t_list **dir)
 {
 	if (!S_ISDIR(tmp->info.st_mode))
-		ft_lstaddback(file, ft_lstnew(tmp, sizeof(t_status))); 
-	else if  (S_ISDIR(tmp->info.st_mode))
-		ft_lstaddback(dir, ft_lstnew(tmp, sizeof(t_status))); 
+		ft_lstaddback(file, ft_lstnew(tmp, sizeof(t_status)));
+	else if (S_ISDIR(tmp->info.st_mode))
+		ft_lstaddback(dir, ft_lstnew(tmp, sizeof(t_status)));
 }
 
 void	generate_list(t_prgm *glob, t_list **file, t_list **dir, t_list **error)
@@ -95,8 +96,7 @@ void	generate_list(t_prgm *glob, t_list **file, t_list **dir, t_list **error)
 		if (lstat(tmp.path, &tmp.info) == 0)
 			current_dir(&tmp, file, dir);
 		else
-			ft_lstaddback(error, ft_lstnew(&tmp, sizeof(t_status))); 
-
+			ft_lstaddback(error, ft_lstnew(&tmp, sizeof(t_status)));
 		args = args->next;
 	}
 }
@@ -110,7 +110,7 @@ int		list_files(t_prgm *glob)
 	file = NULL;
 	dir = NULL;
 	error = NULL;
-	generate_list (glob, &file, &dir, &error);
+	generate_list(glob, &file, &dir, &error);
 	output_handler(file, glob);
 	list_directory_args(glob, dir);
 	return (0);

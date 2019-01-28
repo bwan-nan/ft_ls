@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/28 18:00:10 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/28 21:03:48 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void			padding(t_list *lst, size_t *nlink, size_t *size, size_t *total)
 	}
 }
 
-void			line_display(t_prgm *glob, t_status *file, size_t nlink, size_t size)
+void			line_display(t_prgm *glob, t_status *file,\
+				size_t nlink, size_t size)
 {
 	char	permissions[11];
 

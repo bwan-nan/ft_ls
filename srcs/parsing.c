@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 16:00:07 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/24 16:28:01 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/28 21:02:26 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int		flags_handling(char *str, unsigned int *flags)
 {
 	int		n;
 
-	while(*(++str))
+	while (*(++str))
 	{
 		if ((n = ft_strchr_index(OPTIONS, *str)) == -1)
 			return (-1);

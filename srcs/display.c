@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/28 20:11:39 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:54:14 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	error_output(t_list *lst)
 {
-	ft_dprintf(2, "ls: %s: No such file or directory\n",(char *)lst->data);
+	ft_dprintf(2, "ls: %s: No such file or directory\n", (char *)lst->data);
 }
 
 void	long_output(t_list *files_list, t_prgm *glob)

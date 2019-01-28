@@ -6,15 +6,15 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 19:01:52 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/28 20:43:15 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:51:19 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
 /*
- ** option -m list files separated by commas
- */
+** option -m list files separated by commas
+*/
 
 static void		print_comma(t_list *files_list, t_display *info, size_t len)
 {
@@ -50,7 +50,7 @@ void			list_with_commas(t_list *files_list, t_prgm *glob)
 		while (files_list)
 		{
 			if (files_list->next)
-				len = ft_strlen(((t_status *)(files_list->next->data))->name);  
+				len = ft_strlen(((t_status *)(files_list->next->data))->name);
 			print_comma(files_list, &info, len);
 			files_list = files_list->next;
 		}

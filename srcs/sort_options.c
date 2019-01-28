@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 14:19:01 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/28 16:31:22 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/28 21:08:34 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int		sort_by_size(void *a, void *b)
 	return (file1->info.st_size < file2->info.st_size);
 }
 
-
 /*
 ** option -t (sort by time modified: most recently modified first)
 */
@@ -58,7 +57,7 @@ int		sort_time_modified(void *a, void *b)
 /*
 ** option -u (sort by time of last access)
 ** NOT WORKING: statx to be added ?
-*/ 
+*/
 
 int		sort_last_access(void *a, void *b)
 {

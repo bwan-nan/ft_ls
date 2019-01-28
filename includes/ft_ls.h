@@ -6,13 +6,12 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/28 20:45:56 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/28 21:10:07 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_LS
-# define FT_LS
-
+#ifndef FT_LS_H
+# define FT_LS_H
 
 # include "ft_printf.h"
 # include "libft.h"
@@ -86,29 +85,25 @@ typedef struct			s_display
 	t_winsize			window;
 }						t_display;
 
-int						listalldir(t_prgm *glob, t_list *files_list);
+int						listalldir(t_prgm *glob,\
+						t_list *files_list, t_status *tmp);
 int						list_directory(t_prgm *glob, char *path);
 int						list_files(t_prgm *glob);
 
 void					error_output(t_list *lst);
 void					output_handler(t_list *files_list, t_prgm *glob);
 void					long_output(t_list *files_list, t_prgm *glob);
-void					line_display(t_prgm *glob, t_status *file, size_t nlink, size_t size);
+void					line_display(t_prgm *glob, t_status *file,\
+						size_t nlink, size_t size);
 void					basic_padding(t_list *lst, t_display *info);
 void					basic_default(t_prgm *glob, t_list *lst,\
 						t_display *info);
 void					padding(t_list *lst, size_t *nlink, size_t *size,\
 						size_t *total);
 
-int						dir_name_filter(void *data, void *filter);
-int						args_name_filter(void *data, void *filter);
-int						file_filter(void *data, void *filter);
-int						dir_filter(void *data, void *filter);
 void					del_node(void **data);
 int						create_list(DIR *current, char *path,
 						t_list **files_list, t_prgm *glob);
-
-
 
 unsigned int			basic(char c, unsigned char option);
 unsigned int			options(int ac, char **av);

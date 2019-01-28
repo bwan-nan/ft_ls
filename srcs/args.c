@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:49:01 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/28 20:04:17 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:53:20 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 unsigned int	get_option(int ac, char **av, t_opt *opt)
 {
-	int c;
-	unsigned int option;
+	int				c;
+	unsigned int	option;
 
 	option = 0;
 	while ((c = ft_getopt(ac, av, OPTION)) != -1)
@@ -58,7 +58,6 @@ unsigned int	get_env(char **env, t_prgm *glob)
 	int		i;
 
 	i = 0;
-
 	while (env[i])
 	{
 		if (ft_strnequ(env[i], "PWD=", 4))
@@ -80,7 +79,7 @@ void			tilde_replace(t_prgm *glob)
 	tmp = glob->args;
 	while (tmp)
 	{
-		if(ft_strequ((char *)(tmp->data), "~"))
+		if (ft_strequ((char *)(tmp->data), "~"))
 		{
 			ft_memdel(&tmp->data);
 			tmp->data = (void *)ft_strdup(glob->home);
