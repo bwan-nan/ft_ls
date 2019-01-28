@@ -6,82 +6,41 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/26 13:24:37 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/28 19:31:23 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_list		*search_file(t_prgm *glob, char *path, char *name)
+int		check_path(char **args, char **name, int i)
 {
-	DIR			*current;
-	t_list		*tmp;
-	t_list		*node;
+	DIR		*current;
+	char	*path;
+	char	*holder;
 
-	tmp = NULL;
-	node = NULL;
-	if ((current = opendir(path)))
+	if (!args)
+		return (0);
+	path = NULL;
+	ft_asprintf(&path, "/%s", args[0]);
+	while(*(args + 1 + i++))
 	{
-		create_list(current, path, &tmp, glob);
-		if ((node = ft_lstfilter(&tmp, name, file_name_filter)))
+		if ((current = opendir(path)))
 		{
-			ft_strdel(&((t_status *)node->data)->name);
-			((t_status *)node->data)->name = ft_strdup(glob->dir);
-		}
-		ft_lstdel(&tmp, del_node);
-		closedir(current);
-	}
-	return (node);
-}
-
-t_list	*access_file(t_prgm *glob, t_list *main_list, char *path)
-{
-	char		*slash;
-	char		*hold;
-	t_list		*sub_lst;
-	t_list		*args;
-
-	sub_lst = NULL;
-	if (!glob->args)
-		return (main_list);
-	args = glob->args;
-	while (args)
-	{
-		if((slash = ft_strrchr((char *)args->data, '/')))
-		{
-			hold = (char *)args->data;
-			ft_strcpy(glob->dir, hold);
-			*hold == '/' ? ft_asprintf(&path, "%.*s", slash - hold, hold)
-				: ft_asprintf(&path, "./%.*s", slash - hold, hold);
-			ft_lstaddback(&sub_lst, search_file(glob, path, slash + 1));
+			holder = NULL;
+			ft_asprintf(&holder, "%s/%s", path, args[i]);
 			ft_strdel(&path);
+			path = holder;
+			closedir(current);
 		}
-		args = args->next;
+		else
+		{
+			return (0);
+		}
 	}
-	return (ft_lstmerge(&main_list, sub_lst));
+	*name = ft_strdup(args[i - 1]);
+	ft_freetab(&args);
+	return (1);
 }
-
-void	access_dir(t_prgm *glob, t_list **dir)
-{
-	t_status	file;
-	t_list 		*args;
-
-	file.path = NULL;
-	if (!glob->args)
-		return ;
-	args = glob->args;
-	if (*((char *)((args)->data)) == '/' )
-		ft_asprintf(&file.path, "%s", (char *)(args)->data);
-	else
-		ft_asprintf(&file.path, "./%s", (char *)(args)->data);
-	while (args)
-	{
-		ft_lstaddback(dir, dir_node(glob, file.path, args->data, &file));	
-		args = args->next;
-	}
-	return ;
-}
-
 void	list_directory_args(t_prgm *glob, t_list *dir_lst)
 {
 	DIR			*current;
@@ -103,36 +62,56 @@ void	list_directory_args(t_prgm *glob, t_list *dir_lst)
 			listalldir(glob, tmp->dirlist);
 		ft_lstdel(&(tmp->dirlist), del_node);
 		closedir(current);
-		dir_lst = dir_lst->next;
-		if (dir_lst)
+		if ((dir_lst = dir_lst->next))
 			ft_putchar('\n');
 		turn++;
 	}
 }
 
-int		list_files(t_prgm *glob, char *path)
+void	current_dir(t_status *tmp, t_list **file, t_list **dir)
 {
-	DIR			*current;
-	t_list		*main_lst;
-	t_list		*file_lst;
-	t_list		*dir_lst;
+	if (!S_ISDIR(tmp->info.st_mode))
+		ft_lstaddback(file, ft_lstnew(tmp, sizeof(t_status))); 
+	else if  (S_ISDIR(tmp->info.st_mode))
+		ft_lstaddback(dir, ft_lstnew(tmp, sizeof(t_status))); 
+}
 
-	main_lst = NULL;
-	current = opendir(path);
-	ft_strcpy(glob->dir, path);
-	create_list(current, path, &main_lst, glob);
-	file_lst = ft_lstfilter(&main_lst, glob, file_filter);
-	file_lst = access_file(glob, file_lst, NULL);
-	dir_lst = ft_lstfilter(&main_lst, glob, dir_filter);
-	access_dir(glob, &dir_lst);
-	//ft_lstiter(glob->args, error_output);
-	output_handler(file_lst, glob);
-	if (dir_lst && file_lst)
-		ft_putchar('\n');
-	list_directory_args(glob, dir_lst);
-	ft_lstdel(&file_lst, del_node);
-	ft_lstdel(&dir_lst, del_node);
-	ft_lstdel(&main_lst, del_node);
-	closedir(current);
+void	generate_list(t_prgm *glob, t_list **file, t_list **dir, t_list **error)
+{
+	t_list		*args;
+	t_status	tmp;
+
+	args = glob->args;
+	while (args && !(tmp.path = NULL))
+	{
+		tmp.dirlist = NULL;
+		if (*(char *)args->data != '/')
+		{
+			tmp.name = ft_strdup((char *)args->data);
+			ft_asprintf(&tmp.path, "./%s", tmp.name);
+		}
+		else if (check_path(ft_strsplit((char *)args->data, "/"), &tmp.name, 0))
+			ft_asprintf(&tmp.path, "%s", (char *)args->data);
+		if (lstat(tmp.path, &tmp.info) == 0)
+			current_dir(&tmp, file, dir);
+		else
+			ft_lstaddback(error, ft_lstnew(&tmp, sizeof(t_status))); 
+
+		args = args->next;
+	}
+}
+
+int		list_files(t_prgm *glob)
+{
+	t_list		*file;
+	t_list		*dir;
+	t_list		*error;
+
+	file = NULL;
+	dir = NULL;
+	error = NULL;
+	generate_list (glob, &file, &dir, &error);
+	output_handler(file, glob);
+	list_directory_args(glob, dir);
 	return (0);
 }
