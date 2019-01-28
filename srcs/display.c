@@ -6,18 +6,18 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/28 19:09:19 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:00:47 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void			error_output(t_list *lst)
+void	error_output(t_list *lst)
 {
 	ft_dprintf(2, "ls: %s: No such file or directory\n",(char *)lst->data);
 }
 
-void			long_output(t_list *files_list, t_prgm *glob)
+void	long_output(t_list *files_list, t_prgm *glob)
 {
 	t_status	*tmp;
 	size_t		nlink_max;
@@ -40,7 +40,7 @@ void			long_output(t_list *files_list, t_prgm *glob)
 	}
 }
 
-void			list_output(t_list *files_list, t_prgm *glob)
+void	list_output(t_list *files_list, t_prgm *glob)
 {
 	if (!ft_strequ(glob->dir, "."))
 		ft_printf("%s:\n", glob->dir);
@@ -51,7 +51,7 @@ void			list_output(t_list *files_list, t_prgm *glob)
 	}
 }
 
-void			basic_output(t_list *lst, t_prgm *glob)
+void	basic_output(t_list *lst, t_prgm *glob)
 {
 	t_status	*tmp;
 	t_display	info;
@@ -66,7 +66,7 @@ void			basic_output(t_list *lst, t_prgm *glob)
 	basic_default(glob, lst, &info);
 }
 
-void			output_handler(t_list *files_list, t_prgm *glob)
+void	output_handler(t_list *files_list, t_prgm *glob)
 {
 	if (files_list)
 	{
@@ -75,7 +75,7 @@ void			output_handler(t_list *files_list, t_prgm *glob)
 		else if (glob->option & LS_1)
 			list_output(files_list, glob);
 		else if (glob->option & LS_M)
-			list_with_commas(files_list, glob);
+			list_with_commas(files_list);
 		else
 		{
 			basic_output(files_list, glob);
