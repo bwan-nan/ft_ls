@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/28 20:00:47 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:11:39 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	long_output(t_list *files_list, t_prgm *glob)
 	total = 0;
 	padding(files_list, &nlink_max, &size_max, &total);
 	tmp = (t_status *)(files_list->data);
-	if (!ft_strequ(glob->dir, ".") || glob->args)
+	if (!ft_strequ(glob->dir, "."))
 		ft_printf("%s:\n", glob->dir);
 	ft_printf("total %d\n", total);
 	while (files_list)
@@ -75,7 +75,7 @@ void	output_handler(t_list *files_list, t_prgm *glob)
 		else if (glob->option & LS_1)
 			list_output(files_list, glob);
 		else if (glob->option & LS_M)
-			list_with_commas(files_list);
+			list_with_commas(files_list, glob);
 		else
 		{
 			basic_output(files_list, glob);

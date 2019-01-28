@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/28 20:00:24 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:45:56 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/ioctl.h>
 # include <uuid/uuid.h>
 
-# define OPTION		"l1RatumSrT"
+# define OPTION		"1RSTalmrtu"
 # define LS_L		1
 # define LS_1		2
 # define LS_RR		4
@@ -124,5 +124,5 @@ int						sort_time_modified(void *a, void *b);
 int						sort_last_access(void *a, void *b);
 int						sort_by_size(void *a, void *b);
 
-void					list_with_commas(t_list *files_list);
+void					list_with_commas(t_list *files_list, t_prgm *glob);
 #endif
