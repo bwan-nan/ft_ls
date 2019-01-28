@@ -6,49 +6,11 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 10:03:03 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/25 17:46:27 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/28 11:18:48 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-int		file_filter(void *data, void *filter)
-{
-	t_status	*current;
-	t_prgm		*glob;
-	int			i;
-
-	i = 0;
-	current = (t_status *)data;
-	glob = (t_prgm *)filter;
-	while (glob->args[i])
-	{
-		if(ft_strequ(current->name, glob->args[i])
-			&& !S_ISDIR(current->info.st_mode))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int		dir_filter(void *data, void *filter)
-{
-	t_status	*current;
-	t_prgm		*glob;
-	int			i;
-
-	i = 0;
-	current = (t_status *)data;
-	glob = (t_prgm *)filter;
-	while (glob->args[i])
-	{
-		if(ft_strequ(current->name, glob->args[i])
-			&& S_ISDIR(current->info.st_mode))
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 int		create_list(DIR *current, char *path, t_list **files_list, t_prgm *glob)
 {
@@ -62,7 +24,6 @@ int		create_list(DIR *current, char *path, t_list **files_list, t_prgm *glob)
 	file.path = NULL;
 	file.dirlist = NULL;
 	file.name = ft_strdup(get_file->d_name);
-	file.inode = get_file->d_ino;
 	ft_asprintf(&file.path, "%s/%s", path, file.name);
 	stat(file.path, &file.info);
 	ft_lstaddback(files_list, ft_lstnew(&file, sizeof(t_status)));
@@ -76,8 +37,30 @@ void	del_node(void **data)
 	if (!data || !*data)
 		return ;
 	tmp = (t_status *)(*data);
-	if (*tmp->path)
+	if (tmp->path)
 		ft_strdel(&tmp->path);
-	if (*tmp->name)
+	if (tmp->name)
 		ft_strdel(&tmp->name);
+}
+
+t_list	*dir_node(t_prgm *glob, char *path, char *name, t_status *file)
+{
+	DIR		*current;
+	t_list	*node;
+	t_list	*destroy;
+
+	node = NULL;
+	if ((current = opendir(path)))
+	{
+		destroy = ft_lstfilter(&glob->args, name, dir_name_filter);
+		ft_lstdel(&destroy, NULL);
+		file->name = NULL;
+		file->dirlist = NULL;
+		stat(file->path, &file->info);
+		ft_asprintf(&file->name, "%s", name);
+		node = ft_lstnew(file, sizeof(t_status));
+		closedir(current);
+		return (node);
+	}
+	return (node);
 }

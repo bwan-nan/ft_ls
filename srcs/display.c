@@ -6,11 +6,20 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/01/25 17:35:32 by bwan-nan         ###   ########.fr       */
+=======
+/*   Updated: 2019/01/26 13:02:18 by cempassi         ###   ########.fr       */
+>>>>>>> sandbox
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+void			error_output(t_list *lst)
+{
+	ft_dprintf(2, "ls: %s: No such file or directory\n",(char *)lst->data);
+}
 
 void			long_output(t_list *files_list, t_prgm *glob)
 {
@@ -24,8 +33,8 @@ void			long_output(t_list *files_list, t_prgm *glob)
 	total = 0;
 	padding(files_list, &nlink_max, &size_max, &total);
 	tmp = (t_status *)(files_list->data);
-	if (!ft_strequ(glob->dir, ".") && glob->option & LS_RR)
-		ft_printf("%s\n", glob->dir);
+	if (!ft_strequ(glob->dir, ".") || glob->args)
+		ft_printf("%s:\n", glob->dir);
 	ft_printf("total %d\n", total);
 	while (files_list)
 	{
@@ -37,42 +46,45 @@ void			long_output(t_list *files_list, t_prgm *glob)
 
 void			list_output(t_list *files_list, t_prgm *glob)
 {
-	if (!ft_strequ(glob->dir, ".") && glob->option & LS_RR)
-		ft_printf("%s\n", glob->dir);
+	if (!ft_strequ(glob->dir, "."))
+		ft_printf("%s:\n", glob->dir);
 	while (files_list)
 	{
-		ft_printf("%s\n", ((t_status *)(files_list->data))->name);	
+		ft_printf("%s\n", ((t_status *)(files_list->data))->name);
 		files_list = files_list->next;
 	}
 }
 
-void			basic_output(t_list *files_list, t_prgm *glob)
+void			basic_output(t_list *lst, t_prgm *glob)
 {
-	t_status 	*tmp;
-	t_winsize	window;
-	size_t		total;
-	size_t		width;
-	size_t		printed;
+	t_status	*tmp;
+	t_display	info;
 
-	total = 0;
-	printed = 0;
-	width = basic_padding(files_list, &total);
-	ioctl(0, TIOCGWINSZ, &window);
-	if (!ft_strequ(glob->dir, ".") && glob->option & LS_RR)
-		ft_printf("%s\n", glob->dir);
-	while (total > window.ws_col)
-		total = total / 2;	
-	while (files_list)
+	info.total = 0;
+	info.printed = 0;
+	info.width = 15;
+	basic_padding(lst, &info);
+	tmp = (t_status *)lst->data;
+	if (!ft_strequ(glob->dir, "."))
+		ft_printf("%s:\n", glob->dir);
+	basic_default(glob, lst, &info);
+}
+
+void			output_handler(t_list *files_list, t_prgm *glob)
+{
+	if (files_list)
 	{
-		tmp = ((t_status *)(files_list)->data);
-		printed += ft_printf("%-*s", width, tmp->name);	
-		if (printed > total)
+		if (glob->option & LS_L)
+			long_output(files_list, glob);
+		else if (glob->option & LS_1)
+			list_output(files_list, glob);
+		else
 		{
+			basic_output(files_list, glob);
 			ft_putchar('\n');
-			printed = 0;
 		}
-		files_list = files_list->next;
 	}
+<<<<<<< HEAD
 	ft_putchar('\n');
 }
 
@@ -95,4 +107,6 @@ void			output_handler(t_list *files_list, t_prgm *glob)
 		list_output(files_list, glob);
 	else
 		basic_output(files_list, glob);
+=======
+>>>>>>> sandbox
 }
