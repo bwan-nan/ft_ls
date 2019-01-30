@@ -1,75 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lstargs.c                                          :+:      :+:    :+:   */
+/*   listargs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/28 21:06:01 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/30 23:59:06 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int		check_path(char **args, char **name, int i)
-{
-	DIR		*current;
-	char	*path;
-	char	*holder;
-
-	if (!args)
-		return (0);
-	path = NULL;
-	ft_asprintf(&path, "/%s", args[0]);
-	while (*(args + 1 + i++))
-	{
-		if ((current = opendir(path)))
-		{
-			holder = NULL;
-			ft_asprintf(&holder, "%s/%s", path, args[i]);
-			ft_strdel(&path);
-			path = holder;
-			closedir(current);
-		}
-		else
-		{
-			return (0);
-		}
-	}
-	*name = ft_strdup(args[i - 1]);
-	ft_freetab(&args);
-	return (1);
-}
-
-void	list_directory_args(t_prgm *glob, t_list *dir_lst)
+void	list_directory_args(t_prgm *glob, t_list *dir_lst, int flag)
 {
 	DIR			*current;
 	t_status	*tmp;
-	char		turn;
 
-	turn = 0;
 	while (dir_lst)
 	{
 		tmp = (t_status *)(dir_lst->data);
-		current = opendir(tmp->path);
-		if (turn == 0 && !dir_lst->next)
-			ft_strcpy(glob->dir, ".");
+		if ((current = opendir(tmp->path)))
+			listonedir(glob, current, tmp, flag);
 		else
-			ft_strcpy(glob->dir, tmp->path);
-		create_list(current, tmp->path, &tmp->dirlist, glob);
-		output_handler(tmp->dirlist, glob);
-		if (glob->option & LS_RR)
-			listalldir(glob, tmp->dirlist, NULL);
-		ft_lstdel(&(tmp->dirlist), del_node);
-		closedir(current);
-		if ((dir_lst = dir_lst->next))
-			ft_putchar('\n');
-		turn++;
+			error(tmp);
+		dir_lst = dir_lst->next;
+		flag++;
 	}
 }
 
-void	current_dir(t_status *tmp, t_list **file, t_list **dir)
+void	valid_arg(t_status *tmp, t_list **file, t_list **dir)
 {
 	if (!S_ISDIR(tmp->info.st_mode))
 		ft_lstaddback(file, ft_lstnew(tmp, sizeof(t_status)));
@@ -77,7 +37,7 @@ void	current_dir(t_status *tmp, t_list **file, t_list **dir)
 		ft_lstaddback(dir, ft_lstnew(tmp, sizeof(t_status)));
 }
 
-void	generate_list(t_prgm *glob, t_list **file, t_list **dir, t_list **error)
+void	generate_lists(t_prgm *glob, t_list **file, t_list **dir)
 {
 	t_list		*args;
 	t_status	tmp;
@@ -86,17 +46,12 @@ void	generate_list(t_prgm *glob, t_list **file, t_list **dir, t_list **error)
 	while (args && !(tmp.path = NULL))
 	{
 		tmp.dirlist = NULL;
-		if (*(char *)args->data != '/')
-		{
-			tmp.name = ft_strdup((char *)args->data);
+		tmp.name = ft_strdup((char *)args->data);
+		if (*(char *)args->data != '/' && *(char *)args->data != '.')
 			ft_asprintf(&tmp.path, "./%s", tmp.name);
-		}
-		else if (check_path(ft_strsplit((char *)args->data, "/"), &tmp.name, 0))
-			ft_asprintf(&tmp.path, "%s", (char *)args->data);
-		if (lstat(tmp.path, &tmp.info) == 0)
-			current_dir(&tmp, file, dir);
 		else
-			ft_lstaddback(error, ft_lstnew(&tmp, sizeof(t_status)));
+			ft_asprintf(&tmp.path, "%s", (char *)args->data);
+		lstat(tmp.path, &tmp.info) == 0 ? valid_arg(&tmp, file, dir) : error(&tmp);
 		args = args->next;
 	}
 }
@@ -105,13 +60,15 @@ int		list_files(t_prgm *glob)
 {
 	t_list		*file;
 	t_list		*dir;
-	t_list		*error;
+	int			flag;
 
 	file = NULL;
 	dir = NULL;
-	error = NULL;
-	generate_list(glob, &file, &dir, &error);
+	flag = -1;
+	generate_lists(glob, &file, &dir);
 	output_handler(file, glob);
-	list_directory_args(glob, dir);
+	flag += file ? 1 : 0;
+	flag += dir->next ? 1 : 0;
+	list_directory_args(glob, dir, flag);
 	return (0);
 }

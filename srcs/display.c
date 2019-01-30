@@ -6,15 +6,24 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/30 12:41:00 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/30 23:36:50 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <stdio.h>
 
-void	error_output(t_list *lst)
+void	error(t_status *info)
 {
-	ft_dprintf(2, "ls: %s: No such file or directory\n", (char *)lst->data);
+	char *error;
+
+	error = NULL;
+	if (*info->path == '.')
+		ft_asprintf(&error, "ft_ls: %s", info->name);
+	else
+		ft_asprintf(&error, "ft_ls: %s", info->path);
+	perror(error);
+	ft_strdel(&error);
 }
 
 void	long_output(t_list *files_list, t_prgm *glob)
@@ -29,7 +38,7 @@ void	long_output(t_list *files_list, t_prgm *glob)
 	total = 0;
 	padding(files_list, &nlink_max, &size_max, &total);
 	tmp = (t_status *)(files_list->data);
-	if (!ft_strequ(glob->dir, "."))
+	if (*glob->dir)
 		ft_printf("%s:\n", glob->dir);
 	ft_printf("total %d\n", total);
 	while (files_list)
@@ -61,7 +70,7 @@ void	basic_output(t_list *lst, t_prgm *glob)
 	info.width = 15;
 	basic_padding(lst, &info);
 	tmp = (t_status *)lst->data;
-	if (!ft_strequ(glob->dir, "."))
+	if (!ft_strequ(glob->dir, ".") && *glob->dir)
 		ft_printf("%s:\n", glob->dir);
 	basic_default(glob, lst, &info);
 }

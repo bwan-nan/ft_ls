@@ -6,13 +6,13 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:49:01 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/28 20:53:20 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/30 21:11:54 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-unsigned int	get_option(int ac, char **av, t_opt *opt)
+unsigned int	get_option(int ac, char **av, t_opt *opt, t_prgm *glob)
 {
 	int				c;
 	unsigned int	option;
@@ -22,8 +22,11 @@ unsigned int	get_option(int ac, char **av, t_opt *opt)
 	{
 		if (c == 0)
 			return (0);
-		else if (c == '?')
+		else if (c < 0)
+		{
+			glob->optopt = -c;
 			return ('?');
+		}
 		else if ((c == 'l' && option & LS_1) || (c == '1' && option & LS_L))
 			option ^= LS_1 + LS_L;
 		else if ((c == 'l' && option & LS_M) || (c == 'm' && option & LS_L))
@@ -36,7 +39,7 @@ unsigned int	get_option(int ac, char **av, t_opt *opt)
 	return (option);
 }
 
-unsigned int	options(int ac, char **av)
+unsigned int	options(int ac, char **av, t_prgm *glob)
 {
 	t_opt		opt[127];
 
@@ -50,7 +53,7 @@ unsigned int	options(int ac, char **av)
 	opt['S'] = E_S;
 	opt['r'] = E_R;
 	opt['T'] = E_TT;
-	return (get_option(ac, av, opt));
+	return (get_option(ac, av, opt, glob));
 }
 
 unsigned int	get_env(char **env, t_prgm *glob)
@@ -63,34 +66,10 @@ unsigned int	get_env(char **env, t_prgm *glob)
 		if (ft_strnequ(env[i], "PWD=", 4))
 			glob->pwd = ft_strsub(env[i], 4, ft_strlen(env[i]));
 		if (ft_strnequ(env[i], "HOME=", 5))
-			glob->home = ft_strsub(env[i], 5, ft_strlen(&env[i][3]));
+			glob->home = ft_strsub(env[i], 5, ft_strlen(&env[i][3]) - 1);
 		if (ft_strnequ(env[i], "LSCOLORS=", 8))
 			glob->colors = ft_strsub(env[i], 9, ft_strlen(&env[i][4]));
 		i++;
 	}
 	return (1);
-}
-
-void			tilde_replace(t_prgm *glob)
-{
-	t_list	*tmp;
-	char	*holder;
-
-	tmp = glob->args;
-	while (tmp)
-	{
-		if (ft_strequ((char *)(tmp->data), "~"))
-		{
-			ft_memdel(&tmp->data);
-			tmp->data = (void *)ft_strdup(glob->home);
-		}
-		else if (ft_strnequ((char *)(tmp->data), "~/", 2))
-		{
-			holder = NULL;
-			ft_asprintf(&holder, "%s%s", glob->home, tmp + 2);
-			ft_memdel(&tmp->data);
-			tmp->data = (void *)holder;
-		}
-		tmp = tmp->next;
-	}
 }
