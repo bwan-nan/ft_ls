@@ -35,14 +35,14 @@ LIPATH = libft/includes/
 
 INCS += ft_ls.h 
 SRCS += main.c
-SRCS += lstargs.c
+SRCS += args.c
+SRCS += listargs.c
+SRCS += listdir.c
 SRCS += display.c
 SRCS += basic_formating.c
 SRCS += formatting.c
 SRCS += list.c
 SRCS += filters.c
-SRCS += listdir.c
-SRCS += args.c
 DSYM = $(NAME).dSYM
 
 OBJS = $(patsubst %.c, $(OPATH)%.o, $(SRCS))
