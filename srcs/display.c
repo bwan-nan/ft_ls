@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/28 20:41:50 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/30 12:41:00 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	error_output(t_list *lst)
 {
-	ft_dprintf(2, "ls: %s: No such file or directory\n",(char *)lst->data);
+	ft_dprintf(2, "ls: %s: No such file or directory\n", (char *)lst->data);
 }
 
 void	long_output(t_list *files_list, t_prgm *glob)
@@ -29,13 +29,13 @@ void	long_output(t_list *files_list, t_prgm *glob)
 	total = 0;
 	padding(files_list, &nlink_max, &size_max, &total);
 	tmp = (t_status *)(files_list->data);
-	if (!ft_strequ(glob->dir, ".") || glob->args)
+	if (!ft_strequ(glob->dir, "."))
 		ft_printf("%s:\n", glob->dir);
 	ft_printf("total %d\n", total);
 	while (files_list)
 	{
 		tmp = (t_status *)(files_list->data);
-		line_display(tmp, nlink_max, size_max);
+		line_display(glob, tmp, nlink_max, size_max);
 		files_list = files_list->next;
 	}
 }
@@ -74,6 +74,8 @@ void	output_handler(t_list *files_list, t_prgm *glob)
 			long_output(files_list, glob);
 		else if (glob->option & LS_1)
 			list_output(files_list, glob);
+		else if (glob->option & LS_M)
+			list_with_commas(files_list, glob);
 		else
 		{
 			basic_output(files_list, glob);

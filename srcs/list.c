@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 10:03:03 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/28 19:27:03 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:58:51 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,4 @@ void	del_node(void **data)
 		ft_strdel(&tmp->path);
 	if (tmp->name)
 		ft_strdel(&tmp->name);
-}
-
-t_list	*dir_node(t_prgm *glob, char *path, char *name, t_status *file)
-{
-	DIR		*current;
-	t_list	*node;
-	t_list	*destroy;
-
-	node = NULL;
-	if ((current = opendir(path)))
-	{
-		destroy = ft_lstfilter(&glob->args, name, dir_name_filter);
-		ft_lstdel(&destroy, NULL);
-		file->name = NULL;
-		file->dirlist = NULL;
-		stat(file->path, &file->info);
-		ft_asprintf(&file->name, "%s", name);
-		node = ft_lstnew(file, sizeof(t_status));
-		closedir(current);
-		return (node);
-	}
-	return (node);
 }

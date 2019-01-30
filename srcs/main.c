@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/28 15:08:33 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/28 21:00:54 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int				main(int ac, char **av, char **env)
 	t_prgm			glob;
 	int				i;
 
-	i= 0;
+	i = 0;
 	glob_init(&glob);
 	get_env(env, &glob);
 	if ((glob.option = options(ac, av)) == '?')

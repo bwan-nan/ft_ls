@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 07:35:09 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/26 09:26:09 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/28 20:50:09 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,12 @@ void		basic_padding(t_list *lst, t_display *info)
 
 void		basic_default(t_prgm *glob, t_list *lst, t_display *info)
 {
-	t_status 	*tmp;
+	t_status	*tmp;
 
-	if(glob->args)
+	if (glob->args)
 		;
 	while (info->total > info->window.ws_col)
-		info->total =  info->total / 2;
-	if (lst)
-		;
+		info->total = info->total / 2;
 	while (lst)
 	{
 		tmp = ((t_status *)(lst)->data);
