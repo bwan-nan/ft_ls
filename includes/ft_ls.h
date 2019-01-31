@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/31 14:06:06 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/01 00:05:36 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct			s_prgm
 	char				*home;
 	char				*colors;
 	t_list				*args;
+	int				args_count;
 	char				dir[DIR_MAX];
 }						t_prgm;
 
@@ -125,4 +126,8 @@ int						sort_last_access(void *a, void *b);
 int						sort_by_size(void *a, void *b);
 
 void					list_with_commas(t_list *files_list, t_prgm *glob);
+
+
+int					ft_strrchr_index(const char *str, char c);
+int					ft_getargscount(int ac, char **av);
 #endif

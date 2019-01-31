@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/31 13:16:48 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/31 23:32:30 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void		glob_init(t_prgm *glob)
 	glob->pwd = NULL;
 	glob->home = NULL;
 	glob->args = NULL;
+	glob->args_count = 0;
 	ft_bzero(glob->dir, DIR_MAX);
 }
 
@@ -51,6 +52,10 @@ int				main(int ac, char **av, char **env)
 	if ((glob.option = options(ac, av, &glob)) == '?')
 		return (illegal_option(&glob));
 	glob.args = ft_getargslst(ac, av);
+	glob.args_count = ft_getargscount(ac, av);
+	if (glob.args_count == 1)
+		glob.args_count = 0;
+//	ft_printf("args_count = %d\n", glob.args_count);
 	if (glob.args == NULL)
 		list_directory(&glob, ".");
 	else

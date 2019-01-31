@@ -6,11 +6,12 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/31 11:38:30 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/01/31 23:48:29 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <stdlib.h>
 
 void	list_directory_args(t_prgm *glob, t_list *dir_lst, int flag)
 {
@@ -66,6 +67,8 @@ int		list_files(t_prgm *glob)
 	dir = NULL;
 	flag = -1;
 	generate_lists(glob, &file, &dir);
+	sort_list(&dir, glob);
+	sort_list(&file, glob);
 	output_handler(file, glob);
 	flag += file ? 1 : 0;
 	if (dir)

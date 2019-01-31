@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/31 14:16:05 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/31 19:21:27 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,9 @@ static void		symbolic_link(t_status *file, char *permissions)
 
 	if (*permissions == 'l')
 	{
-		readlink(file->path, buf, DIR_MAX);
-		ft_printf(" -> %s", buf);
+		readlink(file->path, buf, file->info.st_size);
+		buf[file->info.st_size] = '\0';
+		ft_printf(" -> %*s", file->info.st_size, buf);
 	}
 }
 
