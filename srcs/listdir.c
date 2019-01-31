@@ -6,36 +6,46 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 07:04:00 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/30 16:31:06 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/31 13:16:06 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+void		listonedir(t_prgm *glob, DIR *current,  t_status *tmp, int flag)
+{
+	if (flag == 0)
+		glob->dir[0] = '\0';
+	else
+		ft_strcpy(glob->dir, tmp->path);
+	create_list(current, tmp->path, &tmp->dirlist, glob);
+	sort_list(&tmp->dirlist, glob);
+	if (tmp->dirlist)
+	{
+		if (flag >= 2)
+			ft_putchar('\n');
+		output_handler(tmp->dirlist, glob);
+		if (glob->option & LS_RR)
+			listalldir(glob, tmp->dirlist, NULL);
+		ft_lstdel(&(tmp->dirlist), del_node);
+	}
+	closedir(current);
+}
+
 int			listalldir(t_prgm *glob, t_list *files_list, t_status *tmp)
 {
 	DIR			*current;
+	int			flag;
 
 	while (files_list && (tmp = (t_status *)(files_list->data)))
 	{
-		if (S_ISDIR(tmp->info.st_mode) && !ft_strequ(tmp->name, ".")
-				&& !ft_strequ(tmp->name, ".."))
+		flag = S_ISDIR(tmp->info.st_mode);
+		if (flag && !ft_strequ(tmp->name, ".") && !ft_strequ(tmp->name, ".."))
 		{
 			if ((current = opendir(tmp->path)))
-			{
-				ft_strcpy(glob->dir, tmp->path);
-				create_list(current, tmp->path, &tmp->dirlist, glob);
-				sort_list(&tmp->dirlist, glob);
-				if (tmp->dirlist)
-				{
-					ft_putchar('\n');
-					output_handler(tmp->dirlist, glob);
-					if (glob->option & LS_RR)
-						listalldir(glob, tmp->dirlist, NULL);
-					ft_lstdel(&(tmp->dirlist), del_node);
-				}
-				closedir(current);
-			}
+				listonedir(glob, current, tmp, 2);
+			else
+				error(tmp);
 		}
 		files_list = files_list->next;
 	}

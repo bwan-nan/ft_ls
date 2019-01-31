@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/30 19:01:16 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/31 13:13:48 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct			s_status
 {
 	char				*path;
 	char				*name;
+	char				*dir;
 	t_list				*dirlist;
 	t_stat				info;
 	t_group				group;
@@ -70,6 +71,7 @@ typedef struct			s_status
 typedef struct			s_prgm
 {
 	unsigned int		option;
+	char				optopt;
 	char				*pwd;
 	char				*home;
 	char				*colors;
@@ -85,12 +87,14 @@ typedef struct			s_display
 	t_winsize			window;
 }						t_display;
 
+void					listonedir(t_prgm *glob, DIR *current,\
+						t_status *tmp, int flag);
 int						listalldir(t_prgm *glob,\
 						t_list *files_list, t_status *tmp);
 int						list_directory(t_prgm *glob, char *path);
 int						list_files(t_prgm *glob);
 
-void					error_output(t_list *lst);
+void					error(t_status *info);
 void					output_handler(t_list *files_list, t_prgm *glob);
 void					long_output(t_list *files_list, t_prgm *glob);
 void					line_display(t_prgm *glob, t_status *file,\
@@ -106,9 +110,8 @@ int						create_list(DIR *current, char *path,
 						t_list **files_list, t_prgm *glob);
 
 unsigned int			basic(char c, unsigned char option);
-unsigned int			options(int ac, char **av);
+unsigned int			options(int ac, char **av, t_prgm *glob);
 unsigned int			get_env(char **env, t_prgm *glob);
-void					tilde_replace(t_prgm *glob);
 t_list					*dir_node(t_prgm *glob, char *path, char *name,\
 						t_status *file);
 
