@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/30 21:38:08 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/31 11:37:22 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static void		glob_del(t_prgm *glob)
 	ft_lstdel(&glob->args, NULL);
 }
 
-
 static int		illegal_option(t_prgm *glob)
 {
 	char	*illegal;
@@ -40,6 +39,7 @@ static int		illegal_option(t_prgm *glob)
 				, illegal, glob->optopt, usage,  OPTION);
 	return (1);
 }
+
 int				main(int ac, char **av, char **env)
 {
 	t_prgm			glob;
