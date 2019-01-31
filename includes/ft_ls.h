@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/28 21:10:07 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/30 19:01:16 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,9 @@ void					tilde_replace(t_prgm *glob);
 t_list					*dir_node(t_prgm *glob, char *path, char *name,\
 						t_status *file);
 
+void					merge_s(t_prgm **source, int (*cmp)(void *, void *));
+void					lst_rev(t_prgm **alst);
 void					sort_list(t_list **files_list, t_prgm *glob);
-void					merge_sort(t_list **source, int (*cmp)(void *, void *));
 int						sort_ascii(void *a, void *b);
 int						sort_time_modified(void *a, void *b);
 int						sort_last_access(void *a, void *b);

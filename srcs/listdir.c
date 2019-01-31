@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 07:04:00 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/28 21:00:30 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/30 16:31:06 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int			listalldir(t_prgm *glob, t_list *files_list, t_status *tmp)
 			{
 				ft_strcpy(glob->dir, tmp->path);
 				create_list(current, tmp->path, &tmp->dirlist, glob);
+				sort_list(&tmp->dirlist, glob);
 				if (tmp->dirlist)
 				{
 					ft_putchar('\n');

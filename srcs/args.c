@@ -6,11 +6,22 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:49:01 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/28 20:53:20 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/31 10:57:13 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+static void		error(int c, int error_type)
+{
+	if (error_type == 1)
+	{
+		ft_printf(
+		"ft_ls: illegal option -- %c\nusage:ft_ls[%s] [file ...]\n"
+		, -c
+		, OPTION);
+	}
+}
 
 unsigned int	get_option(int ac, char **av, t_opt *opt)
 {
@@ -22,8 +33,11 @@ unsigned int	get_option(int ac, char **av, t_opt *opt)
 	{
 		if (c == 0)
 			return (0);
-		else if (c == '?')
+		else if (c < 0)
+		{
+			error(c, 1);
 			return ('?');
+		}
 		else if ((c == 'l' && option & LS_1) || (c == '1' && option & LS_L))
 			option ^= LS_1 + LS_L;
 		else if ((c == 'l' && option & LS_M) || (c == 'm' && option & LS_L))

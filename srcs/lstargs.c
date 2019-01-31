@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/28 21:06:01 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/30 16:32:03 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ int		list_files(t_prgm *glob)
 	file = NULL;
 	dir = NULL;
 	error = NULL;
+	if (glob)
+		sort_list(&glob->args, glob);
 	generate_list(glob, &file, &dir, &error);
 	output_handler(file, glob);
 	list_directory_args(glob, dir);
