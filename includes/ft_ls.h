@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/31 13:25:31 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/31 14:06:06 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <grp.h>
 # include <sys/ioctl.h>
 # include <uuid/uuid.h>
+# include <unistd.h>
 
 # define OPTION		"1RSTalmrtu"
 # define LS_L		1
