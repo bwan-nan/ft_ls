@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/30 23:02:41 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/01/31 11:43:37 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define LS_R		256
 # define LS_TT		512
 
-# define DIR_MAX	255
+# define DIR_MAX	4096
 
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
