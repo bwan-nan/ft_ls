@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/31 13:13:48 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/31 13:25:31 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ unsigned int			get_env(char **env, t_prgm *glob);
 t_list					*dir_node(t_prgm *glob, char *path, char *name,\
 						t_status *file);
 
-void					merge_s(t_prgm **source, int (*cmp)(void *, void *));
+void					merge_sort(t_list **source, int (*cmp)(void *, void *));
 void					lst_rev(t_prgm **alst);
 void					sort_list(t_list **files_list, t_prgm *glob);
 int						sort_ascii(void *a, void *b);
