@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 19:01:52 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/28 20:51:19 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/01 15:36:19 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void			list_with_commas(t_list *files_list, t_prgm *glob)
 	{
 		ioctl(0, TIOCGWINSZ, &info.window);
 		if (!ft_strequ(glob->dir, "."))
-			ft_printf("%s:\n", glob->dir);
+			ft_printf("%s:\n", &glob->dir[*glob->dir == '.' ? 2 : 0]);
 		while (files_list)
 		{
 			if (files_list->next)

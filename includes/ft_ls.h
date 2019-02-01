@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 11:35:00 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 15:36:37 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,4 @@ int						sort_by_size(void *a, void *b);
 
 void					list_with_commas(t_list *files_list, t_prgm *glob);
 
-
-int					ft_strrchr_index(const char *str, char c);
-int					ft_getargscount(int ac, char **av);
 #endif
