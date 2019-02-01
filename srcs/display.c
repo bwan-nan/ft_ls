@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/01 20:32:55 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 21:53:24 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	long_output(t_list *files_list, t_prgm *glob)
 	while (files_list)
 	{
 		tmp = (t_status *)(files_list->data);
-		print_line(glob, tmp, &info, NULL);
+		print_line(glob, tmp, &info);
 		ft_putchar('\n');
 		files_list = files_list->next;
 	}

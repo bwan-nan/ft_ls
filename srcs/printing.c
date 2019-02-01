@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/01 20:52:26 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 21:54:47 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	long_padding(t_list *lst, t_display *i, t_status *tmp, size_t len)
 {
 	while (lst && (tmp = (t_status *)(lst->data)))
 	{
+		if ((len = ft_strlen(tmp->chmod)) > i->ch_len)
+			i->ch_len = len;
 		if ((len = nbrlen(tmp->info.st_nlink)) > i->nlink)
 			i->nlink = len;
 		if ((len = ft_strlen(getpwuid(tmp->info.st_uid)->pw_name)) > i->pw_len)
@@ -98,13 +100,13 @@ void	print_commas(t_list *files_list, t_display *info)
 		info->printed += ft_printf("%s\n", tmp->name);
 }
 
-void	print_line(t_prgm *glob, t_status *file, t_display *info, char *chmod)
+void	print_line(t_prgm *glob, t_status *file, t_display *info)
 {
 	info->time = glob->option & LS_TT ? 20 : 12;
 	if (S_ISCHR(file->info.st_mode) || S_ISBLK(file->info.st_mode))
 	{
-		ft_printf("%s  %-*d %-*s  %-*s  %*d, %*d %.*s %s"
-				, (chmod = getchmod(file)), info->nlink, file->info.st_nlink
+		ft_printf("%*s  %-*d %-*s  %-*s  %*d, %*d %.*s %s"
+				, info->ch_len, file->chmod, info->nlink, file->info.st_nlink
 				, info->pw_len, (getpwuid(file->info.st_uid))->pw_name
 				, info->gr_len, (getgrgid(file->info.st_gid))->gr_name
 				, info->maj_len, major(file->info.st_rdev)
@@ -113,13 +115,12 @@ void	print_line(t_prgm *glob, t_status *file, t_display *info, char *chmod)
 	}
 	else
 	{
-		ft_printf("%s  %-*d %-*s  %-*s  %*d %.*s %s"
-				, (chmod = getchmod(file)), info->nlink, file->info.st_nlink
+		ft_printf("%-*s  %-*d %-*s  %-*s  %*d %.*s %s"
+				, info->ch_len, file->chmod, info->nlink, file->info.st_nlink
 				, info->pw_len, (getpwuid(file->info.st_uid))->pw_name
 				, info->gr_len, (getgrgid(file->info.st_gid))->gr_name
 				, info->size, file->info.st_size
 				, info->time, ctime(&file->info.st_mtime) + 4, file->name);
 	}
 	symbolic_link(file);
-	ft_strdel(&chmod);
 }

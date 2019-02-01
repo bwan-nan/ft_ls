@@ -6,11 +6,12 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/01 20:32:01 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 21:42:56 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <sys/xattr.h>
 
 size_t	nbrlen(int nbr)
 {
@@ -62,7 +63,7 @@ void	symbolic_link(t_status *file)
 
 char	*getchmod(t_status *file)
 {
-	char	perm[11];
+	char	perm[12];
 
 	perm[0] = '\0';
 	perm[0] = !*perm && S_ISREG(file->info.st_mode) ? '-' : *perm;
@@ -81,7 +82,8 @@ char	*getchmod(t_status *file)
 	perm[7] = file->info.st_mode & S_IROTH ? 'r' : '-';
 	perm[8] = file->info.st_mode & S_IWOTH ? 'w' : '-';
 	perm[9] = file->info.st_mode & S_IXOTH ? 'x' : '-';
-	perm[10] = '\0';
+	perm[10] = listxattr(file->path, NULL, 0, XATTR_NOFOLLOW) ? '@' : '\0';
+	perm[11] = '\0';
 	return (ft_strdup(perm));
 }
 

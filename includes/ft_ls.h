@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 20:31:55 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 22:32:25 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <dirent.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <sys/acl.h>
 # include <time.h>
 # include <pwd.h>
 # include <grp.h>
@@ -42,7 +43,6 @@
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
 typedef struct passwd	t_passwd;
-typedef struct group	t_group;
 typedef struct winsize	t_winsize;
 
 typedef enum			e_opt
@@ -62,18 +62,16 @@ typedef enum			e_opt
 typedef struct			s_status
 {
 	t_stat				info;
-	t_group				group;
+	acl_t				acl;
 	char				*path;
 	char				*name;
-	char				*dir;
+	char				*chmod;
 	t_list				*dirlist;
 }						t_status;
 
 typedef struct			s_prgm
 {
 	char				dir[DIR_MAX];
-	char				*pwd;
-	char				*home;
 	char				*colors;
 	t_list				*args;
 	int					args_count;
@@ -83,6 +81,8 @@ typedef struct			s_prgm
 
 typedef struct			s_display
 {
+	t_winsize			window;
+	size_t				ch_len;
 	size_t				width;
 	size_t				total;
 	size_t				printed;
@@ -93,7 +93,6 @@ typedef struct			s_display
 	size_t				maj_len;
 	size_t				min_len;
 	size_t				time;
-	t_winsize			window;
 }						t_display;
 
 int						listalldir(t_prgm *glob, t_list *lst, t_status *tmp);
@@ -106,33 +105,24 @@ void					basic_output(t_list *lst, t_prgm *glob);
 void					list_output(t_list *files_list, t_prgm *glob);
 void					commas_output(t_list *files_list, t_prgm *glob);
 
-void					long_padding(t_list *lst, t_display *info,\
-						t_status *tmp, size_t len);
 void					basic_padding(t_list *lst, t_display *info);
 void					print_basic(t_list *lst, t_display *info);
 void					print_commas(t_list *files_list, t_display *info);
 void					print_line(t_prgm *glob, t_status *file,\
-						t_display *info, char *chmod);
+						t_display *info);
+void					long_padding(t_list *lst, t_display *info,\
+						t_status *tmp, size_t len);
 
+void					del_node(void **data);
 void					generate_lists(t_prgm *glob, t_list **file,\
 						t_list **dir);
-void					del_node(void **data);
 int						create_list(DIR *current, char *path,
 						t_list **files_list, t_prgm *glob);
 
-unsigned int			basic(char c, unsigned char option);
 unsigned int			options(int ac, char **av, t_prgm *glob);
 unsigned int			get_env(char **env, t_prgm *glob);
-t_list					*dir_node(t_prgm *glob, char *path, char *name,\
-						t_status *file);
 
-void					merge_sort(t_list **source, int (*cmp)(void *, void *));
-void					lst_rev(t_prgm **alst);
 void					sort_list(t_list **files_list, t_prgm *glob);
-int						sort_ascii(void *a, void *b);
-int						sort_time_modified(void *a, void *b);
-int						sort_last_access(void *a, void *b);
-int						sort_size(void *a, void *b);
 
 size_t					nbrlen(int nbr);
 char					*getchmod(t_status *file);

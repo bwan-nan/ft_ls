@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 07:04:00 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 20:52:04 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 23:28:34 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,24 +67,24 @@ static void	list_directory_args(t_prgm *glob, t_list *dir_lst)
 			listonedir(glob, current, tmp);
 		else
 			error(glob, tmp);
-		dir_lst = dir_lst->next;
+		ft_lstpop(&dir_lst, del_node);
 	}
 }
 
 int			list_directory(t_prgm *glob, char *path)
 {
 	DIR			*current;
-	t_list		*files_list;
+	t_list		*files;
 
 	current = opendir(path);
-	files_list = NULL;
+	files = NULL;
 	ft_strcpy(glob->dir, path);
-	create_list(current, path, &files_list, glob);
-	sort_list(&files_list, glob);
-	output_handler(files_list, glob);
+	create_list(current, path, &files, glob);
+	sort_list(&files, glob);
+	output_handler(files, glob);
 	if (glob->option & LS_RR)
-		listalldir(glob, files_list, NULL);
-	ft_lstdel(&files_list, del_node);
+		listalldir(glob, files, NULL);
+	ft_lstdel(&files, del_node);
 	closedir(current);
 	return (0);
 }
@@ -93,11 +93,9 @@ int			list_files(t_prgm *glob)
 {
 	t_list		*file;
 	t_list		*dir;
-	int			flag;
 
 	file = NULL;
 	dir = NULL;
-	flag = -1;
 	generate_lists(glob, &file, &dir);
 	sort_list(&dir, glob);
 	sort_list(&file, glob);
@@ -108,6 +106,5 @@ int			list_files(t_prgm *glob)
 		glob->args_count = 1;
 	list_directory_args(glob, dir);
 	ft_lstdel(&file, del_node);
-	ft_lstdel(&dir, del_node);
 	return (0);
 }

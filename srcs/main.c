@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 20:50:54 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 21:04:40 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 static void		glob_init(t_prgm *glob)
 {
-	glob->pwd = NULL;
-	glob->home = NULL;
 	glob->args = NULL;
 	glob->args_count = 0;
 	ft_bzero(glob->dir, DIR_MAX);
@@ -23,8 +21,6 @@ static void		glob_init(t_prgm *glob)
 
 static void		glob_del(t_prgm *glob)
 {
-	ft_strdel(&glob->pwd);
-	ft_strdel(&glob->home);
 	ft_strdel(&glob->colors);
 	ft_lstdel(&glob->args, NULL);
 }
