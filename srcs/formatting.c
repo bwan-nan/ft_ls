@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/31 19:21:27 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/01 13:18:44 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char		get_file_type(int mode)
 		return ('s');
 }
 
-void			padding(t_list *lst, size_t *nlink, size_t *size, size_t *total)
+void			padding(t_list *lst, t_display *i)
 {
 	t_status	*tmp;
 	size_t		len;
@@ -61,11 +61,15 @@ void			padding(t_list *lst, size_t *nlink, size_t *size, size_t *total)
 	while (lst)
 	{
 		tmp = (t_status *)(lst->data);
-		if ((len = nbrlen(tmp->info.st_nlink)) > *nlink)
-			*nlink = len;
-		if ((len = nbrlen(tmp->info.st_size)) > *size)
-			*size = len;
-		*total += tmp->info.st_blocks;
+		if ((len = nbrlen(tmp->info.st_nlink)) > i->nlink)
+			i->nlink = len;
+		if ((len = nbrlen(tmp->info.st_size)) > i->size)
+			i->size = len;
+		if ((len = ft_strlen(getpwuid(tmp->info.st_uid)->pw_name)) > i->pw_len)
+			i->pw_len = len;
+		if ((len = ft_strlen(getgrgid(tmp->info.st_gid)->gr_name)) > i->gr_len)
+			i->gr_len = len;
+		i->total += tmp->info.st_blocks;
 		lst = lst->next;
 	}
 }
@@ -82,8 +86,7 @@ static void		symbolic_link(t_status *file, char *permissions)
 	}
 }
 
-void			line_display(t_prgm *glob, t_status *file,\
-				size_t nlink, size_t size)
+void			line_display(t_prgm *glob, t_status *file, t_display *info)
 {
 	char	permissions[11];
 
@@ -98,12 +101,12 @@ void			line_display(t_prgm *glob, t_status *file,\
 	permissions[8] = file->info.st_mode & S_IWOTH ? 'w' : '-';
 	permissions[9] = file->info.st_mode & S_IXOTH ? 'x' : '-';
 	permissions[10] = '\0';
-	ft_printf("%s  %*d %s  %s  %*d %.*s %s"
+	ft_printf("%s  %-*d %-*s  %-*s  %*d %.*s %s"
 			, permissions
-			, nlink, file->info.st_nlink
-			, (getpwuid(file->info.st_uid))->pw_name
-			, (getgrgid(file->info.st_gid))->gr_name
-			, size, file->info.st_size
+			, info->nlink, file->info.st_nlink
+			, info->pw_len, (getpwuid(file->info.st_uid))->pw_name
+			, info->gr_len, (getgrgid(file->info.st_gid))->gr_name
+			, info->size, file->info.st_size
 			, glob->option & LS_TT ? 20 : 12, ctime(&file->info.st_mtime) + 4
 			, file->name);
 	symbolic_link(file, permissions);

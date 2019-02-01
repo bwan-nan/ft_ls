@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 15:36:37 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/01 15:38:40 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,10 @@ typedef struct			s_display
 	size_t				width;
 	size_t				total;
 	size_t				printed;
+	size_t				nlink;
+	size_t				size;
+	size_t				pw_len;
+	size_t				gr_len;
 	t_winsize			window;
 }						t_display;
 
@@ -95,16 +99,15 @@ int						listalldir(t_prgm *glob,\
 int						list_directory(t_prgm *glob, char *path);
 int						list_files(t_prgm *glob);
 
-void					error(t_status *info);
+void					error(t_prgm *glob, t_status *info);
 void					output_handler(t_list *files_list, t_prgm *glob);
 void					long_output(t_list *files_list, t_prgm *glob);
 void					line_display(t_prgm *glob, t_status *file,\
-						size_t nlink, size_t size);
+						t_display *info);
 void					basic_padding(t_list *lst, t_display *info);
 void					basic_default(t_prgm *glob, t_list *lst,\
 						t_display *info);
-void					padding(t_list *lst, size_t *nlink, size_t *size,\
-						size_t *total);
+void					padding(t_list *lst, t_display *info);
 
 void					del_node(void **data);
 int						create_list(DIR *current, char *path,
