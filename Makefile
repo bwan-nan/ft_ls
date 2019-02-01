@@ -6,7 +6,7 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/02/01 17:58:58 by cempassi         ###   ########.fr        #
+#    Updated: 2019/02/01 18:08:55 by cempassi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ SRCS += list.c
 SRCS += listing.c
 SRCS += display.c
 SRCS += printing.c
-SRCS += formating.c
+SRCS += formatting.c
 SRCS += sorting.c
 
 DSYM = $(NAME).dSYM

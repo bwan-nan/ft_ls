@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/01 17:18:53 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 18:31:52 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,13 @@ void	basic_output(t_list *lst, t_prgm *glob)
 		ft_printf("%s:\n", glob->dir);
 	print_basic(lst, &info);
 	glob->args_count = 2;
+	ft_putchar('\n');
 }
 
 void	commas_output(t_list *files_list, t_prgm *glob)
 {
 	t_display	info;
-	size_t		len;
+	t_status	*next;
 
 	info.total = 0;
 	info.width = 0;
@@ -87,14 +88,17 @@ void	commas_output(t_list *files_list, t_prgm *glob)
 	if (files_list)
 	{
 		ioctl(0, TIOCGWINSZ, &info.window);
-		if (!ft_strequ(glob->dir, "."))
+		if (glob->args_count)
 			ft_printf("%s:\n", glob->dir);
 		while (files_list)
 		{
 			if (files_list->next)
-				len = ft_strlen(((t_status *)(files_list->next->data))->name);
+				next = (t_status *)(files_list->next->data);
+			if (next)
+				info.size = ft_strlen(next->name);
 			print_comma(files_list, &info);
 			files_list = files_list->next;
 		}
 	}
+	glob->args_count = 2;
 }

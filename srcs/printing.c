@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   formatting.c                                       :+:      :+:    :+:   */
+/*   printing.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/01 17:15:52 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 18:18:24 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	print_comma(t_list *files_list, t_display *info)
 	if (files_list->next)
 	{
 		info->printed += ft_printf("%s, ", tmp->name);
-		if (info->printed + 2 + len > info->window.ws_col)
+		if (info->printed + 2 + info->size > info->window.ws_col)
 		{
 			ft_putchar('\n');
 			info->printed = 0;

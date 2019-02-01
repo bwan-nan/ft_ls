@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   basic_formating.c                                  :+:      :+:    :+:   */
+/*   formatting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 07:35:09 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 17:16:46 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 18:26:24 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,8 @@ void	output_handler(t_list *files_list, t_prgm *glob)
 		else if (glob->option & LS_1)
 			list_output(files_list, glob);
 		else if (glob->option & LS_M)
-		{
 			commas_output(files_list, glob);
-			ft_putchar('\n');
-		}
 		else
-		{
 			basic_output(files_list, glob);
-			ft_putchar('\n');
-		}
 	}
 }
