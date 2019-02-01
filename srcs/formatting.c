@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/28 21:03:48 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/01/31 19:21:27 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,18 @@ void			padding(t_list *lst, size_t *nlink, size_t *size, size_t *total)
 	}
 }
 
+static void		symbolic_link(t_status *file, char *permissions)
+{
+	char	buf[DIR_MAX];
+
+	if (*permissions == 'l')
+	{
+		readlink(file->path, buf, file->info.st_size);
+		buf[file->info.st_size] = '\0';
+		ft_printf(" -> %*s", file->info.st_size, buf);
+	}
+}
+
 void			line_display(t_prgm *glob, t_status *file,\
 				size_t nlink, size_t size)
 {
@@ -86,7 +98,7 @@ void			line_display(t_prgm *glob, t_status *file,\
 	permissions[8] = file->info.st_mode & S_IWOTH ? 'w' : '-';
 	permissions[9] = file->info.st_mode & S_IXOTH ? 'x' : '-';
 	permissions[10] = '\0';
-	ft_printf("%s  %*d %s  %s  %*d %.*s %s\n"
+	ft_printf("%s  %*d %s  %s  %*d %.*s %s"
 			, permissions
 			, nlink, file->info.st_nlink
 			, (getpwuid(file->info.st_uid))->pw_name
@@ -94,4 +106,6 @@ void			line_display(t_prgm *glob, t_status *file,\
 			, size, file->info.st_size
 			, glob->option & LS_TT ? 20 : 12, ctime(&file->info.st_mtime) + 4
 			, file->name);
+	symbolic_link(file, permissions);
+	ft_putchar('\n');
 }

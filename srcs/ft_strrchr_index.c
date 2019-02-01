@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_list.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr_index.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/28 12:21:04 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/30 15:13:41 by bwan-nan         ###   ########.fr       */
+/*   Created: 2019/01/31 18:50:07 by bwan-nan          #+#    #+#             */
+/*   Updated: 2019/01/31 19:08:27 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void		sort_list(t_list **files_list, t_prgm *glob)
+int	ft_strrchr_index(const char *str, char c)
 {
-	if (glob->option & LS_S)
-		merge_sort(files_list, &sort_by_size);
-	else if (glob->option & LS_T)
-		merge_sort(files_list, &sort_time_modified);
-/*	else if (glob->option & LS_U)
-		merge_sort(files_list, &sort_last_access);*/
-	else
-		merge_sort(files_list, &sort_ascii);
-	if (glob->option & LS_R)
-		ft_lstrev(files_list);
+	int	i;
+
+	i = ft_strlen(str);
+	while (--i)
+		if (str[i] == c)
+			return (--i) ;
+	return (0);
 }

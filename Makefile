@@ -6,7 +6,7 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/01/30 12:45:29 by cempassi         ###   ########.fr        #
+#    Updated: 2019/01/31 19:32:24 by bwan-nan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,11 +42,13 @@ SRCS += listdir.c
 SRCS += display.c
 SRCS += basic_formating.c
 SRCS += display_options.c
+SRCS += merge_sort.c
 SRCS += formatting.c
 SRCS += list.c
 SRCS += sort_list.c
-SRCS += merge_sort.c
 SRCS += sort_options.c
+SRCS += ft_strrchr_index.c
+SRCS += ft_getargscount.c
 
 DSYM = $(NAME).dSYM
 

@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/31 00:05:57 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 11:09:11 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <grp.h>
 # include <sys/ioctl.h>
 # include <uuid/uuid.h>
+# include <unistd.h>
 
 # define OPTION		"1RSTalmrtu"
 # define LS_L		1
@@ -76,6 +77,7 @@ typedef struct			s_prgm
 	char				*home;
 	char				*colors;
 	t_list				*args;
+	int				args_count;
 	char				dir[DIR_MAX];
 }						t_prgm;
 
@@ -115,12 +117,17 @@ unsigned int			get_env(char **env, t_prgm *glob);
 t_list					*dir_node(t_prgm *glob, char *path, char *name,\
 						t_status *file);
 
-void					sort_list(t_list **files_list, t_prgm *glob);
 void					merge_sort(t_list **source, int (*cmp)(void *, void *));
+void					lst_rev(t_prgm **alst);
+void					sort_list(t_list **files_list, t_prgm *glob);
 int						sort_ascii(void *a, void *b);
 int						sort_time_modified(void *a, void *b);
 int						sort_last_access(void *a, void *b);
 int						sort_by_size(void *a, void *b);
 
 void					list_with_commas(t_list *files_list, t_prgm *glob);
+
+
+int					ft_strrchr_index(const char *str, char c);
+int					ft_getargscount(int ac, char **av);
 #endif
