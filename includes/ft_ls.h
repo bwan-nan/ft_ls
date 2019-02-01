@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 17:55:06 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 19:15:58 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ typedef struct			s_display
 	size_t				size;
 	size_t				pw_len;
 	size_t				gr_len;
+	size_t				maj_len;
+	size_t				min_len;
+	char				dev_on;
 	t_winsize			window;
 }						t_display;
 
@@ -136,7 +139,4 @@ void					symbolic_link(t_status *file, char *permissions);
 char					get_file_type(int mode);
 void					output_handler(t_list *files_list, t_prgm *glob);
 
-
-int					ft_strrchr_index(const char *str, char c);
-int					ft_getargscount(int ac, char **av);
 #endif

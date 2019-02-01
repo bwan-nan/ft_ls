@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/01 18:31:52 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 19:17:13 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,20 @@ void	error(t_prgm *glob, t_status *info)
 		ft_asprintf(&error, "ft_ls: %s", info->path);
 	perror(error);
 	ft_strdel(&error);
+}
+
+void	init_display(t_display *info)
+{
+	info->width = 15;
+	info->total = 0;
+	info->printed = 0;
+	info->nlink = 0;
+	info->size = 0;
+	info->pw_len = 0;
+	info->gr_len = 0;
+	info->maj_len = 0;
+	info->min_len = 0;
+	info->dev_on = 0;
 }
 
 void	long_output(t_list *files_list, t_prgm *glob)
