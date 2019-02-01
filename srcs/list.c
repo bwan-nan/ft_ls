@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 10:03:03 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 17:51:48 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 20:50:12 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	generate_lists(t_prgm *glob, t_list **file, t_list **dir)
 		tmp.dirlist = NULL;
 		tmp.name = ft_strdup((char *)args->data);
 		ft_asprintf(&tmp.path, "%s", (char *)args->data);
-		if(lstat(tmp.path, &tmp.info) == 0)
+		if (lstat(tmp.path, &tmp.info) == 0)
 		{
 			if (!S_ISDIR(tmp.info.st_mode))
 				ft_lstaddback(file, ft_lstnew(&tmp, sizeof(t_status)));

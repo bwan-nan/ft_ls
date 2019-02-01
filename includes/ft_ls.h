@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 19:15:58 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 20:31:55 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct			s_display
 	size_t				gr_len;
 	size_t				maj_len;
 	size_t				min_len;
-	char				dev_on;
+	size_t				time;
 	t_winsize			window;
 }						t_display;
 
@@ -106,12 +106,13 @@ void					basic_output(t_list *lst, t_prgm *glob);
 void					list_output(t_list *files_list, t_prgm *glob);
 void					commas_output(t_list *files_list, t_prgm *glob);
 
-void					long_padding(t_list *lst, t_display *info);
+void					long_padding(t_list *lst, t_display *info,\
+						t_status *tmp, size_t len);
 void					basic_padding(t_list *lst, t_display *info);
 void					print_basic(t_list *lst, t_display *info);
-void					print_comma(t_list *files_list, t_display *info);
+void					print_commas(t_list *files_list, t_display *info);
 void					print_line(t_prgm *glob, t_status *file,\
-						t_display *info);
+						t_display *info, char *chmod);
 
 void					generate_lists(t_prgm *glob, t_list **file,\
 						t_list **dir);
@@ -134,9 +135,9 @@ int						sort_last_access(void *a, void *b);
 int						sort_size(void *a, void *b);
 
 size_t					nbrlen(int nbr);
+char					*getchmod(t_status *file);
 void					init_display(t_display *info);
-void					symbolic_link(t_status *file, char *permissions);
-char					get_file_type(int mode);
+void					symbolic_link(t_status *file);
 void					output_handler(t_list *files_list, t_prgm *glob);
 
 #endif

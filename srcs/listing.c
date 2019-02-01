@@ -6,13 +6,13 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 07:04:00 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 19:19:53 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 20:52:04 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void	listonedir(t_prgm *glob, DIR *current,  t_status *tmp)
+static void	listonedir(t_prgm *glob, DIR *current, t_status *tmp)
 {
 	create_list(current, tmp->path, &tmp->dirlist, glob);
 	sort_list(&tmp->dirlist, glob);
@@ -75,7 +75,7 @@ int			list_directory(t_prgm *glob, char *path)
 {
 	DIR			*current;
 	t_list		*files_list;
-	
+
 	current = opendir(path);
 	files_list = NULL;
 	ft_strcpy(glob->dir, path);

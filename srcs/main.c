@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 12:11:15 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 20:50:54 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int		illegal_option(t_prgm *glob)
 	illegal = "ft_ls: illegal option -- ";
 	usage = "usage: ft_ls [-";
 	ft_dprintf(2, "%s%c\n%s%s] [file ...]\n"
-				, illegal, glob->optopt, usage,  OPTION);
+				, illegal, glob->optopt, usage, OPTION);
 	return (1);
 }
 
