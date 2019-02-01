@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 15:38:40 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/01 17:36:13 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ typedef struct			s_display
 	size_t				size;
 	size_t				pw_len;
 	size_t				gr_len;
+	size_t				maj_len;
+	size_t				min_len;
+	char				dev_on;
 	t_winsize			window;
 }						t_display;
 

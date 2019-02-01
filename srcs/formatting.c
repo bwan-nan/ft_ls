@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/01 13:18:44 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 17:41:08 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,34 @@ void			padding(t_list *lst, t_display *i)
 	while (lst)
 	{
 		tmp = (t_status *)(lst->data);
+		if (S_ISCHR(tmp->info.st_mode))
+			i->dev_on = 1;
 		if ((len = nbrlen(tmp->info.st_nlink)) > i->nlink)
 			i->nlink = len;
-		if ((len = nbrlen(tmp->info.st_size)) > i->size)
-			i->size = len;
 		if ((len = ft_strlen(getpwuid(tmp->info.st_uid)->pw_name)) > i->pw_len)
 			i->pw_len = len;
 		if ((len = ft_strlen(getgrgid(tmp->info.st_gid)->gr_name)) > i->gr_len)
 			i->gr_len = len;
+		if (i->dev_on)
+		{
+			if ((len = nbrlen(major(tmp->info.st_rdev))) > i->maj_len)
+				i->maj_len = len;
+			if ((len = nbrlen(minor(tmp->info.st_rdev))) > i->min_len)
+				i->min_len = len;
+			i->size = i->min_len + i->maj_len + 5;
+		}
+		else if ((len = nbrlen(tmp->info.st_size)) > i->size)
+			i->size = len;
 		i->total += tmp->info.st_blocks;
 		lst = lst->next;
 	}
 }
 
-static void		symbolic_link(t_status *file, char *permissions)
+static void		symbolic_link(t_status *file, char *chmod)
 {
 	char	buf[DIR_MAX];
 
-	if (*permissions == 'l')
+	if (*chmod == 'l')
 	{
 		readlink(file->path, buf, file->info.st_size);
 		buf[file->info.st_size] = '\0';
@@ -86,29 +96,39 @@ static void		symbolic_link(t_status *file, char *permissions)
 	}
 }
 
+void				device_num(t_status *file, t_display *info, char *chmod)
+{
+	if (*chmod == 'b' || *chmod == 'c')
+		ft_printf("  %*d,  %*d"\
+			   	, info->maj_len, major(file->info.st_rdev)\
+			 	, info->min_len, minor(file->info.st_rdev));   
+}
+
 void			line_display(t_prgm *glob, t_status *file, t_display *info)
 {
-	char	permissions[11];
+	char	chmod[11];
 
-	permissions[0] = get_file_type(file->info.st_mode);
-	permissions[1] = file->info.st_mode & S_IRUSR ? 'r' : '-';
-	permissions[2] = file->info.st_mode & S_IWUSR ? 'w' : '-';
-	permissions[3] = file->info.st_mode & S_IXUSR ? 'x' : '-';
-	permissions[4] = file->info.st_mode & S_IRGRP ? 'r' : '-';
-	permissions[5] = file->info.st_mode & S_IWGRP ? 'w' : '-';
-	permissions[6] = file->info.st_mode & S_IXGRP ? 'x' : '-';
-	permissions[7] = file->info.st_mode & S_IROTH ? 'r' : '-';
-	permissions[8] = file->info.st_mode & S_IWOTH ? 'w' : '-';
-	permissions[9] = file->info.st_mode & S_IXOTH ? 'x' : '-';
-	permissions[10] = '\0';
-	ft_printf("%s  %-*d %-*s  %-*s  %*d %.*s %s"
-			, permissions
-			, info->nlink, file->info.st_nlink
-			, info->pw_len, (getpwuid(file->info.st_uid))->pw_name
-			, info->gr_len, (getgrgid(file->info.st_gid))->gr_name
-			, info->size, file->info.st_size
-			, glob->option & LS_TT ? 20 : 12, ctime(&file->info.st_mtime) + 4
-			, file->name);
-	symbolic_link(file, permissions);
+	chmod[0] = get_file_type(file->info.st_mode);
+	chmod[1] = file->info.st_mode & S_IRUSR ? 'r' : '-';
+	chmod[2] = file->info.st_mode & S_IWUSR ? 'w' : '-';
+	chmod[3] = file->info.st_mode & S_IXUSR ? 'x' : '-';
+	chmod[4] = file->info.st_mode & S_IRGRP ? 'r' : '-';
+	chmod[5] = file->info.st_mode & S_IWGRP ? 'w' : '-';
+	chmod[6] = file->info.st_mode & S_IXGRP ? 'x' : '-';
+	chmod[7] = file->info.st_mode & S_IROTH ? 'r' : '-';
+	chmod[8] = file->info.st_mode & S_IWOTH ? 'w' : '-';
+	chmod[9] = file->info.st_mode & S_IXOTH ? 'x' : '-';
+	chmod[10] = '\0';
+	ft_printf("%s  %-*d %-*s  %-*s "\
+			, chmod
+			, info->nlink, file->info.st_nlink\
+			, info->pw_len, (getpwuid(file->info.st_uid))->pw_name\
+			, info->gr_len, (getgrgid(file->info.st_gid))->gr_name);
+	chmod[0] == 'c' || chmod[0] == 'b' ? device_num(file, info, chmod) :\
+	ft_printf("%*d", info->size, file->info.st_size);
+	ft_printf(" %.*s %s"
+			, glob->option & LS_TT ? 20 : 12, ctime(&file->info.st_mtime) + 4\
+			, file->name);\
+	symbolic_link(file, chmod);
 	ft_putchar('\n');
 }

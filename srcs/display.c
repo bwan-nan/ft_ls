@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/01 15:33:15 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 17:00:03 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ void	init_display(t_display *info)
 	info->size = 0;
 	info->pw_len = 0;
 	info->gr_len = 0;
+	info->maj_len = 0;
+	info->min_len = 0;
+	info->dev_on = 0;
 }
 
 void	long_output(t_list *files_list, t_prgm *glob)
