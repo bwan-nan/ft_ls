@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 17:24:35 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 17:55:06 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ typedef struct			s_display
 	t_winsize			window;
 }						t_display;
 
-void					listonedir(t_prgm *glob, DIR *current, t_status *tmp);
 int						listalldir(t_prgm *glob, t_list *lst, t_status *tmp);
 int						list_directory(t_prgm *glob, char *path);
 int						list_files(t_prgm *glob);
@@ -111,6 +110,8 @@ void					print_comma(t_list *files_list, t_display *info);
 void					print_line(t_prgm *glob, t_status *file,\
 						t_display *info);
 
+void					generate_lists(t_prgm *glob, t_list **file,\
+						t_list **dir);
 void					del_node(void **data);
 int						create_list(DIR *current, char *path,
 						t_list **files_list, t_prgm *glob);
