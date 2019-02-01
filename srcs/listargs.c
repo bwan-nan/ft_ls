@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 14:53:00 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 15:34:28 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	list_directory_args(t_prgm *glob, t_list *dir_lst)
 		tmp = (t_status *)(dir_lst->data);
 		if ((current = opendir(tmp->path)))
 		{
-			if (dir != dir_lst)
-				ft_putchar('\n');
 			listonedir(glob, current, tmp);
 		}
 		else
@@ -78,9 +76,9 @@ int		list_files(t_prgm *glob)
 	sort_list(&dir, glob);
 	sort_list(&file, glob);
 	output_handler(file, glob);
-	if ((glob->args_count = glob->args->next ? 1 : 0) && dir && file)
+	if ((glob->args_count = glob->args->next ? 2 : 0) && dir && file)
 		ft_putchar('\n');
-	list_directory_args(glob, dir);
+	listalldir(glob, dir, NULL);
 	ft_lstdel(&file, del_node);
 	ft_lstdel(&dir, del_node);
 	return (0);

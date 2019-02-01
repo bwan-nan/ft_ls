@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/01 14:47:52 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 15:33:15 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	long_output(t_list *files_list, t_prgm *glob)
 		line_display(glob, tmp, &info);
 		files_list = files_list->next;
 	}
-	glob->args_count = 1;
+	glob->args_count = 2;
 }
 
 void	list_output(t_list *files_list, t_prgm *glob)
@@ -68,7 +68,7 @@ void	list_output(t_list *files_list, t_prgm *glob)
 		ft_printf("%s\n", ((t_status *)(files_list->data))->name);
 		files_list = files_list->next;
 	}
-	glob->args_count = 1;
+	glob->args_count = 2;
 }
 
 void	basic_output(t_list *lst, t_prgm *glob)
@@ -84,7 +84,7 @@ void	basic_output(t_list *lst, t_prgm *glob)
 	if (glob->args_count)
 		ft_printf("%s:\n", &glob->dir[*glob->dir == '.' && glob->args ? 2 : 0]);
 	basic_default(glob, lst, &info);
-	glob->args_count = 1;
+	glob->args_count = 2;
 }
 
 void	output_handler(t_list *files_list, t_prgm *glob)
