@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/31 23:32:30 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/01 12:11:15 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,13 @@ static int		illegal_option(t_prgm *glob)
 int				main(int ac, char **av, char **env)
 {
 	t_prgm			glob;
-	int				i;
 
-	i = 0;
 	glob_init(&glob);
 	get_env(env, &glob);
 	if ((glob.option = options(ac, av, &glob)) == '?')
 		return (illegal_option(&glob));
 	glob.args = ft_getargslst(ac, av);
-	glob.args_count = ft_getargscount(ac, av);
-	if (glob.args_count == 1)
-		glob.args_count = 0;
-//	ft_printf("args_count = %d\n", glob.args_count);
-	if (glob.args == NULL)
-		list_directory(&glob, ".");
-	else
-		list_files(&glob);
+	glob.args == NULL ? list_directory(&glob, ".") : list_files(&glob);
 	glob_del(&glob);
 	return (0);
 }

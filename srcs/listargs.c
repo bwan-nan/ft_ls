@@ -6,14 +6,14 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 11:08:54 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 11:42:33 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include <stdlib.h>
 
-void	list_directory_args(t_prgm *glob, t_list *dir_lst, int flag)
+void	list_directory_args(t_prgm *glob, t_list *dir_lst)
 {
 	DIR			*current;
 	t_status	*tmp;
@@ -22,11 +22,11 @@ void	list_directory_args(t_prgm *glob, t_list *dir_lst, int flag)
 	{
 		tmp = (t_status *)(dir_lst->data);
 		if ((current = opendir(tmp->path)))
-			listonedir(glob, current, tmp, flag);
+			listonedir(glob, current, tmp);
 		else
 			error(tmp);
-		dir_lst = dir_lst->next;
-		flag++;
+		if ((dir_lst = dir_lst->next))
+			ft_putchar('\n');
 	}
 }
 
@@ -70,10 +70,9 @@ int		list_files(t_prgm *glob)
 	sort_list(&dir, glob);
 	sort_list(&file, glob);
 	output_handler(file, glob);
-	flag += file ? 1 : 0;
-	if (dir)
-		flag += dir->next ? 1 : 0;
-	list_directory_args(glob, dir, flag);
+	if ((glob->args_count = glob->args->next ? 1 : 0) && dir && file)
+		ft_putchar('\n');
+	list_directory_args(glob, dir);
 	ft_lstdel(&file, del_node);
 	ft_lstdel(&dir, del_node);
 	return (0);

@@ -6,25 +6,20 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 07:04:00 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 00:11:06 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/01 11:55:14 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void		listonedir(t_prgm *glob, DIR *current,  t_status *tmp, int flag)
+void		listonedir(t_prgm *glob, DIR *current,  t_status *tmp)
 {
-	if (flag == 0)
-		glob->dir[0] = '\0';
-	else
-		ft_strcpy(glob->dir, tmp->path);
+	ft_strcpy(glob->dir, tmp->path);
 	create_list(current, tmp->path, &tmp->dirlist, glob);
 	sort_list(&tmp->dirlist, glob);
 	if (tmp->dirlist)
 	{
 		output_handler(tmp->dirlist, glob);
-		if (flag >= 2 && glob->args_count <= 0 && S_ISDIR(tmp->info.st_mode))
-			ft_putchar('\n');
 		if (glob->option & LS_RR)
 			listalldir(glob, tmp->dirlist, NULL);
 		ft_lstdel(&(tmp->dirlist), del_node);
@@ -43,7 +38,10 @@ int			listalldir(t_prgm *glob, t_list *files_list, t_status *tmp)
 		if (flag && !ft_strequ(tmp->name, ".") && !ft_strequ(tmp->name, ".."))
 		{
 			if ((current = opendir(tmp->path)))
-				listonedir(glob, current, tmp, 2);
+			{
+				ft_putchar('\n');
+				listonedir(glob, current, tmp);
+			}
 			else
 				error(tmp);
 		}

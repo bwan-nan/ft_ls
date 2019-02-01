@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 11:09:11 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 11:35:00 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,24 @@ typedef enum			e_opt
 
 typedef struct			s_status
 {
+	t_stat				info;
+	t_group				group;
 	char				*path;
 	char				*name;
 	char				*dir;
 	t_list				*dirlist;
-	t_stat				info;
-	t_group				group;
 }						t_status;
 
 typedef struct			s_prgm
 {
-	unsigned int		option;
-	char				optopt;
+	char				dir[DIR_MAX];
 	char				*pwd;
 	char				*home;
 	char				*colors;
 	t_list				*args;
-	int				args_count;
-	char				dir[DIR_MAX];
+	int					args_count;
+	unsigned int		option;
+	char				optopt;
 }						t_prgm;
 
 typedef struct			s_display
@@ -89,8 +89,7 @@ typedef struct			s_display
 	t_winsize			window;
 }						t_display;
 
-void					listonedir(t_prgm *glob, DIR *current,\
-						t_status *tmp, int flag);
+void					listonedir(t_prgm *glob, DIR *current, t_status *tmp);
 int						listalldir(t_prgm *glob,\
 						t_list *files_list, t_status *tmp);
 int						list_directory(t_prgm *glob, char *path);
