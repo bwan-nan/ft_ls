@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/30 23:59:06 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 11:05:43 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ int		list_files(t_prgm *glob)
 	generate_lists(glob, &file, &dir);
 	output_handler(file, glob);
 	flag += file ? 1 : 0;
-	flag += dir->next ? 1 : 0;
+	if (dir)
+		flag += dir->next ? 1 : 0;
 	list_directory_args(glob, dir, flag);
+	ft_lstdel(&file, del_node);
+	ft_lstdel(&dir, del_node);
 	return (0);
 }
