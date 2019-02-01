@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 23:07:43 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 11:42:33 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 14:53:00 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,21 @@ void	list_directory_args(t_prgm *glob, t_list *dir_lst)
 {
 	DIR			*current;
 	t_status	*tmp;
+	t_list		*dir;
 
+	dir = dir_lst;
 	while (dir_lst)
 	{
 		tmp = (t_status *)(dir_lst->data);
 		if ((current = opendir(tmp->path)))
+		{
+			if (dir != dir_lst)
+				ft_putchar('\n');
 			listonedir(glob, current, tmp);
+		}
 		else
-			error(tmp);
-		if ((dir_lst = dir_lst->next))
-			ft_putchar('\n');
+			error(glob, tmp);
+		dir_lst = dir_lst->next;
 	}
 }
 
@@ -52,7 +57,10 @@ void	generate_lists(t_prgm *glob, t_list **file, t_list **dir)
 			ft_asprintf(&tmp.path, "./%s", tmp.name);
 		else
 			ft_asprintf(&tmp.path, "%s", (char *)args->data);
-		lstat(tmp.path, &tmp.info) == 0 ? valid_arg(&tmp, file, dir) : error(&tmp);
+		if(lstat(tmp.path, &tmp.info) == 0)
+			valid_arg(&tmp, file, dir);
+		else
+			error(glob, &tmp);
 		args = args->next;
 	}
 }

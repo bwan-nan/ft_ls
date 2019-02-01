@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 07:04:00 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 11:55:14 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 15:08:24 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,13 @@ int			listalldir(t_prgm *glob, t_list *files_list, t_status *tmp)
 		{
 			if ((current = opendir(tmp->path)))
 			{
-				ft_putchar('\n');
 				listonedir(glob, current, tmp);
 			}
 			else
-				error(tmp);
+			{
+				ft_putchar('\n');
+				error(glob, tmp);
+			}
 		}
 		files_list = files_list->next;
 	}
