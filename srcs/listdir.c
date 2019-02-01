@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 07:04:00 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 15:32:54 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 17:12:21 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void		listonedir(t_prgm *glob, DIR *current,  t_status *tmp)
 		if (glob->args_count == 2)
 			ft_putchar('\n');
 		output_handler(tmp->dirlist, glob);
-		ft_putchar('\n');
 		if (glob->option & LS_RR)
 			listalldir(glob, tmp->dirlist, NULL);
 		ft_lstdel(&(tmp->dirlist), del_node);
@@ -29,29 +28,26 @@ void		listonedir(t_prgm *glob, DIR *current,  t_status *tmp)
 	closedir(current);
 }
 
-int			listalldir(t_prgm *glob, t_list *files_list, t_status *tmp)
+int			listalldir(t_prgm *glob, t_list *lst, t_status *tmp)
 {
 	DIR			*current;
 	int			flag;
 
-	while (files_list && (tmp = (t_status *)(files_list->data)))
+	while (lst && (tmp = (t_status *)(lst->data)))
 	{
 		flag = S_ISDIR(tmp->info.st_mode);
 		if (flag && !ft_strequ(tmp->name, ".") && !ft_strequ(tmp->name, ".."))
 		{
 			ft_strcpy(glob->dir, tmp->path);
 			if ((current = opendir(tmp->path)))
-			{
 				listonedir(glob, current, tmp);
-			}
 			else
 			{
-				ft_putchar('\n');
 				ft_putchar('\n');
 				error(glob, tmp);
 			}
 		}
-		files_list = files_list->next;
+		lst = lst->next;
 	}
 	return (0);
 }

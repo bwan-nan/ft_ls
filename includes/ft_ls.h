@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 14:24:02 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 17:24:35 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,20 +94,22 @@ typedef struct			s_display
 }						t_display;
 
 void					listonedir(t_prgm *glob, DIR *current, t_status *tmp);
-int						listalldir(t_prgm *glob,\
-						t_list *files_list, t_status *tmp);
+int						listalldir(t_prgm *glob, t_list *lst, t_status *tmp);
 int						list_directory(t_prgm *glob, char *path);
 int						list_files(t_prgm *glob);
 
 void					error(t_prgm *glob, t_status *info);
-void					output_handler(t_list *files_list, t_prgm *glob);
 void					long_output(t_list *files_list, t_prgm *glob);
-void					line_display(t_prgm *glob, t_status *file,\
-						t_display *info);
+void					basic_output(t_list *lst, t_prgm *glob);
+void					list_output(t_list *files_list, t_prgm *glob);
+void					commas_output(t_list *files_list, t_prgm *glob);
+
+void					long_padding(t_list *lst, t_display *info);
 void					basic_padding(t_list *lst, t_display *info);
-void					basic_default(t_prgm *glob, t_list *lst,\
+void					print_basic(t_list *lst, t_display *info);
+void					print_comma(t_list *files_list, t_display *info);
+void					print_line(t_prgm *glob, t_status *file,\
 						t_display *info);
-void					padding(t_list *lst, t_display *info);
 
 void					del_node(void **data);
 int						create_list(DIR *current, char *path,
@@ -125,9 +127,13 @@ void					sort_list(t_list **files_list, t_prgm *glob);
 int						sort_ascii(void *a, void *b);
 int						sort_time_modified(void *a, void *b);
 int						sort_last_access(void *a, void *b);
-int						sort_by_size(void *a, void *b);
+int						sort_size(void *a, void *b);
 
-void					list_with_commas(t_list *files_list, t_prgm *glob);
+size_t					nbrlen(int nbr);
+void					init_display(t_display *info);
+void					symbolic_link(t_status *file, char *permissions);
+char					get_file_type(int mode);
+void					output_handler(t_list *files_list, t_prgm *glob);
 
 
 int					ft_strrchr_index(const char *str, char c);
