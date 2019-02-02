@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:49:01 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 20:58:56 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/02 18:33:34 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ unsigned int		options(int ac, char **av, t_prgm *glob)
 	opt['R'] = E_RR;
 	opt['a'] = E_A;
 	opt['t'] = E_T;
-	opt['u'] = E_U;
+	opt['G'] = E_G;
 	opt['m'] = E_M;
 	opt['S'] = E_S;
 	opt['r'] = E_R;
@@ -56,16 +56,27 @@ unsigned int		options(int ac, char **av, t_prgm *glob)
 	return (get_option(ac, av, opt, glob));
 }
 
-unsigned int		get_env(char **env, t_prgm *glob)
+void			get_color(t_prgm *glob, t_status *file)
 {
-	int		i;
-
-	i = 0;
-	while (env[i])
+	if (glob->option & LS_G)
 	{
-		if (ft_strnequ(env[i], "LSCOLORS=", 8))
-			glob->colors = ft_strsub(env[i], 9, ft_strlen(&env[i][4]));
-		i++;
+		if (S_ISDIR(file->info.st_mode))
+			ft_strcpy(glob->color, DCLR);
+		else if (S_ISLNK(file->info.st_mode))
+			ft_strcpy(glob->color, LCLR);
+		else if (S_ISFIFO(file->info.st_mode))
+			ft_strcpy(glob->color, FCLR);
+		else if (S_ISSOCK(file->info.st_mode))
+			ft_strcpy(glob->color, SCLR);
+		else if (S_ISCHR(file->info.st_mode))
+			ft_strcpy(glob->color, CCLR);
+		else if (S_ISBLK(file->info.st_mode))
+			ft_strcpy(glob->color, DCLR);
+		else if (file->info.st_mode & S_IXUSR\
+			&& file->info.st_mode &S_IXGRP\
+			&& file->info.st_mode & S_IXOTH)
+			ft_strcpy(glob->color, XCLR);
+		else
+			ft_strcpy(glob->color, GREY);
 	}
-	return (1);
 }

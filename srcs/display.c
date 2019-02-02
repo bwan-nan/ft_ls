@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/01 21:53:24 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/02 19:22:01 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	commas_output(t_list *files_list, t_prgm *glob)
 				next = (t_status *)(files_list->next->data);
 			if (next)
 				info.size = ft_strlen(next->name);
-			print_commas(files_list, &info);
+			print_commas(glob, files_list, &info);
 			files_list = files_list->next;
 		}
 	}
