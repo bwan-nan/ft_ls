@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:49:01 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/02 18:33:34 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/02 19:37:01 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void			get_color(t_prgm *glob, t_status *file)
 		else if (S_ISCHR(file->info.st_mode))
 			ft_strcpy(glob->color, CCLR);
 		else if (S_ISBLK(file->info.st_mode))
-			ft_strcpy(glob->color, DCLR);
+			ft_strcpy(glob->color, BCLR);
 		else if (file->info.st_mode & S_IXUSR\
 			&& file->info.st_mode &S_IXGRP\
 			&& file->info.st_mode & S_IXOTH)
