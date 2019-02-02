@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/02 17:57:17 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/02 20:04:49 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,19 @@ void	symbolic_link(t_status *file)
 {
 	char	buf[DIR_MAX];
 
-	if (S_ISLNK(file->info.st_mode))
+	if (ft_strequ(file->name, "stderr"))
+		ft_putstr("-> fd/2");
+	else if (ft_strequ(file->name, "stdin"))
+		ft_putstr("-> fd/0");
+	else if (ft_strequ(file->name, "stdout"))
+		ft_putstr("-> fd/1");
+	else if (S_ISLNK(file->info.st_mode))
 	{
 		readlink(file->path, buf, file->info.st_size);
 		buf[file->info.st_size] = '\0';
 		ft_printf(" -> %*s", file->info.st_size, buf);
 	}
+
 }
 
 char	*getchmod(t_status *file)
