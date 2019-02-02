@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/02 14:09:21 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/02 17:57:17 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ char	*getchmod(t_status *file)
 	perm[7] = file->info.st_mode & S_IROTH ? 'r' : '-';
 	perm[8] = file->info.st_mode & S_IWOTH ? 'w' : '-';
 	perm[9] = file->info.st_mode & S_IXOTH ? 'x' : '-';
-	perm[10] = listxattr(file->path, NULL, 0, XATTR_NOFOLLOW) ? '@' : '\0';
+	perm[10] = acl_get_link_np(file->path, ACL_TYPE_EXTENDED) ? '+' : '\0';
+	perm[10] = listxattr(file->path, NULL, 0, XATTR_NOFOLLOW) ? '@' : perm[10];
 	perm[11] = '\0';
 	return (ft_strdup(perm));
 }

@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/01 21:54:47 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/02 19:28:40 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	long_padding(t_list *lst, t_display *i, t_status *tmp, size_t len)
 				i->maj_len = len;
 			if ((len = nbrlen(minor(tmp->info.st_rdev))) > i->min_len)
 				i->min_len = len;
-			i->size = i->min_len + i->maj_len + 5;
+			i->size = i->min_len + i->maj_len + 2;
 		}
 		else if ((len = nbrlen(tmp->info.st_size)) > i->size)
 			i->size = len;
@@ -80,16 +80,19 @@ void	print_basic(t_list *lst, t_display *info)
 	}
 }
 
-void	print_commas(t_list *files_list, t_display *info)
+void	print_commas(t_prgm *glob, t_list *files_list, t_display *info)
 {
 	t_status	*tmp;
 	size_t		len;
+	size_t		color_len;
 
 	len = 0;
 	tmp = (t_status *)(files_list->data);
+	get_color(glob, tmp);
+	color_len = ft_strlen(glob->color) + 6;
 	if (files_list->next)
 	{
-		info->printed += ft_printf("%s, ", tmp->name);
+		info->printed += ft_printf("%s%s, ", glob->color, tmp->name) - color_len;
 		if (info->printed + 2 + info->size > info->window.ws_col)
 		{
 			ft_putchar('\n');
@@ -102,25 +105,28 @@ void	print_commas(t_list *files_list, t_display *info)
 
 void	print_line(t_prgm *glob, t_status *file, t_display *info)
 {
+	get_color(glob, file);
 	info->time = glob->option & LS_TT ? 20 : 12;
 	if (S_ISCHR(file->info.st_mode) || S_ISBLK(file->info.st_mode))
 	{
-		ft_printf("%*s  %-*d %-*s  %-*s  %*d, %*d %.*s %s"
+		ft_printf("%*s  %-*d %-*s  %-*s  %*d, %*d %.*s %s%s\033[0m"
 				, info->ch_len, file->chmod, info->nlink, file->info.st_nlink
 				, info->pw_len, (getpwuid(file->info.st_uid))->pw_name
 				, info->gr_len, (getgrgid(file->info.st_gid))->gr_name
 				, info->maj_len, major(file->info.st_rdev)
 				, info->min_len, minor(file->info.st_rdev)
-				, info->time, ctime(&file->info.st_mtime) + 4, file->name);
+				, info->time, ctime(&file->info.st_mtime) + 4
+				, glob->color, file->name);
 	}
 	else
 	{
-		ft_printf("%-*s  %-*d %-*s  %-*s  %*d %.*s %s"
+		ft_printf("%-*s  %-*d %-*s  %-*s  %*d %.*s %s%s\033[0m"
 				, info->ch_len, file->chmod, info->nlink, file->info.st_nlink
 				, info->pw_len, (getpwuid(file->info.st_uid))->pw_name
 				, info->gr_len, (getgrgid(file->info.st_gid))->gr_name
 				, info->size, file->info.st_size
-				, info->time, ctime(&file->info.st_mtime) + 4, file->name);
+				, info->time, ctime(&file->info.st_mtime) + 4
+				, glob->color, file->name);
 	}
 	symbolic_link(file);
 }

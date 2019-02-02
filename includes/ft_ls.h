@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/02 13:11:54 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/02 19:27:23 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,28 @@
 # include <uuid/uuid.h>
 # include <unistd.h>
 
-# define OPTION		"1RSTalmrtu"
+# define OPTION		"1GGRSTalmrt"
 # define LS_L		1
 # define LS_1		2
 # define LS_RR		4
 # define LS_A		8
 # define LS_T		16
-# define LS_U		32
+# define LS_G		32
 # define LS_M		64
 # define LS_S		128
 # define LS_R		256
 # define LS_TT		512
 
 # define DIR_MAX	4096
+
+# define GREY		"\033[0;37m"
+# define DCLR		"\033[1;96m"
+# define XCLR		"\033[31m"
+# define CCLR		"\033[103;34m"
+# define BCLR		"\033[46;34m"
+# define LCLR		"\033[35m"
+# define FCLR		"\033[33m"
+# define SCLR		"\033[32m"
 
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
@@ -52,7 +61,7 @@ typedef enum			e_opt
 	E_RR = LS_RR,
 	E_A = LS_A,
 	E_T = LS_T,
-	E_U = LS_U,
+	E_G = LS_G,
 	E_M = LS_M,
 	E_S = LS_S,
 	E_R = LS_R,
@@ -72,7 +81,7 @@ typedef struct			s_status
 typedef struct			s_prgm
 {
 	char				dir[DIR_MAX];
-	char				*colors;
+	char				*color;
 	t_list				*args;
 	int					args_count;
 	unsigned int		option;
@@ -107,7 +116,7 @@ void					commas_output(t_list *files_list, t_prgm *glob);
 
 void					basic_padding(t_list *lst, t_display *info);
 void					print_basic(t_list *lst, t_display *info);
-void					print_commas(t_list *files_list, t_display *info);
+void					print_commas(t_prgm *glob, t_list *files_list, t_display *info);
 void					print_line(t_prgm *glob, t_status *file,\
 						t_display *info);
 void					long_padding(t_list *lst, t_display *info,\
@@ -126,6 +135,7 @@ void					sort_list(t_list **files_list, t_prgm *glob);
 
 size_t					nbrlen(int nbr);
 char					*getchmod(t_status *file);
+void					get_color(t_prgm *glob, t_status *file);
 void					init_display(t_display *info);
 void					symbolic_link(t_status *file);
 void					output_handler(t_list *files_list, t_prgm *glob);
