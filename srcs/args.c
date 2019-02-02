@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:49:01 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 20:58:56 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/02 22:18:50 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ unsigned int		options(int ac, char **av, t_prgm *glob)
 	opt['R'] = E_RR;
 	opt['a'] = E_A;
 	opt['t'] = E_T;
-	opt['u'] = E_U;
+	opt['G'] = E_G;
 	opt['m'] = E_M;
 	opt['S'] = E_S;
 	opt['r'] = E_R;
@@ -64,7 +64,7 @@ unsigned int		get_env(char **env, t_prgm *glob)
 	while (env[i])
 	{
 		if (ft_strnequ(env[i], "LSCOLORS=", 8))
-			glob->colors = ft_strsub(env[i], 9, ft_strlen(&env[i][4]));
+			glob->ls_colors = ft_strsub(env[i], 9, ft_strlen(&env[i][4]));
 		i++;
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/02 19:28:15 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/03 00:31:37 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	basic_output(t_list *lst, t_prgm *glob)
 	tmp = (t_status *)lst->data;
 	if (glob->args_count)
 		ft_printf("%s:\n", glob->dir);
-	print_basic(lst, &info);
+	print_basic(glob, lst, &info);
 	glob->args_count = 2;
 	ft_putchar('\n');
 }
@@ -92,7 +92,7 @@ void	commas_output(t_list *file, t_prgm *glob)
 		{
 			if (file->next && (next = (t_status *)(file->next->data)))
 				info.size = ft_strlen((char *)next->name);
-			print_commas(file, &info);
+			print_commas(glob, file, &info);
 			file = file->next;
 		}
 	}
