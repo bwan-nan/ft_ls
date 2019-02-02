@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/02 19:52:26 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/02 22:14:58 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # define LS_TT		512
 
 # define DIR_MAX	4096
+# define SIX_MONTHS	15780000
 
 # define GREY		"\033[0;37m"
 # define DCLR		"\033[1;96m"
@@ -102,6 +103,7 @@ typedef struct			s_display
 	size_t				maj_len;
 	size_t				min_len;
 	size_t				time;
+	size_t				time2;
 }						t_display;
 
 int						listalldir(t_prgm *glob, t_list *lst, t_status *tmp);
@@ -140,4 +142,8 @@ void					init_display(t_display *info);
 void					symbolic_link(t_status *file);
 void					output_handler(t_list *files_list, t_prgm *glob);
 
+
+void					time_format(t_prgm *glob, t_display *info, time_t timestamp);
+void					print_device_line(t_prgm *glob, t_status *file, t_display *info);
+void					print_regular_line(t_prgm *glob, t_status *file, t_display *info);
 #endif
