@@ -6,58 +6,69 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 10:03:03 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/02 13:39:59 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/02 18:08:51 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	generate_lists(t_prgm *glob, t_list **file, t_list **dir)
+void	init_status(t_status *info)
 {
-	t_list		*args;
-	t_status	tmp;
+	info->path = NULL;
+	info->name = NULL;
+	info->chmod = NULL;
+	info->grp = NULL;
+	info->pwd = NULL;
+	info->dirlist = NULL;
+}
 
-	args = glob->args;
-	while (args && !(tmp.path = NULL))
+void	generate_lists(t_prgm *glob, t_list *args, t_list **file, t_list **dir)
+{
+	if (!args)
+		return ;
+	init_status(&glob->tmp);
+	glob->tmp.name = ft_strdup((char *)args->data);
+	glob->tmp.path = ft_strdup(glob->tmp.name);
+	if (lstat((char *)args->data, &glob->tmp.info) == 0)
 	{
-		tmp.dirlist = NULL;
-		tmp.chmod = NULL;
-		tmp.name = ft_strdup((char *)args->data);
-		ft_asprintf(&tmp.path, "%s", (char *)args->data);
-		if (lstat(tmp.path, &tmp.info) == 0)
+		if (glob->option & LS_L)
 		{
-			if (glob->option & LS_L)
-				tmp.chmod = getchmod(&tmp);
-			if (!S_ISDIR(tmp.info.st_mode))
-				ft_lstaddback(file, ft_lstnew(&tmp, sizeof(t_status)));
-			else if (S_ISDIR(tmp.info.st_mode))
-				ft_lstaddback(dir, ft_lstnew(&tmp, sizeof(t_status)));
+			glob->tmp.chmod = getchmod(&glob->tmp);
+			if ((glob->holder = getgrgid(glob->tmp.info.st_gid)))
+				glob->tmp.grp = ft_strdup(((t_group *)glob->holder)->gr_name);
+			if ((glob->holder = getpwuid(glob->tmp.info.st_uid)))
+				glob->tmp.pwd = ft_strdup(((t_passwd *)glob->holder)->pw_name);
 		}
+		if (S_ISDIR(glob->tmp.info.st_mode))
+			ft_lstaddback(dir, ft_lstnew(&glob->tmp, sizeof(t_status)));
 		else
-			error(glob, &tmp);
-		args = args->next;
+			ft_lstaddback(file, ft_lstnew(&glob->tmp, sizeof(t_status)));
 	}
+	else
+		error(glob, &glob->tmp);
+	return (generate_lists(glob, args->next, file, dir));
 }
 
 int		create_list(DIR *current, char *path, t_list **files_list, t_prgm *glob)
 {
-	t_status	file;
-	t_dirent	*get_file;
-
-	if (!(get_file = readdir(current)))
+	if (!(glob->holder = (void *)readdir(current)))
 		return (1);
-	if (!(glob->option & LS_A) && get_file->d_name[0] == '.')
+	if (!(glob->option & LS_A) && ((t_dirent *)glob->holder)->d_name[0] == '.')
 		return (create_list(current, path, files_list, glob));
-	file.chmod = NULL;
-	file.path = NULL;
-	file.dirlist = NULL;
-	file.name = NULL;
-	ft_asprintf(&file.path, "%s/%s", path, get_file->d_name);
-	lstat(file.path, &file.info);
-	file.name = ft_strdup(get_file->d_name);
+	init_status(&glob->tmp);
+	ft_asprintf(&glob->tmp.path, "%s/%s", path
+			, ((t_dirent *)glob->holder)->d_name);
+	lstat(glob->tmp.path, &glob->tmp.info);
+	glob->tmp.name = ft_strdup(((t_dirent *)glob->holder)->d_name);
 	if (glob->option & LS_L)
-		file.chmod = getchmod(&file);
-	ft_lstaddback(files_list, ft_lstnew(&file, sizeof(t_status)));
+	{
+		glob->tmp.chmod = getchmod(&glob->tmp);
+		if ((glob->holder = getgrgid(glob->tmp.info.st_gid)))
+			glob->tmp.grp = ft_strdup(((t_group *)glob->holder)->gr_name);
+		if ((glob->holder = getpwuid(glob->tmp.info.st_uid)))
+			glob->tmp.pwd = ft_strdup(((t_passwd *)glob->holder)->pw_name);
+	}
+	ft_lstaddback(files_list, ft_lstnew(&glob->tmp, sizeof(t_status)));
 	return (create_list(current, path, files_list, glob));
 }
 
@@ -74,4 +85,8 @@ void	del_node(void **data)
 		ft_strdel(&tmp->name);
 	if (tmp->chmod)
 		ft_strdel(&tmp->chmod);
+	if (tmp->grp)
+		ft_strdel(&tmp->grp);
+	if (tmp->pwd)
+		ft_strdel(&tmp->pwd);
 }

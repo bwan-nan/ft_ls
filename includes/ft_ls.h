@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/02 13:11:54 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/02 18:02:12 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
 typedef struct passwd	t_passwd;
 typedef struct winsize	t_winsize;
+typedef struct group	t_group;
 
 typedef enum			e_opt
 {
@@ -66,15 +67,19 @@ typedef struct			s_status
 	char				*path;
 	char				*name;
 	char				*chmod;
+	char				*grp;
+	char				*pwd;
 	t_list				*dirlist;
 }						t_status;
 
 typedef struct			s_prgm
 {
+	t_status			tmp;
 	char				dir[DIR_MAX];
 	char				*colors;
 	t_list				*args;
 	int					args_count;
+	void				*holder;
 	unsigned int		option;
 	char				optopt;
 }						t_prgm;
@@ -114,8 +119,8 @@ void					long_padding(t_list *lst, t_display *info,\
 						t_status *tmp, size_t len);
 
 void					del_node(void **data);
-void					generate_lists(t_prgm *glob, t_list **file,\
-						t_list **dir);
+void					generate_lists(t_prgm *glob, t_list *args,\
+						t_list **file, t_list **dir);
 int						create_list(DIR *current, char *path,
 						t_list **files_list, t_prgm *glob);
 

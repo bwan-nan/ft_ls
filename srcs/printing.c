@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/01 21:54:47 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/02 18:06:14 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	long_padding(t_list *lst, t_display *i, t_status *tmp, size_t len)
 			i->ch_len = len;
 		if ((len = nbrlen(tmp->info.st_nlink)) > i->nlink)
 			i->nlink = len;
-		if ((len = ft_strlen(getpwuid(tmp->info.st_uid)->pw_name)) > i->pw_len)
+		if ((len = ft_strlen(tmp->pwd)) > i->pw_len)
 			i->pw_len = len;
-		if ((len = ft_strlen(getgrgid(tmp->info.st_gid)->gr_name)) > i->gr_len)
+		if ((len = ft_strlen(tmp->grp)) > i->gr_len)
 			i->gr_len = len;
 		if (S_ISCHR(tmp->info.st_mode))
 		{
@@ -105,22 +105,20 @@ void	print_line(t_prgm *glob, t_status *file, t_display *info)
 	info->time = glob->option & LS_TT ? 20 : 12;
 	if (S_ISCHR(file->info.st_mode) || S_ISBLK(file->info.st_mode))
 	{
-		ft_printf("%*s  %-*d %-*s  %-*s  %*d, %*d %.*s %s"
+		ft_printf("%*s %*d %-*s  %-*s  %*d, %*d %.*s %s"
 				, info->ch_len, file->chmod, info->nlink, file->info.st_nlink
-				, info->pw_len, (getpwuid(file->info.st_uid))->pw_name
-				, info->gr_len, (getgrgid(file->info.st_gid))->gr_name
-				, info->maj_len, major(file->info.st_rdev)
-				, info->min_len, minor(file->info.st_rdev)
-				, info->time, ctime(&file->info.st_mtime) + 4, file->name);
+				, info->pw_len, file->pwd , info->gr_len, file->grp
+				, info->maj_len, major(file->info.st_rdev), info->min_len
+				, minor(file->info.st_rdev), info->time
+				, ctime(&file->info.st_mtime) + 4, file->name);
 	}
 	else
 	{
-		ft_printf("%-*s  %-*d %-*s  %-*s  %*d %.*s %s"
+		ft_printf("%-*s %*d %-*s  %-*s  %*d %.*s %s"
 				, info->ch_len, file->chmod, info->nlink, file->info.st_nlink
-				, info->pw_len, (getpwuid(file->info.st_uid))->pw_name
-				, info->gr_len, (getgrgid(file->info.st_gid))->gr_name
-				, info->size, file->info.st_size
-				, info->time, ctime(&file->info.st_mtime) + 4, file->name);
+				, info->pw_len, file->pwd, info->gr_len, file->grp, info->size
+				, file->info.st_size, info->time
+				, ctime(&file->info.st_mtime) + 4, file->name);
 	}
 	symbolic_link(file);
 }
