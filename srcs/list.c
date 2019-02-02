@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 10:03:03 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/02 13:13:20 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/02 13:39:59 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	generate_lists(t_prgm *glob, t_list **file, t_list **dir)
 	}
 }
 
-
 int		create_list(DIR *current, char *path, t_list **files_list, t_prgm *glob)
 {
 	t_status	file;
@@ -55,6 +54,7 @@ int		create_list(DIR *current, char *path, t_list **files_list, t_prgm *glob)
 	file.name = NULL;
 	ft_asprintf(&file.path, "%s/%s", path, get_file->d_name);
 	lstat(file.path, &file.info);
+	file.name = ft_strdup(get_file->d_name);
 	if (glob->option & LS_L)
 		file.chmod = getchmod(&file);
 	ft_lstaddback(files_list, ft_lstnew(&file, sizeof(t_status)));
