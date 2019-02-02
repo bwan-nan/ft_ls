@@ -6,7 +6,7 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/01/30 12:45:29 by cempassi         ###   ########.fr        #
+#    Updated: 2019/02/01 19:15:38 by cempassi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,18 +35,15 @@ LPATH = libft/
 LIPATH = libft/includes/
 
 INCS += ft_ls.h 
+
 SRCS += main.c
 SRCS += args.c
-SRCS += listargs.c
-SRCS += listdir.c
-SRCS += display.c
-SRCS += basic_formating.c
-SRCS += display_options.c
-SRCS += formatting.c
 SRCS += list.c
-SRCS += sort_list.c
-SRCS += merge_sort.c
-SRCS += sort_options.c
+SRCS += listing.c
+SRCS += display.c
+SRCS += printing.c
+SRCS += formatting.c
+SRCS += sorting.c
 
 DSYM = $(NAME).dSYM
 

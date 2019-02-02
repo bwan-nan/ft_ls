@@ -6,13 +6,13 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:49:01 by cempassi          #+#    #+#             */
-/*   Updated: 2019/01/30 21:11:54 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 20:58:56 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-unsigned int	get_option(int ac, char **av, t_opt *opt, t_prgm *glob)
+static unsigned int	get_option(int ac, char **av, t_opt *opt, t_prgm *glob)
 {
 	int				c;
 	unsigned int	option;
@@ -39,7 +39,7 @@ unsigned int	get_option(int ac, char **av, t_opt *opt, t_prgm *glob)
 	return (option);
 }
 
-unsigned int	options(int ac, char **av, t_prgm *glob)
+unsigned int		options(int ac, char **av, t_prgm *glob)
 {
 	t_opt		opt[127];
 
@@ -56,17 +56,13 @@ unsigned int	options(int ac, char **av, t_prgm *glob)
 	return (get_option(ac, av, opt, glob));
 }
 
-unsigned int	get_env(char **env, t_prgm *glob)
+unsigned int		get_env(char **env, t_prgm *glob)
 {
 	int		i;
 
 	i = 0;
 	while (env[i])
 	{
-		if (ft_strnequ(env[i], "PWD=", 4))
-			glob->pwd = ft_strsub(env[i], 4, ft_strlen(env[i]));
-		if (ft_strnequ(env[i], "HOME=", 5))
-			glob->home = ft_strsub(env[i], 5, ft_strlen(&env[i][3]) - 1);
 		if (ft_strnequ(env[i], "LSCOLORS=", 8))
 			glob->colors = ft_strsub(env[i], 9, ft_strlen(&env[i][4]));
 		i++;

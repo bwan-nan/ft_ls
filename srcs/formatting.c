@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   formatting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/28 21:03:48 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/01 21:42:56 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <sys/xattr.h>
 
-static size_t	nbrlen(int nbr)
+size_t	nbrlen(int nbr)
 {
 	if (nbr >= 1000000000)
 		return (10);
@@ -35,63 +36,68 @@ static size_t	nbrlen(int nbr)
 	return (1);
 }
 
-static char		get_file_type(int mode)
+void	init_display(t_display *info)
 {
-	if (S_ISREG(mode))
-		return ('-');
-	else if (S_ISDIR(mode))
-		return ('d');
-	else if (S_ISCHR(mode))
-		return ('c');
-	else if (S_ISBLK(mode))
-		return ('b');
-	else if (S_ISFIFO(mode))
-		return ('f');
-	else if (S_ISLNK(mode))
-		return ('l');
-	else
-		return ('s');
+	info->width = 15;
+	info->total = 0;
+	info->printed = 0;
+	info->nlink = 0;
+	info->size = 0;
+	info->pw_len = 0;
+	info->gr_len = 0;
+	info->maj_len = 0;
+	info->min_len = 0;
 }
 
-void			padding(t_list *lst, size_t *nlink, size_t *size, size_t *total)
+void	symbolic_link(t_status *file)
 {
-	t_status	*tmp;
-	size_t		len;
+	char	buf[DIR_MAX];
 
-	while (lst)
+	if (S_ISLNK(file->info.st_mode))
 	{
-		tmp = (t_status *)(lst->data);
-		if ((len = nbrlen(tmp->info.st_nlink)) > *nlink)
-			*nlink = len;
-		if ((len = nbrlen(tmp->info.st_size)) > *size)
-			*size = len;
-		*total += tmp->info.st_blocks;
-		lst = lst->next;
+		readlink(file->path, buf, file->info.st_size);
+		buf[file->info.st_size] = '\0';
+		ft_printf(" -> %*s", file->info.st_size, buf);
 	}
 }
 
-void			line_display(t_prgm *glob, t_status *file,\
-				size_t nlink, size_t size)
+char	*getchmod(t_status *file)
 {
-	char	permissions[11];
+	char	perm[12];
 
-	permissions[0] = get_file_type(file->info.st_mode);
-	permissions[1] = file->info.st_mode & S_IRUSR ? 'r' : '-';
-	permissions[2] = file->info.st_mode & S_IWUSR ? 'w' : '-';
-	permissions[3] = file->info.st_mode & S_IXUSR ? 'x' : '-';
-	permissions[4] = file->info.st_mode & S_IRGRP ? 'r' : '-';
-	permissions[5] = file->info.st_mode & S_IWGRP ? 'w' : '-';
-	permissions[6] = file->info.st_mode & S_IXGRP ? 'x' : '-';
-	permissions[7] = file->info.st_mode & S_IROTH ? 'r' : '-';
-	permissions[8] = file->info.st_mode & S_IWOTH ? 'w' : '-';
-	permissions[9] = file->info.st_mode & S_IXOTH ? 'x' : '-';
-	permissions[10] = '\0';
-	ft_printf("%s  %*d %s  %s  %*d %.*s %s\n"
-			, permissions
-			, nlink, file->info.st_nlink
-			, (getpwuid(file->info.st_uid))->pw_name
-			, (getgrgid(file->info.st_gid))->gr_name
-			, size, file->info.st_size
-			, glob->option & LS_TT ? 20 : 12, ctime(&file->info.st_mtime) + 4
-			, file->name);
+	perm[0] = '\0';
+	perm[0] = !*perm && S_ISREG(file->info.st_mode) ? '-' : *perm;
+	perm[0] = !*perm && S_ISDIR(file->info.st_mode) ? 'd' : *perm;
+	perm[0] = !*perm && S_ISCHR(file->info.st_mode) ? 'c' : *perm;
+	perm[0] = !*perm && S_ISBLK(file->info.st_mode) ? 'b' : *perm;
+	perm[0] = !*perm && S_ISLNK(file->info.st_mode) ? 'l' : *perm;
+	perm[0] = !*perm && S_ISFIFO(file->info.st_mode) ? 'f' : *perm;
+	perm[0] = !*perm ? 's' : *perm;
+	perm[1] = file->info.st_mode & S_IRUSR ? 'r' : '-';
+	perm[2] = file->info.st_mode & S_IWUSR ? 'w' : '-';
+	perm[3] = file->info.st_mode & S_IXUSR ? 'x' : '-';
+	perm[4] = file->info.st_mode & S_IRGRP ? 'r' : '-';
+	perm[5] = file->info.st_mode & S_IWGRP ? 'w' : '-';
+	perm[6] = file->info.st_mode & S_IXGRP ? 'x' : '-';
+	perm[7] = file->info.st_mode & S_IROTH ? 'r' : '-';
+	perm[8] = file->info.st_mode & S_IWOTH ? 'w' : '-';
+	perm[9] = file->info.st_mode & S_IXOTH ? 'x' : '-';
+	perm[10] = listxattr(file->path, NULL, 0, XATTR_NOFOLLOW) ? '@' : '\0';
+	perm[11] = '\0';
+	return (ft_strdup(perm));
+}
+
+void	output_handler(t_list *files_list, t_prgm *glob)
+{
+	if (files_list)
+	{
+		if (glob->option & LS_L)
+			long_output(files_list, glob);
+		else if (glob->option & LS_1)
+			list_output(files_list, glob);
+		else if (glob->option & LS_M)
+			commas_output(files_list, glob);
+		else
+			basic_output(files_list, glob);
+	}
 }

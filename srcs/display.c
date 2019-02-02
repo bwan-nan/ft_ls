@@ -6,18 +6,20 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/01/30 23:36:50 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/01 21:53:24 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include <stdio.h>
 
-void	error(t_status *info)
+void	error(t_prgm *glob, t_status *info)
 {
 	char *error;
 
 	error = NULL;
+	if (glob->args_count)
+		ft_printf("%s:\n", &glob->dir[*glob->dir == '.' && glob->args ? 2 : 0]);
 	if (*info->path == '.')
 		ft_asprintf(&error, "ft_ls: %s", info->name);
 	else
@@ -29,35 +31,33 @@ void	error(t_status *info)
 void	long_output(t_list *files_list, t_prgm *glob)
 {
 	t_status	*tmp;
-	size_t		nlink_max;
-	size_t		size_max;
-	size_t		total;
+	t_display	info;
 
-	nlink_max = 0;
-	size_max = 0;
-	total = 0;
-	padding(files_list, &nlink_max, &size_max, &total);
-	tmp = (t_status *)(files_list->data);
-	if (*glob->dir)
+	init_display(&info);
+	long_padding(files_list, &info, NULL, 0);
+	if (glob->args_count)
 		ft_printf("%s:\n", glob->dir);
-	ft_printf("total %d\n", total);
+	ft_printf("total %d\n", info.total);
 	while (files_list)
 	{
 		tmp = (t_status *)(files_list->data);
-		line_display(glob, tmp, nlink_max, size_max);
+		print_line(glob, tmp, &info);
+		ft_putchar('\n');
 		files_list = files_list->next;
 	}
+	glob->args_count = 2;
 }
 
 void	list_output(t_list *files_list, t_prgm *glob)
 {
-	if (!ft_strequ(glob->dir, "."))
+	if (glob->args_count)
 		ft_printf("%s:\n", glob->dir);
 	while (files_list)
 	{
 		ft_printf("%s\n", ((t_status *)(files_list->data))->name);
 		files_list = files_list->next;
 	}
+	glob->args_count = 2;
 }
 
 void	basic_output(t_list *lst, t_prgm *glob)
@@ -70,25 +70,33 @@ void	basic_output(t_list *lst, t_prgm *glob)
 	info.width = 15;
 	basic_padding(lst, &info);
 	tmp = (t_status *)lst->data;
-	if (!ft_strequ(glob->dir, ".") && *glob->dir)
+	if (glob->args_count)
 		ft_printf("%s:\n", glob->dir);
-	basic_default(glob, lst, &info);
+	print_basic(lst, &info);
+	glob->args_count = 2;
+	ft_putchar('\n');
 }
 
-void	output_handler(t_list *files_list, t_prgm *glob)
+void	commas_output(t_list *files_list, t_prgm *glob)
 {
+	t_display	info;
+	t_status	*next;
+
+	init_display(&info);
 	if (files_list)
 	{
-		if (glob->option & LS_L)
-			long_output(files_list, glob);
-		else if (glob->option & LS_1)
-			list_output(files_list, glob);
-		else if (glob->option & LS_M)
-			list_with_commas(files_list, glob);
-		else
+		ioctl(0, TIOCGWINSZ, &info.window);
+		if (glob->args_count)
+			ft_printf("%s:\n", glob->dir);
+		while (files_list)
 		{
-			basic_output(files_list, glob);
-			ft_putchar('\n');
+			if (files_list->next)
+				next = (t_status *)(files_list->next->data);
+			if (next)
+				info.size = ft_strlen(next->name);
+			print_commas(files_list, &info);
+			files_list = files_list->next;
 		}
 	}
+	glob->args_count = 2;
 }
