@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/01 21:42:56 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/02 14:09:21 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	init_display(t_display *info)
 	info->gr_len = 0;
 	info->maj_len = 0;
 	info->min_len = 0;
+	info->ch_len = 0;
 }
 
 void	symbolic_link(t_status *file)

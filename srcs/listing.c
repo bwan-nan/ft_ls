@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 07:04:00 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/02 13:28:20 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/02 13:53:19 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ static void	list_directory_args(t_prgm *glob, t_list *dir_lst)
 			listonedir(glob, current, tmp);
 		else
 			error(glob, tmp);
-		dir_lst = dir_lst->next;
-	//	ft_lstpop(&dir_lst, del_node);
+		ft_lstpop(&dir_lst, del_node);
 	}
 }
 
