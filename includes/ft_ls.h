@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/03 00:28:19 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/03 02:21:30 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,6 @@
 # define LS_TT		512
 
 # define DIR_MAX	4096
-
-# define GREY		"\033[0;37m"
-# define DCLR		"\033[1;96m"
-# define XCLR		"\033[31m"
-# define CCLR		"\033[103;34m"
-# define BCLR		"\033[46;34m"
-# define LCLR		"\033[35m"
-# define FCLR		"\033[33m"
-# define SCLR		"\033[32m"
 
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
