@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/03 00:40:19 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/03 02:08:17 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,8 @@ void	print_basic(t_prgm *glob, t_list *lst, t_display *info)
 		tmp = ((t_status *)(lst)->data);
 		if (glob->option & LS_G)
 			col =  display_color(glob, tmp->info.st_mode);
-		info->printed += ft_printf("%r%s%r%*s", col ? col : "", tmp->name
-											, col ? glob->colors[11] : ""
-											,info->width, "");
+		info->printed += ft_printf("%@-*s", col ? col : ""
+									, info->width, tmp->name);
 		if (info->printed > info->total)
 		{
 			ft_putchar('\n');
@@ -98,8 +97,7 @@ void	print_commas(t_prgm *glob, t_list *lst, t_display *info)
 	col = glob->option & LS_G ? display_color(glob, tmp->info.st_mode) : NULL;
 	if (lst->next)
 	{
-		info->printed += ft_printf("%r%s%r, ", col ? col : "", tmp->name
-											, col ? glob->colors[11] : "");
+		info->printed += ft_printf("%@s, ", col ? col : "", tmp->name);
 		if ((info->printed + 2 + info->size) > info->window.ws_col)
 		{
 			ft_putchar('\n');
@@ -119,22 +117,22 @@ void	print_line(t_prgm *glob, t_status *file, t_display *info)
 	info->time = glob->option & LS_TT ? 20 : 12;
 	if (S_ISCHR(file->info.st_mode) || S_ISBLK(file->info.st_mode))
 	{
-		ft_printf("%*s %*d %-*s  %-*s  %*d, %*d %.*s %r%s%r"
+		ft_printf("%*s %*d %-*s  %-*s  %*d, %*d %.*s %@s"
 				, info->ch_len, file->chmod, info->nlink, file->info.st_nlink
 				, info->pw_len, file->pwd , info->gr_len, file->grp
 				, info->maj_len, major(file->info.st_rdev), info->min_len
 				, minor(file->info.st_rdev), info->time
 				, ctime(&file->info.st_mtime) + 4
-				, col ? col : "" , file->name, col ? glob->colors[11] : "");
+				, col ? col : "" , file->name);
 	}
 	else
 	{
-		ft_printf("%-*s %*d %-*s  %-*s  %*d %.*s %r%s%r"
+		ft_printf("%-*s %*d %-*s  %-*s  %*d %.*s %@s"
 				, info->ch_len, file->chmod, info->nlink, file->info.st_nlink
 				, info->pw_len, file->pwd, info->gr_len, file->grp, info->size
 				, file->info.st_size, info->time
 				, ctime(&file->info.st_mtime) + 4
-				, col ? col : "" , file->name, col ? glob->colors[11] : "");
+				, col ? col : "" , file->name);
 	}
 	symbolic_link(file);
 }
