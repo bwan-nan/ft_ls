@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/03 13:23:26 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/03 14:56:19 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	basic_output(t_list *lst, t_prgm *glob)
 	t_display	info;
 
 	init_display(&info);
-	basic_padding(lst, &info);
+	basic_padding(glob, lst, &info);
 	tmp = (t_status *)lst->data;
 	if (glob->args_count)
 		ft_printf("%s:\n", glob->dir);

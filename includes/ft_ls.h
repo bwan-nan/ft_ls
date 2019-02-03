@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/03 13:07:41 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/03 14:51:01 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,9 @@ void					basic_output(t_list *lst, t_prgm *glob);
 void					list_output(t_list *files_list, t_prgm *glob);
 void					commas_output(t_list *files_list, t_prgm *glob);
 
-void					basic_padding(t_list *lst, t_display *info);
 void					print_basic(t_prgm *glob, t_list *lst, t_display *info);
+void					basic_padding(t_prgm *glob, t_list *lst,\
+						t_display *info);
 void					print_commas(t_prgm *glob, t_list *files_list,\
 						t_display *info);
 void					print_line(t_prgm *glob, t_status *file,\

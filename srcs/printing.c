@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/03 13:20:12 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/03 14:58:19 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,27 @@ void	long_padding(t_list *lst, t_display *i, t_status *tmp, size_t len)
 	}
 }
 
-void	basic_padding(t_list *lst, t_display *info)
+void	basic_padding(t_prgm *glob, t_list *lst, t_display *info)
 {
 	t_list		*tmp;
 	size_t		len;
+	int			i;
 
+	i = 0;
 	tmp = lst;
 	while (tmp)
 	{
-		if ((len = ft_strlen(((t_status *)tmp->data)->name)) > info->width)
+		if ((len = ft_strlen(((t_status *)tmp->data)->name)) >= info->width)
 		{
 			info->width = len + 5;
 			tmp = lst;
 			info->total = 0;
-			continue;
 		}
 		tmp = tmp->next;
-		info->total += info->width;
 	}
+	while ((info->total += info->width) < glob->window.ws_col)
+		i++;
+	info->total = i;
 	return ;
 }
 
@@ -64,10 +67,9 @@ void	print_basic(t_prgm *glob, t_list *lst, t_display *info)
 {
 	t_status	*tmp;
 	char		*col;
+	size_t		i;
 
-	tmp = ((t_status *)(lst)->data);
-	while (info->total > glob->window.ws_col)
-		info->total = info->total / 2;
+	i = 0;
 	while (lst)
 	{
 		tmp = ((t_status *)(lst)->data);
@@ -78,10 +80,11 @@ void	print_basic(t_prgm *glob, t_list *lst, t_display *info)
 		}
 		else
 			info->printed += ft_printf("%-*s", info->width, tmp->name);
-		if (info->printed > info->total)
+		i++;
+		if (i == info->total)
 		{
 			ft_putchar('\n');
-			info->printed = 0;
+			i = 0;
 		}
 		lst = lst->next;
 	}
