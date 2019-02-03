@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/03 02:21:30 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/03 13:07:41 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct			s_status
 
 typedef struct			s_prgm
 {
+	t_winsize			window;
 	t_status			tmp;
 	char				dir[DIR_MAX];
 	char				*ls_colors;
@@ -87,7 +88,6 @@ typedef struct			s_prgm
 
 typedef struct			s_display
 {
-	t_winsize			window;
 	size_t				ch_len;
 	size_t				width;
 	size_t				total;

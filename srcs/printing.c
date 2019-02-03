@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/03 02:08:17 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/03 13:20:12 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	basic_padding(t_list *lst, t_display *info)
 	t_list		*tmp;
 	size_t		len;
 
-	ioctl(0, TIOCGWINSZ, &info->window);
 	tmp = lst;
 	while (tmp)
 	{
@@ -66,17 +65,19 @@ void	print_basic(t_prgm *glob, t_list *lst, t_display *info)
 	t_status	*tmp;
 	char		*col;
 
-	col = NULL;
 	tmp = ((t_status *)(lst)->data);
-	while (info->total > info->window.ws_col)
+	while (info->total > glob->window.ws_col)
 		info->total = info->total / 2;
 	while (lst)
 	{
 		tmp = ((t_status *)(lst)->data);
 		if (glob->option & LS_G)
+		{
 			col =  display_color(glob, tmp->info.st_mode);
-		info->printed += ft_printf("%@-*s", col ? col : ""
-									, info->width, tmp->name);
+			info->printed += ft_printf("%@-*s", col , info->width, tmp->name);
+		}
+		else
+			info->printed += ft_printf("%-*s", info->width, tmp->name);
 		if (info->printed > info->total)
 		{
 			ft_putchar('\n');
@@ -98,15 +99,14 @@ void	print_commas(t_prgm *glob, t_list *lst, t_display *info)
 	if (lst->next)
 	{
 		info->printed += ft_printf("%@s, ", col ? col : "", tmp->name);
-		if ((info->printed + 2 + info->size) > info->window.ws_col)
+		if ((info->printed + 2 + info->size) > glob->window.ws_col)
 		{
 			ft_putchar('\n');
 			info->printed = 0;
 		}
 	}
 	else
-		info->printed += ft_printf("%r%s%r\n", col ? col : "", tmp->name
-											, col ? glob->colors[11] : "");
+		info->printed += ft_printf("%@s\n", col ? col : "", tmp->name);
 }
 
 void	print_line(t_prgm *glob, t_status *file, t_display *info)

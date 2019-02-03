@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/03 00:31:37 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/03 13:23:26 by cedricmpa        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,7 @@ void	basic_output(t_list *lst, t_prgm *glob)
 	t_status	*tmp;
 	t_display	info;
 
-	info.total = 0;
-	info.printed = 0;
-	info.width = 15;
+	init_display(&info);
 	basic_padding(lst, &info);
 	tmp = (t_status *)lst->data;
 	if (glob->args_count)
@@ -85,7 +83,6 @@ void	commas_output(t_list *file, t_prgm *glob)
 	init_display(&info);
 	if (file)
 	{
-		ioctl(0, TIOCGWINSZ, &info.window);
 		if (glob->args_count)
 			ft_printf("%s:\n", glob->dir);
 		while (file)
