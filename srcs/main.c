@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/01 12:11:15 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/02 18:15:03 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,16 @@
 
 static void		glob_init(t_prgm *glob)
 {
-	glob->pwd = NULL;
-	glob->home = NULL;
 	glob->args = NULL;
 	glob->args_count = 0;
+	glob->color = ft_strnew(12);
+	ft_strcpy(glob->color, GREY);
 	ft_bzero(glob->dir, DIR_MAX);
 }
 
 static void		glob_del(t_prgm *glob)
 {
-	ft_strdel(&glob->pwd);
-	ft_strdel(&glob->home);
-	ft_strdel(&glob->colors);
+	ft_strdel(&glob->color);
 	ft_lstdel(&glob->args, NULL);
 }
 
@@ -37,16 +35,16 @@ static int		illegal_option(t_prgm *glob)
 	illegal = "ft_ls: illegal option -- ";
 	usage = "usage: ft_ls [-";
 	ft_dprintf(2, "%s%c\n%s%s] [file ...]\n"
-				, illegal, glob->optopt, usage,  OPTION);
+				, illegal, glob->optopt, usage, OPTION);
 	return (1);
 }
 
-int				main(int ac, char **av, char **env)
+int				main(int ac, char **av)
 {
 	t_prgm			glob;
 
 	glob_init(&glob);
-	get_env(env, &glob);
+//	get_env(env, &glob);
 	if ((glob.option = options(ac, av, &glob)) == '?')
 		return (illegal_option(&glob));
 	glob.args = ft_getargslst(ac, av);
