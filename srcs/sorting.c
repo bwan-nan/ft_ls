@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 12:21:04 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/01 17:42:56 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/04 21:13:44 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,15 @@ int		sort_time_modified(void *a, void *b)
 
 void	sort_list(t_list **files_list, t_prgm *glob)
 {
-	if (glob->option & LS_S)
-		ft_mergesort(files_list, sort_size);
-	else if (glob->option & LS_T)
-		ft_mergesort(files_list, &sort_time_modified);
-	else
-		ft_mergesort(files_list, &sort_ascii);
-	if (glob->option & LS_R)
-		ft_lstrev(files_list);
+	if (!(glob->option & LS_F))
+	{
+		if (glob->option & LS_S)
+			ft_mergesort(files_list, sort_size);
+		else if (glob->option & LS_T)
+			ft_mergesort(files_list, &sort_time_modified);
+		else
+			ft_mergesort(files_list, &sort_ascii);
+		if (glob->option & LS_R)
+			ft_lstrev(files_list);
+	}
 }

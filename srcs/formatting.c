@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/02 20:04:49 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/04 21:12:49 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ size_t	nbrlen(int nbr)
 
 void	init_display(t_display *info)
 {
-	info->width = 15;
+	info->width = 10;
 	info->total = 0;
+	info->lines = 0;
+	info->lst_len = 0;
 	info->printed = 0;
 	info->nlink = 0;
 	info->size = 0;
@@ -96,17 +98,17 @@ char	*getchmod(t_status *file)
 	return (ft_strdup(perm));
 }
 
-void	output_handler(t_list *files_list, t_prgm *glob)
+void	output_handler(t_prgm *glob, t_list *lst)
 {
-	if (files_list)
+	if (lst)
 	{
 		if (glob->option & LS_L)
-			long_output(files_list, glob);
+			long_output(glob, lst);
 		else if (glob->option & LS_1)
-			list_output(files_list, glob);
+			list_output(glob, lst);
 		else if (glob->option & LS_M)
-			commas_output(files_list, glob);
+			commas_output(glob, lst);
 		else
-			basic_output(files_list, glob);
+			basic_output(glob, lst);
 	}
 }

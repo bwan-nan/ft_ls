@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/04 15:46:36 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/04 21:11:23 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <uuid/uuid.h>
 # include <unistd.h>
 
-# define OPTION		"1GRSTalmrt"
+# define OPTION		"1CGRSTaflmrtx"
 # define LS_L		1
 # define LS_1		2
 # define LS_RR		4
@@ -37,6 +37,19 @@
 # define LS_S		128
 # define LS_R		256
 # define LS_TT		512
+# define LS_F		1024
+# define LS_X		2048
+# define LS_C		4096
+
+# define BLACK 30
+# define RED 31
+# define GREEN 32
+# define YELLOW 33
+# define BLUE 34
+# define MAGENTA 35
+# define CYAN 36
+# define WHITE 37
+# define NC 0
 
 # define DIR_MAX	4096
 # define SIX_MONTHS	15780000
@@ -59,6 +72,9 @@ typedef enum			e_opt
 	E_S = LS_S,
 	E_R = LS_R,
 	E_TT = LS_TT,
+	E_F = LS_F,
+	E_X = LS_X,
+	E_C = LS_C
 }						t_opt;
 
 typedef struct			s_status
@@ -73,24 +89,13 @@ typedef struct			s_status
 	t_list				*dirlist;
 }						t_status;
 
-typedef struct			s_prgm
-{
-	t_winsize			window;
-	t_status			tmp;
-	char				dir[DIR_MAX];
-	char				*ls_colors;
-	t_list				*args;
-	int					args_count;
-	void				*holder;
-	unsigned int		option;
-	char				optopt;
-	char				*colors[13];
-}						t_prgm;
-
 typedef struct			s_display
 {
 	size_t				ch_len;
 	size_t				width;
+	size_t				lst_len;
+	size_t				lines;
+	size_t				mod;
 	size_t				total;
 	size_t				printed;
 	size_t				nlink;
@@ -103,17 +108,36 @@ typedef struct			s_display
 	size_t				time2;
 }						t_display;
 
+typedef struct			s_prgm
+{
+	t_winsize			window;
+	t_status			tmp;
+	t_display			info;
+	char				dir[DIR_MAX];
+	char				*ls_colors;
+	t_list				*args;
+	int					args_count;
+	void				*holder;
+	unsigned int		option;
+	char				optopt;
+	char				*colors[13];
+}						t_prgm;
+
+
 int						listalldir(t_prgm *glob, t_list *lst, t_status *tmp);
 int						list_directory(t_prgm *glob, char *path);
 int						list_files(t_prgm *glob);
 
 void					error(t_prgm *glob, t_status *info);
-void					long_output(t_list *files_list, t_prgm *glob);
-void					basic_output(t_list *lst, t_prgm *glob);
-void					list_output(t_list *files_list, t_prgm *glob);
-void					commas_output(t_list *files_list, t_prgm *glob);
+void					long_output(t_prgm *glob, t_list *lst);
+void					basic_output(t_prgm *glob, t_list *lst);
+void					list_output(t_prgm *glob, t_list *lst);
+void					commas_output(t_prgm *glob, t_list *lst);
 
-void					print_basic(t_prgm *glob, t_list *lst, t_display *info);
+void					print_basic_line(t_prgm *glob, t_list *lst,\
+						t_display *info);
+void					print_basic_col(t_prgm *glob, t_list *lst,\
+						t_display *info, char *colo);
 void					basic_padding(t_prgm *glob, t_list *lst,\
 						t_display *info);
 void					print_commas(t_prgm *glob, t_list *files_list,\
@@ -141,10 +165,12 @@ void					get_color(t_prgm *glob, t_status *file);
 char					*display_color(t_prgm *glob, mode_t mode);
 void					init_display(t_display *info);
 void					symbolic_link(t_status *file);
-void					output_handler(t_list *files_list, t_prgm *glob);
+void					output_handler(t_prgm *glob, t_list *lst);
 
 
 void					time_format(t_prgm *glob, t_display *info, time_t timestamp);
-void					print_device_line(t_prgm *glob, t_status *file, t_display *info);
-void					print_regular_line(t_prgm *glob, t_status *file, t_display *info);
+void					print_long_device(t_prgm *glob, t_status *file,
+						t_display *info);
+void					print_long_regular(t_prgm *glob, t_status *file,\
+						t_display *info);
 #endif

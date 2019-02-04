@@ -6,11 +6,27 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:49:01 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/04 15:47:28 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/04 20:55:07 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+static void			option_cancel(unsigned int *option, char c)
+{
+	*option &= ~(LS_1 + LS_C + LS_X + LS_L);
+	if (c == 'l' || c == '1')
+	{
+		*option &= ~(LS_M);
+		*option |= c == 'l' ? LS_L : LS_1;
+	}
+	else if (c == 'C')
+		*option |= LS_C;
+	else if (c == 'x')
+		*option |= LS_X;
+	else if (c == 'm')
+		*option |= LS_M;
+}
 
 static unsigned int	get_option(int ac, char **av, t_opt *opt, t_prgm *glob)
 {
@@ -22,17 +38,10 @@ static unsigned int	get_option(int ac, char **av, t_opt *opt, t_prgm *glob)
 	{
 		if (c == 0)
 			return (0);
-		else if (c < 0)
-		{
-			glob->optopt = -c;
+		else if (c < 0 && (glob->optopt = -c))
 			return ('?');
-		}
-		else if ((c == 'l' && option & LS_1) || (c == '1' && option & LS_L))
-			option ^= LS_1 + LS_L;
-		else if ((c == 'l' && option & LS_M) || (c == 'm' && option & LS_L))
-			option ^= LS_M + LS_L;
-		else if ((c == 'm' && option & LS_1) || (c == '1' && option & LS_M))
-			option ^= LS_M + LS_1;
+		else if (ft_strchr("lxC1m", c))
+			option_cancel(&option, c);
 		else
 			option |= opt[c];
 	}
@@ -53,6 +62,9 @@ unsigned int		options(int ac, char **av, t_prgm *glob)
 	opt['S'] = E_S;
 	opt['r'] = E_R;
 	opt['T'] = E_TT;
+	opt['f'] = E_F;
+	opt['x'] = E_X;
+	opt['C'] = E_C;
 	return (get_option(ac, av, opt, glob));
 }
 
@@ -67,5 +79,7 @@ unsigned int		get_env(char **env, t_prgm *glob)
 			glob->ls_colors = ft_strsub(env[i], 9, ft_strlen(&env[i][4]));
 		i++;
 	}
+	if (!glob->ls_colors)
+		glob->option &= ~(LS_G);	
 	return (1);
 }

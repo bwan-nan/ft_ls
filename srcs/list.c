@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 10:03:03 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/02 18:08:51 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/04 16:22:16 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int		create_list(DIR *current, char *path, t_list **files_list, t_prgm *glob)
 {
 	if (!(glob->holder = (void *)readdir(current)))
 		return (1);
-	if (!(glob->option & LS_A) && ((t_dirent *)glob->holder)->d_name[0] == '.')
+	if (!(glob->option & LS_A) && !(glob->option & LS_F)
+			&& ((t_dirent *)glob->holder)->d_name[0] == '.')
 		return (create_list(current, path, files_list, glob));
 	init_status(&glob->tmp);
 	ft_asprintf(&glob->tmp.path, "%s/%s", path

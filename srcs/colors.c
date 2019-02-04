@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 21:14:44 by cedricmpa         #+#    #+#             */
-/*   Updated: 2019/02/04 15:10:33 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/04 19:30:13 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ void		init_colors(t_prgm *glob)
 	char	bold;
 
 	bold = 0;
-	colors[0] = 30;
-	colors[1] = 31;
-	colors[2] = 32;
-	colors[3] = 33;
-	colors[4] = 34;
-	colors[5] = 35;
-	colors[6] = 36;
-	colors[7] = 37;
-	colors[8] = 0;
+	colors[0] = BLACK;
+	colors[1] = RED;
+	colors[2] = GREEN;
+	colors[3] = YELLOW;
+	colors[4] = BLUE;
+	colors[5] = MAGENTA;
+	colors[6] = CYAN;
+	colors[7] = WHITE;
+	colors[8] = NC;
 	glob->colors[11] = ft_strdup("\x1b[0m");
 	glob->colors[12] = NULL;
 	set_colors(glob, glob->ls_colors, colors, 0);
@@ -63,9 +63,9 @@ char		*special_color(t_prgm *glob, mode_t mode)
 {
 	if (S_IXUSR & mode || S_IXGRP & mode || S_IXOTH & mode)
 	{
-		if (S_ISUID & mode)	
+		if (S_ISUID & mode)
 			return (glob->colors[7]);
-		if (S_ISGID & mode)	
+		if (S_ISGID & mode)
 			return (glob->colors[8]);
 		else
 			return (glob->colors[4]);
@@ -76,7 +76,7 @@ char		*special_color(t_prgm *glob, mode_t mode)
 			return (glob->colors[5]);
 	else if (S_ISCHR(mode))
 			return (glob->colors[6]);
-	else 
+	else
 			return (glob->colors[11]);
 
 }
@@ -85,9 +85,9 @@ char		*display_color(t_prgm *glob, mode_t mode)
 {
 	if (S_ISDIR(mode))
 	{
-		if (S_IWOTH & mode && S_ISVTX & mode)	
+		if (S_IWOTH & mode && S_ISVTX & mode)
 			return (glob->colors[9]);
-		else if (S_IWOTH & mode && !(S_ISVTX & mode))	
+		else if (S_IWOTH & mode && !(S_ISVTX & mode))
 			return (glob->colors[10]);
 		else
 			return (glob->colors[0]);
