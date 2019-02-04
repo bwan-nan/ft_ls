@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 21:14:44 by cedricmpa         #+#    #+#             */
-/*   Updated: 2019/02/03 00:16:18 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/04 15:10:33 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,15 @@ void		init_colors(t_prgm *glob)
 
 char		*special_color(t_prgm *glob, mode_t mode)
 {
-	if (S_ISSOCK(mode))
-			return (glob->colors[2]);
-	else if (S_ISLNK(mode))
-			return (glob->colors[1]);
+	if (S_IXUSR & mode || S_IXGRP & mode || S_IXOTH & mode)
+	{
+		if (S_ISUID & mode)	
+			return (glob->colors[7]);
+		if (S_ISGID & mode)	
+			return (glob->colors[8]);
+		else
+			return (glob->colors[4]);
+	}
 	else if (S_ISFIFO(mode))
 			return (glob->colors[3]);
 	else if (S_ISBLK(mode))
@@ -87,15 +92,10 @@ char		*display_color(t_prgm *glob, mode_t mode)
 		else
 			return (glob->colors[0]);
 	}
-	else if (S_IXUSR & mode || S_IXGRP & mode || S_IXOTH & mode)
-	{
-		if (S_ISUID & mode)	
-			return (glob->colors[7]);
-		if (S_ISGID & mode)	
-			return (glob->colors[8]);
-		else
-			return (glob->colors[4]);
-	}
+	else if (S_ISSOCK(mode))
+			return (glob->colors[2]);
+	else if (S_ISLNK(mode))
+			return (glob->colors[1]);
 	else
 		return (special_color(glob, mode));
 }
