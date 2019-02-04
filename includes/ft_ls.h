@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/03 14:51:01 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/04 15:46:36 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <uuid/uuid.h>
 # include <unistd.h>
 
-# define OPTION		"1GGRSTalmrt"
+# define OPTION		"1GRSTalmrt"
 # define LS_L		1
 # define LS_1		2
 # define LS_RR		4
@@ -39,6 +39,7 @@
 # define LS_TT		512
 
 # define DIR_MAX	4096
+# define SIX_MONTHS	15780000
 
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
@@ -99,6 +100,7 @@ typedef struct			s_display
 	size_t				maj_len;
 	size_t				min_len;
 	size_t				time;
+	size_t				time2;
 }						t_display;
 
 int						listalldir(t_prgm *glob, t_list *lst, t_status *tmp);
@@ -141,4 +143,8 @@ void					init_display(t_display *info);
 void					symbolic_link(t_status *file);
 void					output_handler(t_list *files_list, t_prgm *glob);
 
+
+void					time_format(t_prgm *glob, t_display *info, time_t timestamp);
+void					print_device_line(t_prgm *glob, t_status *file, t_display *info);
+void					print_regular_line(t_prgm *glob, t_status *file, t_display *info);
 #endif

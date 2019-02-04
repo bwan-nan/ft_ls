@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/03 14:58:19 by cedricmpa        ###   ########.fr       */
+/*   Updated: 2019/02/04 15:52:33 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,28 +114,10 @@ void	print_commas(t_prgm *glob, t_list *lst, t_display *info)
 
 void	print_line(t_prgm *glob, t_status *file, t_display *info)
 {
-	char	*col;
-
-	col = glob->option & LS_G ? display_color(glob, file->info.st_mode) : NULL;
-	info->time = glob->option & LS_TT ? 20 : 12;
+	time_format(glob, info, file->info.st_mtime);
 	if (S_ISCHR(file->info.st_mode) || S_ISBLK(file->info.st_mode))
-	{
-		ft_printf("%*s %*d %-*s  %-*s  %*d, %*d %.*s %@s"
-				, info->ch_len, file->chmod, info->nlink, file->info.st_nlink
-				, info->pw_len, file->pwd , info->gr_len, file->grp
-				, info->maj_len, major(file->info.st_rdev), info->min_len
-				, minor(file->info.st_rdev), info->time
-				, ctime(&file->info.st_mtime) + 4
-				, col ? col : "" , file->name);
-	}
+		print_device_line(glob, file, info);
 	else
-	{
-		ft_printf("%-*s %*d %-*s  %-*s  %*d %.*s %@s"
-				, info->ch_len, file->chmod, info->nlink, file->info.st_nlink
-				, info->pw_len, file->pwd, info->gr_len, file->grp, info->size
-				, file->info.st_size, info->time
-				, ctime(&file->info.st_mtime) + 4
-				, col ? col : "" , file->name);
-	}
+		print_regular_line(glob, file, info);
 	symbolic_link(file);
 }
