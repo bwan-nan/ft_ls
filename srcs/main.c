@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/04 20:44:37 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/04 21:33:38 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void		glob_init(t_prgm *glob)
 	ft_bzero(glob->dir, DIR_MAX);
 	ioctl(0, TIOCGWINSZ, &glob->window);
 	while (i <= 10)
-		glob->colors[i++]	= NULL;
+		glob->colors[i++] = NULL;
 }
 
 static void		glob_del(t_prgm *glob)
@@ -36,7 +36,7 @@ static void		glob_del(t_prgm *glob)
 	if (glob->option & LS_G)
 	{
 		while (i <= 10)
-			ft_strdel (&glob->colors[i++]);	
+			ft_strdel(&glob->colors[i++]);
 	}
 }
 

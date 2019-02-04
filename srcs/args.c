@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:49:01 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/04 20:55:07 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/04 21:30:35 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ unsigned int		get_env(char **env, t_prgm *glob)
 		i++;
 	}
 	if (!glob->ls_colors)
-		glob->option &= ~(LS_G);	
+		glob->option &= ~(LS_G);
 	return (1);
 }

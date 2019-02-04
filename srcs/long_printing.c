@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   long_printing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 22:08:01 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/04 21:08:03 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/04 21:33:59 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	print_long_device(t_prgm *glob, t_status *file, t_display *info)
 
 	col = glob->option & LS_G ? display_color(glob, file->info.st_mode) : NULL;
 	full_date = ft_strdup(ctime(&file->info.st_mtime));
-	ft_printf("%*s  %-*d %-*s  %-*s  %*d, %*d %.*s %.*s%.*s%.*s %@s"
+	ft_printf("%*s %*d %-*s  %-*s  %*d, %*d %.*s %.*s%.*s%.*s %@s"
 			, info->ch_len, file->chmod
 			, info->nlink, file->info.st_nlink
 			, info->pw_len, file->pwd
@@ -77,7 +77,7 @@ void	print_long_device(t_prgm *glob, t_status *file, t_display *info)
 			, info->maj_len, major(file->info.st_rdev)
 			, info->min_len, minor(file->info.st_rdev)
 			, info->time2 ? 1 : 0, " "
-			, info->time,  full_date + 4
+			, info->time, full_date + 4
 			, info->time2, full_date + 20
 			, info->time2 ? 1 : 0, " "
 			, col ? col : "", file->name);
@@ -91,7 +91,7 @@ void	print_long_regular(t_prgm *glob, t_status *file, t_display *info)
 
 	col = glob->option & LS_G ? display_color(glob, file->info.st_mode) : NULL;
 	full_date = ft_strdup(ctime(&file->info.st_mtime));
-	ft_printf("%-*s  %-*d %-*s  %-*s  %*d %.*s %.*s%.*s%.*s %@s"
+	ft_printf("%-*s %*d %-*s  %-*s  %*d %.*s %.*s%.*s%.*s%@s"
 			, info->ch_len, file->chmod, info->nlink, file->info.st_nlink
 			, info->pw_len, file->pwd
 			, info->gr_len, file->grp

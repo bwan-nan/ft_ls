@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printing.c                                         :+:      :+:    :+:   */
+/*   basic_printing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/04 19:36:14 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/04 21:34:37 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void	basic_padding(t_prgm *glob, t_list *lst, t_display *info)
 			info->lst_len = 0;
 			info->total = 0;
 		}
-		info->lst_len++;;
+		info->lst_len++;
 		tmp = tmp->next;
 	}
 	while ((info->total += info->width + 1) < glob->window.ws_col)
 		if (info->total <= info->lst_len * (info->width + 1))
-				i++;
+			i++;
 	info->total = i;
 	return ;
 }
@@ -51,8 +51,8 @@ void	print_basic_line(t_prgm *glob, t_list *lst, t_display *info)
 		tmp = ((t_status *)(lst)->data);
 		if (glob->option & LS_G)
 		{
-			col =  display_color(glob, tmp->info.st_mode);
-			info->printed += ft_printf("%@-*s", col , info->width, tmp->name);
+			col = display_color(glob, tmp->info.st_mode);
+			info->printed += ft_printf("%@-*s", col, info->width, tmp->name);
 		}
 		else
 			info->printed += ft_printf("%-*s", info->width, tmp->name);
@@ -77,12 +77,12 @@ void	print_basic_col(t_prgm *glob, t_list *lst, t_display *info, char *colo)
 	while (row < info->lines + info->mod && !(col = 0))
 	{
 		tmp = lst;
-		while (col < info->total && !(elem = 0) && tmp) 
+		while (col < info->total && !(elem = 0) && tmp)
 		{
 			glob->tmp = *(t_status *)tmp->data;
 			if (glob->option & LS_G)
-				colo =  display_color(glob, glob->tmp.info.st_mode);
-			ft_printf("%-@*s", colo ? colo : "" , info->width, glob->tmp.name);
+				colo = display_color(glob, glob->tmp.info.st_mode);
+			ft_printf("%-@*s", colo ? colo : "", info->width, glob->tmp.name);
 			while (elem++ < (info->lines + info->mod) && tmp)
 				tmp = tmp->next;
 			col++;

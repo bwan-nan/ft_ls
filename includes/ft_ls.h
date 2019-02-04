@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/04 21:11:23 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/04 21:35:39 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@
 # define CYAN 36
 # define WHITE 37
 # define NC 0
+
+# define MAJDIFF 65
+# define MINDIFF 97
 
 # define DIR_MAX	4096
 # define SIX_MONTHS	15780000
@@ -123,7 +126,6 @@ typedef struct			s_prgm
 	char				*colors[13];
 }						t_prgm;
 
-
 int						listalldir(t_prgm *glob, t_list *lst, t_status *tmp);
 int						list_directory(t_prgm *glob, char *path);
 int						list_files(t_prgm *glob);
@@ -167,8 +169,8 @@ void					init_display(t_display *info);
 void					symbolic_link(t_status *file);
 void					output_handler(t_prgm *glob, t_list *lst);
 
-
-void					time_format(t_prgm *glob, t_display *info, time_t timestamp);
+void					time_format(t_prgm *glob, t_display *info,\
+						time_t timestamp);
 void					print_long_device(t_prgm *glob, t_status *file,
 						t_display *info);
 void					print_long_regular(t_prgm *glob, t_status *file,\

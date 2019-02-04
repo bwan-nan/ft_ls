@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/04 21:12:49 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/04 21:32:54 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	symbolic_link(t_status *file)
 		buf[file->info.st_size] = '\0';
 		ft_printf(" -> %*s", file->info.st_size, buf);
 	}
-
 }
 
 char	*getchmod(t_status *file)

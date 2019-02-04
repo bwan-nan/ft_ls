@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 21:14:44 by cedricmpa         #+#    #+#             */
-/*   Updated: 2019/02/04 19:30:13 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/04 21:31:06 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,15 @@ void		set_colors(t_prgm *glob, char *colors, char *values, char i)
 		return ;
 	bold = 0;
 	if (colors[0] >= 'a' && colors[0] <= 'h')
-		id[0] = *colors - 97;
+		id[0] = *colors - MINDIFF;
 	else if (colors[0] >= 'A' && colors[0] <= 'H' && (bold = 1))
-		id[0] = colors[0] - 65;
+		id[0] = colors[0] - MAJDIFF;
 	else
 		id[0] = 8;
-
 	if (colors[1] >= 'a' && colors[1] <= 'h')
-		id[1] = colors[1] - 97;
+		id[1] = colors[1] - MINDIFF;
 	else if (colors[1] >= 'A' && colors[1] <= 'H')
-		id[1] = colors[1] - 65;
+		id[1] = colors[1] - MAJDIFF;
 	else
 		id[1] = 8;
 	ft_asprintf(glob->colors + i, "\x1b[%d;%d;%dm"
@@ -71,14 +70,13 @@ char		*special_color(t_prgm *glob, mode_t mode)
 			return (glob->colors[4]);
 	}
 	else if (S_ISFIFO(mode))
-			return (glob->colors[3]);
+		return (glob->colors[3]);
 	else if (S_ISBLK(mode))
-			return (glob->colors[5]);
+		return (glob->colors[5]);
 	else if (S_ISCHR(mode))
-			return (glob->colors[6]);
+		return (glob->colors[6]);
 	else
-			return (glob->colors[11]);
-
+		return (glob->colors[11]);
 }
 
 char		*display_color(t_prgm *glob, mode_t mode)
@@ -93,9 +91,9 @@ char		*display_color(t_prgm *glob, mode_t mode)
 			return (glob->colors[0]);
 	}
 	else if (S_ISSOCK(mode))
-			return (glob->colors[2]);
+		return (glob->colors[2]);
 	else if (S_ISLNK(mode))
-			return (glob->colors[1]);
+		return (glob->colors[1]);
 	else
 		return (special_color(glob, mode));
 }
