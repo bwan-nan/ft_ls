@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/04 21:04:55 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/05 17:25:06 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,19 @@ void	long_output(t_prgm *glob, t_list *lst)
 
 void	list_output(t_prgm *glob, t_list *lst)
 {
+	char		*col;
+	t_status	*file;
+
 	if (glob->args_count)
 		ft_printf("%s:\n", glob->dir);
 	while (lst)
 	{
-		ft_printf("%s\n", ((t_status *)(lst->data))->name);
+		file = (t_status *)lst->data;
+		if (glob->option & LS_G)
+			col = display_color(glob, file->info.st_mode);
+		else
+			col = NULL;
+		ft_printf("%@s\n", col ? col : "", file->name);
 		lst = lst->next;
 	}
 	glob->args_count = 2;

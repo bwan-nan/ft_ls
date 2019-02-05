@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/05 01:16:02 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/05 17:09:33 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,20 @@
 # define LS_C		4096
 # define LS_AR		8192
 
-# define BLACK 30
-# define RED 31
-# define GREEN 32
-# define YELLOW 33
-# define BLUE 34
-# define MAGENTA 35
-# define CYAN 36
-# define WHITE 37
-# define NC 0
+# define BLACK		30
+# define RED		31
+# define GREEN		32
+# define YELLOW		33
+# define BLUE		34
+# define MAGENTA	35
+# define CYAN		36
+# define WHITE		37
+# define NC			0
 
-# define MAJDIFF 65
-# define MINDIFF 97
+# define MAJDIFF	65
+# define MINDIFF	97
 
-# define BUF 255
+# define BUF		255
 # define DIR_MAX	4096
 # define SIX_MONTHS	15780000
 

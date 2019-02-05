@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 22:08:01 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/05 01:18:40 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/05 17:29:27 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,6 @@ void	print_line(t_prgm *glob, t_status *file, t_display *info)
 	else
 		print_long_regular(glob, file, info);
 	symbolic_link(file);
-	if(file->chmod[10] == '@' && glob->option & LS_AR)
+	if (file->chmod[10] == '@' && glob->option & LS_AR)
 		print_xattr(file, file->xattr);
 }

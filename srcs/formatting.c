@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/05 00:50:40 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/05 17:25:37 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	*getchmod(t_status *file, char *buffer)
 	p[8] = file->info.st_mode & S_IWOTH ? 'w' : '-';
 	p[9] = file->info.st_mode & S_IXOTH ? 'x' : '-';
 	p[10] = acl_get_link_np(file->path, ACL_TYPE_EXTENDED) ? '+' : '\0';
-	p[10] =  file->xattr_len> 0 ? '@' : p[10];
+	p[10] = file->xattr_len > 0 ? '@' : p[10];
 	p[11] = '\0';
 	return (ft_strdup(p));
 }
