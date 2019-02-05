@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/05 01:16:02 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/05 21:45:39 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,9 @@
 # include <sys/types.h>
 # include <sys/acl.h>
 # include <time.h>
-# include <pwd.h>
-# include <grp.h>
 # include <sys/ioctl.h>
-# include <uuid/uuid.h>
-# include <unistd.h>
 
-# define OPTION		"1CGRST@aflmrtx"
+# define OPTION		"1CGRST@aeflmrtx"
 # define LS_L		1
 # define LS_1		2
 # define LS_RR		4
@@ -41,21 +37,22 @@
 # define LS_X		2048
 # define LS_C		4096
 # define LS_AR		8192
+# define LS_E		16384
 
-# define BLACK 30
-# define RED 31
-# define GREEN 32
-# define YELLOW 33
-# define BLUE 34
-# define MAGENTA 35
-# define CYAN 36
-# define WHITE 37
-# define NC 0
+# define BLACK 		30
+# define RED 		31
+# define GREEN 		32
+# define YELLOW 	33
+# define BLUE 		34
+# define MAGENTA 	35
+# define CYAN 		36
+# define WHITE 		37
+# define NC 		0
 
-# define MAJDIFF 65
-# define MINDIFF 97
+# define MAJDIFF	65
+# define MINDIFF 	97
 
-# define BUF 255
+# define BUF		255
 # define DIR_MAX	4096
 # define SIX_MONTHS	15780000
 
@@ -80,7 +77,8 @@ typedef enum			e_opt
 	E_F = LS_F,
 	E_X = LS_X,
 	E_C = LS_C,
-	E_AR = LS_AR
+	E_AR = LS_AR,
+	E_E = LS_E
 }						t_opt;
 
 typedef struct			s_status
@@ -93,6 +91,7 @@ typedef struct			s_status
 	char				*grp;
 	char				*pwd;
 	char				*xattr;
+	char				**acl_tab;
 	t_list				*dirlist;
 	ssize_t				xattr_len;
 }						t_status;
@@ -127,6 +126,7 @@ typedef struct			s_prgm
 	int					args_count;
 	void				*holder;
 	unsigned int		option;
+	char				error;
 	char				optopt;
 	char				*colors[13];
 }						t_prgm;
@@ -155,25 +155,27 @@ void					long_padding(t_list *lst, t_display *info,\
 						t_status *tmp, size_t len);
 
 void					del_node(void **data);
-void					generate_lists(t_prgm *glob, t_list *args,\
+int						generate_lists(t_prgm *glob, t_list *args,\
 						t_list **file, t_list **dir);
 int						create_list(DIR *current, char *path,
 						t_list **files_list, t_prgm *glob);
 
 unsigned int			options(int ac, char **av, t_prgm *glob);
-unsigned int			get_env(char **env, t_prgm *glob);
+unsigned int			get_env(char **e, t_prgm *glob);
 void					init_colors(t_prgm *glob);
 
 void					sort_list(t_list **files_list, t_prgm *glob);
 
 size_t					nbrlen(int nbr);
-char					*getchmod(t_status *file, char *buffer);
+char					*str_chmod(t_status *file, char *buffer);
 void					get_color(t_prgm *glob, t_status *file);
 char					*display_color(t_prgm *glob, mode_t mode);
+void					option_cancel(unsigned int *option, char c);
 void					init_display(t_display *info);
 void					symbolic_link(t_status *file);
 void					output_handler(t_prgm *glob, t_list *lst);
 
+void					print_acl(t_status *file);
 void					print_xattr(t_status *file, char *xattr);
 void					time_format(t_prgm *glob, t_display *info,\
 						time_t timestamp);

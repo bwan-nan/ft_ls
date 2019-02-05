@@ -6,19 +6,19 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 21:14:44 by cedricmpa         #+#    #+#             */
-/*   Updated: 2019/02/04 21:31:06 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/05 21:47:35 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void		set_colors(t_prgm *glob, char *colors, char *values, char i)
+static int	set_colors(t_prgm *glob, char *colors, char *values, int i)
 {
 	int			id[2];
 	char		bold;
 
 	if (*colors == '\0')
-		return ;
+		return (0);
 	bold = 0;
 	if (colors[0] >= 'a' && colors[0] <= 'h')
 		id[0] = *colors - MINDIFF;
@@ -35,7 +35,7 @@ void		set_colors(t_prgm *glob, char *colors, char *values, char i)
 	ft_asprintf(glob->colors + i, "\x1b[%d;%d;%dm"
 			, bold, values[id[0]]
 			, (id[1] = values[id[1]]) + 10 == 10 ? values[id[0]] : id[1] + 10);
-	return (set_colors(glob, colors + 2, values, ++i));
+	return (glob->colors[i] ? set_colors(glob, colors + 2, values, ++i) : 2);
 }
 
 void		init_colors(t_prgm *glob)
@@ -55,7 +55,7 @@ void		init_colors(t_prgm *glob)
 	colors[8] = NC;
 	glob->colors[11] = ft_strdup("\x1b[0m");
 	glob->colors[12] = NULL;
-	set_colors(glob, glob->ls_colors, colors, 0);
+	glob->error = set_colors(glob, glob->ls_colors, colors, 0);
 }
 
 char		*special_color(t_prgm *glob, mode_t mode)

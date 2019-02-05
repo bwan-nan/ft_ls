@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/04 21:34:37 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/05 18:40:01 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	print_basic_line(t_prgm *glob, t_list *lst, t_display *info)
 		else
 			info->printed += ft_printf("%-*s", info->width, tmp->name);
 		i++;
-		if (i == info->total)
+		if (i == info->total && lst->next)
 		{
 			ft_putchar('\n');
 			i = 0;
@@ -82,7 +82,7 @@ void	print_basic_col(t_prgm *glob, t_list *lst, t_display *info, char *colo)
 			glob->tmp = *(t_status *)tmp->data;
 			if (glob->option & LS_G)
 				colo = display_color(glob, glob->tmp.info.st_mode);
-			ft_printf("%-@*s", colo ? colo : "", info->width, glob->tmp.name);
+			ft_printf("%-@*s", colo, info->width, glob->tmp.name);
 			while (elem++ < (info->lines + info->mod) && tmp)
 				tmp = tmp->next;
 			col++;
@@ -103,7 +103,7 @@ void	print_commas(t_prgm *glob, t_list *lst, t_display *info)
 	col = glob->option & LS_G ? display_color(glob, tmp->info.st_mode) : NULL;
 	if (lst->next)
 	{
-		info->printed += ft_printf("%@s, ", col ? col : "", tmp->name);
+		info->printed += ft_printf("%@s, ", col, tmp->name);
 		if ((info->printed + 2 + info->size) > glob->window.ws_col)
 		{
 			ft_putchar('\n');
@@ -111,5 +111,5 @@ void	print_commas(t_prgm *glob, t_list *lst, t_display *info)
 		}
 	}
 	else
-		info->printed += ft_printf("%@s\n", col ? col : "", tmp->name);
+		info->printed += ft_printf("%@s\n", col, tmp->name);
 }
