@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:49:01 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/04 21:30:35 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/04 23:50:33 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ unsigned int		options(int ac, char **av, t_prgm *glob)
 	opt['f'] = E_F;
 	opt['x'] = E_X;
 	opt['C'] = E_C;
+	opt['@'] = E_AR;
 	return (get_option(ac, av, opt, glob));
 }
 

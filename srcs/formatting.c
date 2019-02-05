@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/04 21:32:54 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/05 00:50:40 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,38 +70,39 @@ void	symbolic_link(t_status *file)
 	}
 }
 
-char	*getchmod(t_status *file)
+char	*getchmod(t_status *file, char *buffer)
 {
-	char	perm[12];
+	char	p[12];
 
-	perm[0] = '\0';
-	perm[0] = !*perm && S_ISREG(file->info.st_mode) ? '-' : *perm;
-	perm[0] = !*perm && S_ISDIR(file->info.st_mode) ? 'd' : *perm;
-	perm[0] = !*perm && S_ISCHR(file->info.st_mode) ? 'c' : *perm;
-	perm[0] = !*perm && S_ISBLK(file->info.st_mode) ? 'b' : *perm;
-	perm[0] = !*perm && S_ISLNK(file->info.st_mode) ? 'l' : *perm;
-	perm[0] = !*perm && S_ISFIFO(file->info.st_mode) ? 'f' : *perm;
-	perm[0] = !*perm ? 's' : *perm;
-	perm[1] = file->info.st_mode & S_IRUSR ? 'r' : '-';
-	perm[2] = file->info.st_mode & S_IWUSR ? 'w' : '-';
-	perm[3] = file->info.st_mode & S_IXUSR ? 'x' : '-';
-	perm[4] = file->info.st_mode & S_IRGRP ? 'r' : '-';
-	perm[5] = file->info.st_mode & S_IWGRP ? 'w' : '-';
-	perm[6] = file->info.st_mode & S_IXGRP ? 'x' : '-';
-	perm[7] = file->info.st_mode & S_IROTH ? 'r' : '-';
-	perm[8] = file->info.st_mode & S_IWOTH ? 'w' : '-';
-	perm[9] = file->info.st_mode & S_IXOTH ? 'x' : '-';
-	perm[10] = acl_get_link_np(file->path, ACL_TYPE_EXTENDED) ? '+' : '\0';
-	perm[10] = listxattr(file->path, NULL, 0, XATTR_NOFOLLOW) ? '@' : perm[10];
-	perm[11] = '\0';
-	return (ft_strdup(perm));
+	file->xattr_len = listxattr(file->path, buffer, DIR_MAX, XATTR_NOFOLLOW);
+	p[0] = '\0';
+	p[0] = !*p && S_ISREG(file->info.st_mode) ? '-' : *p;
+	p[0] = !*p && S_ISDIR(file->info.st_mode) ? 'd' : *p;
+	p[0] = !*p && S_ISCHR(file->info.st_mode) ? 'c' : *p;
+	p[0] = !*p && S_ISBLK(file->info.st_mode) ? 'b' : *p;
+	p[0] = !*p && S_ISLNK(file->info.st_mode) ? 'l' : *p;
+	p[0] = !*p && S_ISFIFO(file->info.st_mode) ? 'f' : *p;
+	p[0] = !*p ? 's' : *p;
+	p[1] = file->info.st_mode & S_IRUSR ? 'r' : '-';
+	p[2] = file->info.st_mode & S_IWUSR ? 'w' : '-';
+	p[3] = file->info.st_mode & S_IXUSR ? 'x' : '-';
+	p[4] = file->info.st_mode & S_IRGRP ? 'r' : '-';
+	p[5] = file->info.st_mode & S_IWGRP ? 'w' : '-';
+	p[6] = file->info.st_mode & S_IXGRP ? 'x' : '-';
+	p[7] = file->info.st_mode & S_IROTH ? 'r' : '-';
+	p[8] = file->info.st_mode & S_IWOTH ? 'w' : '-';
+	p[9] = file->info.st_mode & S_IXOTH ? 'x' : '-';
+	p[10] = acl_get_link_np(file->path, ACL_TYPE_EXTENDED) ? '+' : '\0';
+	p[10] =  file->xattr_len> 0 ? '@' : p[10];
+	p[11] = '\0';
+	return (ft_strdup(p));
 }
 
 void	output_handler(t_prgm *glob, t_list *lst)
 {
 	if (lst)
 	{
-		if (glob->option & LS_L)
+		if (glob->option & LS_L || glob->option & LS_AR)
 			long_output(glob, lst);
 		else if (glob->option & LS_1)
 			list_output(glob, lst);
