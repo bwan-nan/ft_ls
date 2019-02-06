@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 23:27:45 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/05 17:29:07 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/06 16:31:19 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,15 @@ void	print_xattr(t_status *file, char *xattr)
 	file->xattr_len -= len + 1;
 	len++;
 	return (print_xattr(file, &xattr[len]));
+}
+
+void	print_acl(t_status *file)
+{
+	char	**tab;
+	size_t	index;
+
+	index = 0;
+	tab = file->acl_tab;
+	ft_putchar('\n');
+	ft_printf("0 : %s %s %s %s", tab[1], tab[3], tab[5], tab[6]);
 }

@@ -6,13 +6,13 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 06:49:01 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/04 23:50:33 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/05 21:07:02 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void			option_cancel(unsigned int *option, char c)
+void				option_cancel(unsigned int *option, char c)
 {
 	*option &= ~(LS_1 + LS_C + LS_X + LS_L);
 	if (c == 'l' || c == '1')
@@ -66,18 +66,20 @@ unsigned int		options(int ac, char **av, t_prgm *glob)
 	opt['x'] = E_X;
 	opt['C'] = E_C;
 	opt['@'] = E_AR;
+	opt['e'] = E_E;
 	return (get_option(ac, av, opt, glob));
 }
 
-unsigned int		get_env(char **env, t_prgm *glob)
+unsigned int		get_env(char **e, t_prgm *glob)
 {
 	int		i;
 
 	i = 0;
-	while (env[i])
+	while (e[i])
 	{
-		if (ft_strnequ(env[i], "LSCOLORS=", 8))
-			glob->ls_colors = ft_strsub(env[i], 9, ft_strlen(&env[i][4]));
+		if (ft_strnequ(e[i], "LSCOLORS=", 8))
+			if (!(glob->ls_colors = ft_strsub(e[i], 9, ft_strlen(&e[i][4]))))
+				return (glob->error = 2);
 		i++;
 	}
 	if (!glob->ls_colors)

@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 22:08:01 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/05 17:29:27 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/06 16:30:57 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	print_long_device(t_prgm *glob, t_status *file, t_display *info)
 			, info->time, full_date + 4
 			, info->time2, full_date + 20
 			, info->time2 ? 1 : 0, " "
-			, col ? col : "", file->name);
+			, col, file->name);
 	ft_strdel(&full_date);
 }
 
@@ -100,7 +100,7 @@ void	print_long_regular(t_prgm *glob, t_status *file, t_display *info)
 			, info->time2 ? 1 : 0, " "
 			, info->time2, full_date + 20
 			, info->time2 ? 1 : 0, " "
-			, col ? col : "", file->name);
+			, col, file->name);
 	ft_strdel(&full_date);
 }
 
@@ -112,6 +112,8 @@ void	print_line(t_prgm *glob, t_status *file, t_display *info)
 	else
 		print_long_regular(glob, file, info);
 	symbolic_link(file);
-	if (file->chmod[10] == '@' && glob->option & LS_AR)
+	if (file->xattr && glob->option & LS_AR)
 		print_xattr(file, file->xattr);
+	if (file->acl && glob->option & LS_E)
+		print_acl(file);
 }

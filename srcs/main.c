@@ -6,11 +6,12 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/05 17:16:01 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/06 16:31:10 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <unistd.h>
 
 static void		glob_init(t_prgm *glob)
 {
@@ -20,6 +21,7 @@ static void		glob_init(t_prgm *glob)
 	glob->args = NULL;
 	glob->args_count = 0;
 	glob->ls_colors = NULL;
+	glob->error = 0;
 	ft_bzero(glob->dir, DIR_MAX);
 	ioctl(0, TIOCGWINSZ, &glob->window);
 	while (i <= 10)
@@ -48,7 +50,7 @@ static int		illegal_option(t_prgm *glob)
 	illegal = "ft_ls: illegal option -- ";
 	usage = "usage: ft_ls [-";
 	ft_dprintf(2, "%s%c\n%s%s] [file ...]\n"
-				, illegal, glob->optopt, usage, OPTION);
+			, illegal, glob->optopt, usage, OPTION);
 	return (1);
 }
 
@@ -60,10 +62,21 @@ int				main(int ac, char **av, char **env)
 	get_env(env, &glob);
 	if ((glob.option = options(ac, av, &glob)) == '?')
 		return (illegal_option(&glob));
+	if (!isatty(1))
+	{
+		if (glob.option & LS_G)
+			glob.option &= ~LS_G;
+		if (!(glob.option & (LS_L + LS_M + LS_C + LS_X)))
+			option_cancel(&glob.option, '1');
+	}
 	if (glob.option & LS_G)
 		init_colors(&glob);
-	glob.args = ft_getargslst(ac, av);
-	glob.args == NULL ? list_directory(&glob, ".") : list_files(&glob);
+	if (!glob.error)
+	{
+		if (ac > 1)
+			glob.args = ft_getargslst(ac, av);
+		glob.args == NULL ? list_directory(&glob, ".") : list_files(&glob);
+	}
 	glob_del(&glob);
-	return (0);
+	return (glob.error);
 }

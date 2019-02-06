@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/05 17:25:06 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/06 16:30:06 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	error(t_prgm *glob, t_status *info)
 		ft_asprintf(&error, "ft_ls: %s", info->path);
 	perror(error);
 	ft_strdel(&error);
+	glob->error = 1;
 }
 
 void	long_output(t_prgm *glob, t_list *lst)

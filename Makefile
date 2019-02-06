@@ -6,13 +6,23 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/02/04 23:50:12 by cempassi         ###   ########.fr        #
+#    Updated: 2019/02/05 20:34:43 by cempassi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 LIB = $(LPATH)libft.a
 LIBDB = $(LPATH)libftdb.a
+
+# Regular Colors
+BLACK=\033[0;30m
+RED=\033[0;31m
+GREEN =\033[32m
+YELLOW=\033[0;33m
+BLUE=\033[0;34m
+PURPLE=\033[0;35m
+CYAN=\033[0;36m
+WHITE=\033[0;37m
 
 CC = Clang
 COMPILE = $(CC) -c
@@ -66,6 +76,7 @@ debug : $(LIBDB) $(SRCS)
 
 $(NAME): $(LIB) $(OPATH) $(OBJS) $(INCS)
 	$(CC) -o $@ $< $(OBJS)
+	printf "$(GREEN)$@ is ready.\n$(NC)"
 
 $(OBJS) : $(OPATH)%.o : %.c $(INCS)
 	$(COMPILE) $(CFLAGS) $< -o $@
@@ -93,3 +104,4 @@ fclean : clean
 re: fclean all
 
 .PHONY: all clean fclean debug
+.SILENT:
