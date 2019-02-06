@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 21:14:44 by cedricmpa         #+#    #+#             */
-/*   Updated: 2019/02/05 21:47:35 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/06 19:47:59 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,24 @@ static int	set_colors(t_prgm *glob, char *colors, char *values, int i)
 
 void		init_colors(t_prgm *glob)
 {
-	char	colors[9];
+	char	asni_code[9];
 	char	bold;
 
 	bold = 0;
-	colors[0] = BLACK;
-	colors[1] = RED;
-	colors[2] = GREEN;
-	colors[3] = YELLOW;
-	colors[4] = BLUE;
-	colors[5] = MAGENTA;
-	colors[6] = CYAN;
-	colors[7] = WHITE;
-	colors[8] = NC;
-	glob->colors[11] = ft_strdup("\x1b[0m");
-	glob->colors[12] = NULL;
-	glob->error = set_colors(glob, glob->ls_colors, colors, 0);
+	asni_code[0] = BLACK;
+	asni_code[1] = RED;
+	asni_code[2] = GREEN;
+	asni_code[3] = YELLOW;
+	asni_code[4] = BLUE;
+	asni_code[5] = MAGENTA;
+	asni_code[6] = CYAN;
+	asni_code[7] = WHITE;
+	asni_code[8] = NC;
+	glob->colors[11] = NULL;
+	if (glob->ls_colors)
+		glob->error = set_colors(glob, glob->ls_colors, asni_code, 0);
+	else
+		glob->error = set_colors(glob, DEFAULT_COL, asni_code, 0);
 }
 
 char		*special_color(t_prgm *glob, mode_t mode)

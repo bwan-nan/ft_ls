@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 10:03:03 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/05 21:59:10 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/06 20:06:47 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ int			create_list(DIR *current, char *path, t_list **files_list\
 			, ((t_dirent *)glob->holder)->d_name);
 	if (!glob->tmp.path)
 		return (glob->error = 2);
-	lstat(glob->tmp.path, &glob->tmp.info);
+	if (lstat(glob->tmp.path, &glob->tmp.info) != 0)
+		return (glob->error = 2);
 	if (!(glob->tmp.name = ft_strdup(((t_dirent *)glob->holder)->d_name)))
 		return ((glob->error = 2));
 	if (glob->option & LS_L || glob->option & LS_AR)
@@ -119,20 +120,20 @@ void		del_node(void **data)
 	if (!data || !*data)
 		return ;
 	tmp = (t_status *)(*data);
-	if (tmp->acl_tab)
-		ft_freetab(&tmp->acl_tab);
-	if (tmp->acl)
-		acl_free(tmp->acl);
-	if (tmp->xattr)
-		ft_strdel(&tmp->xattr);
-	if (tmp->path)
-		ft_strdel(&tmp->path);
 	if (tmp->name)
 		ft_strdel(&tmp->name);
+	if (tmp->path)
+		ft_strdel(&tmp->path);
 	if (tmp->chmod)
 		ft_strdel(&tmp->chmod);
 	if (tmp->grp)
 		ft_strdel(&tmp->grp);
 	if (tmp->pwd)
 		ft_strdel(&tmp->pwd);
+	if (tmp->acl_tab)
+		ft_freetab(&tmp->acl_tab);
+	if (tmp->acl)
+		acl_free(tmp->acl);
+	if (tmp->xattr)
+		ft_strdel(&tmp->xattr);
 }

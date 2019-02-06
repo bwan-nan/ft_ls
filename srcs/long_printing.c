@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 22:08:01 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/05 20:19:19 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/06 19:16:59 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ void	print_long_regular(t_prgm *glob, t_status *file, t_display *info)
 	full_date = ft_strdup(ctime(&file->info.st_mtime));
 	ft_printf("%-*s  %*d %-*s  %-*s  %*d %.*s %.*s%.*s%.*s%@s"
 			, info->ch_len, file->chmod, info->nlink, file->info.st_nlink
-			, info->pw_len, file->pwd
-			, info->gr_len, file->grp
+			, info->pw_len, file->pwd ? file->pwd : ""
+			, info->gr_len, file->grp ? file->grp : ""
 			, info->size, file->info.st_size
 			, info->time, full_date + 4
 			, info->time2 ? 1 : 0, " "

@@ -6,13 +6,16 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/02/05 20:34:43 by cempassi         ###   ########.fr        #
+#    Updated: 2019/02/06 20:21:48 by cempassi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 LIB = $(LPATH)libft.a
 LIBDB = $(LPATH)libftdb.a
+
+# Reset
+NC=\033[0m
 
 # Regular Colors
 BLACK=\033[0;30m
@@ -41,8 +44,8 @@ CFLAGS = $(WFLAGS) $(IFLAGS)
 OPATH = obj/
 SPATH = srcs/
 IPATH = includes/
-LPATH = libft/
-LIPATH = libft/includes/
+LPATH = Libft/
+LIPATH = Libft/includes/
 
 INCS += ft_ls.h 
 
