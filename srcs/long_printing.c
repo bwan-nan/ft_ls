@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 22:08:01 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/06 19:16:59 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/06 20:43:47 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	print_long_device(t_prgm *glob, t_status *file, t_display *info)
 
 	col = glob->option & LS_G ? display_color(glob, file->info.st_mode) : NULL;
 	full_date = ft_strdup(ctime(&file->info.st_mtime));
-	ft_printf("%*s  %*d %-*s  %-*s  %*d, %*d %.*s %.*s%.*s%.*s %@s"
+	ft_printf("%*s %*d %-*s  %-*s  %*d, %*d %.*s %.*s%.*s%.*s %@s"
 			, info->ch_len, file->chmod
 			, info->nlink, file->info.st_nlink
 			, info->pw_len, file->pwd
@@ -91,7 +91,7 @@ void	print_long_regular(t_prgm *glob, t_status *file, t_display *info)
 
 	col = glob->option & LS_G ? display_color(glob, file->info.st_mode) : NULL;
 	full_date = ft_strdup(ctime(&file->info.st_mtime));
-	ft_printf("%-*s  %*d %-*s  %-*s  %*d %.*s %.*s%.*s%.*s%@s"
+	ft_printf("%-*s %*d %-*s  %-*s  %*d %.*s %.*s%.*s%.*s%@s"
 			, info->ch_len, file->chmod, info->nlink, file->info.st_nlink
 			, info->pw_len, file->pwd ? file->pwd : ""
 			, info->gr_len, file->grp ? file->grp : ""

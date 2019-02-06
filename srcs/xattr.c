@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 23:27:45 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/05 21:30:47 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/06 20:43:03 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ void	print_acl(t_status *file)
 	index = 0;
 	tab = file->acl_tab;
 	ft_putchar('\n');
-	ft_printf("0 : %s %s %s %s", tab[1], tab[3], tab[5], tab[6]);
+	ft_printf(" 0: %s:%s %s %s", tab[1], tab[3], tab[5], tab[6]);
 }
