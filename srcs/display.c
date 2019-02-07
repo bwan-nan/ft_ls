@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/06 20:16:55 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/07 20:57:33 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ void	long_output(t_prgm *glob, t_list *lst)
 	t_status	*tmp;
 
 	init_display(&glob->info);
-	long_padding(lst, &glob->info, NULL, 0);
 	if (glob->args_count)
 		ft_printf("%s:\n", glob->dir);
+	if (!lst)
+		return ;
+	long_padding(lst, &glob->info, NULL, 0);
 	ft_printf("total %d\n", glob->info.total);
 	while (lst)
 	{
@@ -55,9 +57,10 @@ void	list_output(t_prgm *glob, t_list *lst)
 
 	if (glob->args_count)
 		ft_printf("%s:\n", glob->dir);
+	col = NULL;
 	while (lst)
 	{
-		tmp = lst->data;
+		tmp = (t_status *)lst->data;
 		if (glob->option & LS_G)
 			col = display_color(glob, tmp->info.st_mode);
 		ft_printf("%@s\n", col, tmp->name);
@@ -71,10 +74,12 @@ void	basic_output(t_prgm *glob, t_list *lst)
 	t_status	*tmp;
 
 	init_display(&glob->info);
-	basic_padding(glob, lst, &glob->info);
-	tmp = (t_status *)lst->data;
 	if (glob->args_count)
 		ft_printf("%s:\n", glob->dir);
+	if (!lst)
+		return ;
+	basic_padding(glob, lst, &glob->info);
+	tmp = (t_status *)lst->data;
 	if (glob->option & LS_X)
 		print_basic_line(glob, lst, &glob->info);
 	else if (glob->info.total && glob->info.lst_len)
