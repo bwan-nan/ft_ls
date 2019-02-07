@@ -6,13 +6,12 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 10:03:03 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/06 21:44:57 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/07 21:01:15 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-#include <grp.h>
-#include <pwd.h>
+#include <unistd.h>
 
 static void	init_status(t_status *info)
 {
@@ -27,33 +26,15 @@ static void	init_status(t_status *info)
 	info->acl_tab = NULL;
 }
 
-static int	get_chmod(t_prgm *glob)
+static void	make_list(t_list **file, t_list **dir, t_list *node)
 {
-	char	*buf[DIR_MAX];
-	char	*acl;
+	t_status *tmp;
 
-	if (!(glob->tmp.chmod = str_chmod(&glob->tmp, (char *)buf)))
-		return (glob->error = 2);
-	if (glob->tmp.chmod[10] == '@' && glob->option & LS_AR)
-	{
-		if (!(glob->tmp.xattr = ft_strnew(glob->tmp.xattr_len)))
-			return (glob->error = 2);
-		glob->tmp.xattr = ft_memcpy(glob->tmp.xattr, buf, glob->tmp.xattr_len);
-	}
-	if (glob->tmp.acl && glob->option & LS_E)
-	{
-		if (!(acl = acl_to_text(glob->tmp.acl, 0)))
-			return (glob->error = 2);
-		if (!(glob->tmp.acl_tab = ft_strsplit(acl, ":\n")))
-			return (glob->error = 2);
-	}
-	if ((glob->holder = getgrgid(glob->tmp.info.st_gid)))
-		if (!(glob->tmp.grp = ft_strdup(((t_group *)glob->holder)->gr_name)))
-			return (glob->error = 2);
-	if ((glob->holder = getpwuid(glob->tmp.info.st_uid)))
-		if (!(glob->tmp.pwd = ft_strdup(((t_passwd *)glob->holder)->pw_name)))
-			return (glob->error = 2);
-	return (0);
+	tmp = (t_status *)node->data;
+	if (S_ISDIR(tmp->info.st_mode))
+		ft_lstaddback(dir, node);
+	else
+		ft_lstaddback(file, node);
 }
 
 int			generate_lists(t_prgm *glob, t_list *args, t_list **file\
@@ -70,15 +51,14 @@ int			generate_lists(t_prgm *glob, t_list *args, t_list **file\
 		return (glob->error = 2);
 	if (lstat((char *)args->data, &glob->tmp.info) == 0)
 	{
+		if (S_ISLNK(glob->tmp.info.st_mode) && !(glob->option & LS_L))
+			stat(glob->tmp.path, &glob->tmp.info);
 		if (glob->option & LS_L || glob->option & LS_AR)
 			if (get_chmod(glob) == 2)
 				return (2);
 		if (!(node = ft_lstnew(&glob->tmp, sizeof(t_status))))
 			return (glob->error = 2);
-		if (S_ISDIR(glob->tmp.info.st_mode))
-			ft_lstaddback(dir, node);
-		else
-			ft_lstaddback(file, node);
+		make_list(file, dir, node);
 	}
 	else
 		error(glob, &glob->tmp);

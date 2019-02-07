@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/06 22:38:27 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/07 20:59:40 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void					init_colors(t_prgm *glob);
 void					sort_list(t_list **files_list, t_prgm *glob);
 
 size_t					nbrlen(int nbr);
-char					*str_chmod(t_status *file, char *buffer);
+int						get_chmod(t_prgm *glob);
 void					get_color(t_prgm *glob, t_status *file);
 char					*display_color(t_prgm *glob, mode_t mode);
 void					option_cancel(unsigned int *option, char c);

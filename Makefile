@@ -6,7 +6,7 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/02/07 17:07:22 by cempassi         ###   ########.fr        #
+#    Updated: 2019/02/07 18:22:52 by cempassi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ SRCS += long_printing.c
 SRCS += formatting.c
 SRCS += sorting.c
 SRCS += colors.c
-SRCS += xattr.c
+SRCS += chmod.c
 
 DSYM = $(NAME).dSYM
 
