@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 10:03:03 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/06 20:06:47 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/06 21:44:57 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,20 +120,20 @@ void		del_node(void **data)
 	if (!data || !*data)
 		return ;
 	tmp = (t_status *)(*data);
-	if (tmp->name)
-		ft_strdel(&tmp->name);
-	if (tmp->path)
-		ft_strdel(&tmp->path);
-	if (tmp->chmod)
-		ft_strdel(&tmp->chmod);
-	if (tmp->grp)
-		ft_strdel(&tmp->grp);
-	if (tmp->pwd)
-		ft_strdel(&tmp->pwd);
 	if (tmp->acl_tab)
 		ft_freetab(&tmp->acl_tab);
 	if (tmp->acl)
 		acl_free(tmp->acl);
 	if (tmp->xattr)
 		ft_strdel(&tmp->xattr);
+	if (tmp->path)
+		ft_strdel(&tmp->path);
+	if (tmp->name)
+		ft_strdel(&tmp->name);
+	if (tmp->chmod)
+		ft_strdel(&tmp->chmod);
+	if (tmp->grp)
+		ft_strdel(&tmp->grp);
+	if (tmp->pwd)
+		ft_strdel(&tmp->pwd);
 }

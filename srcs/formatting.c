@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/05 21:43:39 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/07 13:13:20 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*str_chmod(t_status *file, char *buffer)
 	p[7] = file->info.st_mode & S_IROTH ? 'r' : '-';
 	p[8] = file->info.st_mode & S_IWOTH ? 'w' : '-';
 	p[9] = file->info.st_mode & S_IXOTH ? 'x' : '-';
-	p[10] = file->acl ? '+' : '\0';
+	p[10] = file->acl ? '+' : ' ';
 	p[10] = file->xattr_len > 0 ? '@' : p[10];
 	p[11] = '\0';
 	return (ft_strdup(p));
