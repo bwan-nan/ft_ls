@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 22:08:01 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/06 20:43:47 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/11 18:56:36 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	time_format(t_prgm *glob, t_display *info, time_t timestamp)
 		info->time = 20;
 		info->time2 = 0;
 	}
-	else if (today - timestamp > SIX_MONTHS || timestamp - today > SIX_MONTHS)
+	else if (today - timestamp > SIX_MONTHS || timestamp - today > 0)
 	{
 		info->time = 6;
 		info->time2 = 4;
@@ -69,7 +69,7 @@ void	print_long_device(t_prgm *glob, t_status *file, t_display *info)
 
 	col = glob->option & LS_G ? display_color(glob, file->info.st_mode) : NULL;
 	full_date = ft_strdup(ctime(&file->info.st_mtime));
-	ft_printf("%*s %*d %-*s  %-*s  %*d, %*d %.*s %.*s%.*s%.*s %@s"
+	ft_printf("%*s %*d %-*s  %-*s  %*ld, %*d %.*s %.*s%.*s%.*s %@s"
 			, info->ch_len, file->chmod
 			, info->nlink, file->info.st_nlink
 			, info->pw_len, file->pwd
@@ -91,7 +91,7 @@ void	print_long_regular(t_prgm *glob, t_status *file, t_display *info)
 
 	col = glob->option & LS_G ? display_color(glob, file->info.st_mode) : NULL;
 	full_date = ft_strdup(ctime(&file->info.st_mtime));
-	ft_printf("%-*s %*d %-*s  %-*s  %*d %.*s %.*s%.*s%.*s%@s"
+	ft_printf("%-*s %*d %-*s  %-*s  %*ld %.*s %.*s%.*s%.*s%@s"
 			, info->ch_len, file->chmod, info->nlink, file->info.st_nlink
 			, info->pw_len, file->pwd ? file->pwd : ""
 			, info->gr_len, file->grp ? file->grp : ""
