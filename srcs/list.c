@@ -6,25 +6,12 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 10:03:03 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/07 21:01:15 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/08 17:39:50 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include <unistd.h>
-
-static void	init_status(t_status *info)
-{
-	info->acl = NULL;
-	info->xattr = NULL;
-	info->path = NULL;
-	info->name = NULL;
-	info->chmod = NULL;
-	info->grp = NULL;
-	info->pwd = NULL;
-	info->dirlist = NULL;
-	info->acl_tab = NULL;
-}
 
 static void	make_list(t_list **file, t_list **dir, t_list *node)
 {
@@ -44,7 +31,7 @@ int			generate_lists(t_prgm *glob, t_list *args, t_list **file\
 
 	if (!args)
 		return (0);
-	init_status(&glob->tmp);
+	ft_bzero(&glob->tmp, sizeof(t_status));
 	if (!(glob->tmp.name = ft_strdup((char *)args->data)))
 		return (glob->error = 2);
 	if (!(glob->tmp.path = ft_strdup(glob->tmp.name)))
@@ -75,7 +62,7 @@ int			create_list(DIR *current, char *path, t_list **files_list\
 	if (!(glob->option & LS_A) && !(glob->option & LS_F)
 			&& ((t_dirent *)glob->holder)->d_name[0] == '.')
 		return (create_list(current, path, files_list, glob));
-	init_status(&glob->tmp);
+	ft_bzero(&glob->tmp, sizeof(t_status));
 	ft_asprintf(&glob->tmp.path, "%s/%s", path
 			, ((t_dirent *)glob->holder)->d_name);
 	if (!glob->tmp.path)
@@ -93,13 +80,13 @@ int			create_list(DIR *current, char *path, t_list **files_list\
 	return (create_list(current, path, files_list, glob));
 }
 
-void		del_node(void **data)
+void		del_node(void *data)
 {
 	t_status *tmp;
 
-	if (!data || !*data)
+	if (!data)
 		return ;
-	tmp = (t_status *)(*data);
+	tmp = (t_status *)(data);
 	if (tmp->acl_tab)
 		ft_freetab(&tmp->acl_tab);
 	if (tmp->acl)

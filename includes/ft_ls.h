@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/07 20:59:40 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/08 17:38:21 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void					print_line(t_prgm *glob, t_status *file,\
 void					long_padding(t_list *lst, t_display *info,\
 						t_status *tmp, size_t len);
 
-void					del_node(void **data);
+void					del_node(void *data);
 int						generate_lists(t_prgm *glob, t_list *args,\
 						t_list **file, t_list **dir);
 int						create_list(DIR *current, char *path,

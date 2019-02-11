@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/07 20:57:33 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/08 17:58:33 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	error(t_prgm *glob, t_status *info)
 		ft_asprintf(&error, "ft_ls: %s", info->path);
 	perror(error);
 	ft_strdel(&error);
+	ft_strdel(&info->name);
+	ft_strdel(&info->path);
 	glob->error = 1;
 }
 
@@ -33,13 +35,14 @@ void	long_output(t_prgm *glob, t_list *lst)
 {
 	t_status	*tmp;
 
-	init_display(&glob->info);
+	ft_bzero(&glob->info, sizeof(t_display));
 	if (glob->args_count)
 		ft_printf("%s:\n", glob->dir);
 	if (!lst)
 		return ;
 	long_padding(lst, &glob->info, NULL, 0);
-	ft_printf("total %d\n", glob->info.total);
+	if (glob->args_count)
+		ft_printf("total %d\n", glob->info.total);
 	while (lst)
 	{
 		tmp = (t_status *)(lst->data);

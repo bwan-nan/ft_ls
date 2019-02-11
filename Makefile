@@ -6,7 +6,7 @@
 #    By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/26 23:18:40 by cempassi          #+#    #+#              #
-#    Updated: 2019/02/07 18:22:52 by cempassi         ###   ########.fr        #
+#    Updated: 2019/02/08 17:53:38 by cempassi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,7 +84,7 @@ $(NAME): $(LIB) $(OPATH) $(OBJS) $(INCS)
 $(OBJS) : $(OPATH)%.o : %.c $(INCS)
 	$(COMPILE) $(CFLAGS) $< -o $@
 
-$(LIB) :
+$(LIB) : FORCE
 	$(MAKE) -C $(LPATH)
 
 $(LIBDB) :
@@ -108,3 +108,4 @@ re: fclean all
 
 .PHONY: all clean fclean debug
 .SILENT:
+FORCE:
