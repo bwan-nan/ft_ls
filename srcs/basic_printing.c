@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:42:14 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/05 18:40:01 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/06 19:52:34 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,8 @@ void	print_basic_col(t_prgm *glob, t_list *lst, t_display *info, char *colo)
 void	print_commas(t_prgm *glob, t_list *lst, t_display *info)
 {
 	t_status	*tmp;
-	size_t		len;
 	char		*col;
 
-	len = 0;
 	tmp = (t_status *)(lst->data);
 	col = glob->option & LS_G ? display_color(glob, tmp->info.st_mode) : NULL;
 	if (lst->next)

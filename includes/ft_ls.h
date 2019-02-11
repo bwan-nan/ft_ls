@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/06 16:29:48 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/07 20:59:40 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,39 +22,40 @@
 # include <time.h>
 # include <sys/ioctl.h>
 
-# define OPTION		"1CGRST@aeflmrtx"
-# define LS_L		1
-# define LS_1		2
-# define LS_RR		4
-# define LS_A		8
-# define LS_T		16
-# define LS_G		32
-# define LS_M		64
-# define LS_S		128
-# define LS_R		256
-# define LS_TT		512
-# define LS_F		1024
-# define LS_X		2048
-# define LS_C		4096
-# define LS_AR		8192
-# define LS_E		16384
+# define OPTION			"1CGRST@aeflmrtx"
+# define LS_L			1
+# define LS_1			2
+# define LS_RR			4
+# define LS_A			8
+# define LS_T			16
+# define LS_G			32
+# define LS_M			64
+# define LS_S			128
+# define LS_R			256
+# define LS_TT			512
+# define LS_F			1024
+# define LS_X			2048
+# define LS_C			4096
+# define LS_AR			8192
+# define LS_E			16384
 
-# define BLACK 		30
-# define RED 		31
-# define GREEN 		32
-# define YELLOW 	33
-# define BLUE 		34
-# define MAGENTA 	35
-# define CYAN 		36
-# define WHITE 		37
-# define NC 		0
+# define DEFAULT_COL	"exfxcxdxbxegedabagacad"
+# define BLACK 			30
+# define RED 			31
+# define GREEN 			32
+# define YELLOW 		33
+# define BLUE 			34
+# define MAGENTA 		35
+# define CYAN 			36
+# define WHITE 			37
+# define NC 			0
 
-# define MAJDIFF	65
-# define MINDIFF 	97
+# define MAJDIFF		65
+# define MINDIFF 		97
 
-# define BUF		255
-# define DIR_MAX	4096
-# define SIX_MONTHS	15780000
+# define BUF			255
+# define DIR_MAX		4096
+# define SIX_MONTHS		15780000
 
 typedef struct dirent	t_dirent;
 typedef struct stat		t_stat;
@@ -85,8 +86,8 @@ typedef struct			s_status
 {
 	t_stat				info;
 	acl_t				acl;
-	char				*path;
 	char				*name;
+	char				*path;
 	char				*chmod;
 	char				*grp;
 	char				*pwd;
@@ -128,7 +129,7 @@ typedef struct			s_prgm
 	unsigned int		option;
 	char				error;
 	char				optopt;
-	char				*colors[13];
+	char				*colors[12];
 }						t_prgm;
 
 int						listalldir(t_prgm *glob, t_list *lst, t_status *tmp);
@@ -167,7 +168,7 @@ void					init_colors(t_prgm *glob);
 void					sort_list(t_list **files_list, t_prgm *glob);
 
 size_t					nbrlen(int nbr);
-char					*str_chmod(t_status *file, char *buffer);
+int						get_chmod(t_prgm *glob);
 void					get_color(t_prgm *glob, t_status *file);
 char					*display_color(t_prgm *glob, mode_t mode);
 void					option_cancel(unsigned int *option, char c);

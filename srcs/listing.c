@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 07:04:00 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/05 21:55:20 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/07 20:08:33 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,12 @@ int			listonedir(t_prgm *glob, DIR *current, t_status *tmp)
 		return (glob->error);
 	}
 	sort_list(&tmp->dirlist, glob);
-	if (tmp->dirlist)
-	{
-		if (glob->args_count == 2)
-			ft_putchar('\n');
-		output_handler(glob, tmp->dirlist);
-		if (glob->option & LS_RR)
-			listalldir(glob, tmp->dirlist, NULL);
-		ft_lstdel(&(tmp->dirlist), del_node);
-	}
+	if (glob->args_count == 2)
+		ft_putchar('\n');
+	output_handler(glob, tmp->dirlist);
+	if (glob->option & LS_RR)
+		listalldir(glob, tmp->dirlist, NULL);
+	ft_lstdel(&(tmp->dirlist), del_node);
 	closedir(current);
 	return (0);
 }
@@ -113,7 +110,8 @@ int			list_files(t_prgm *glob)
 		if (file)
 			sort_list(&file, glob);
 		sort_list(&dir, glob);
-		output_handler(glob, file);
+		if (file)
+			output_handler(glob, file);
 		if (glob->args->next && file && dir)
 			glob->args_count = 2;
 		else if (glob->args->next)

@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 14:48:35 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/06 16:30:06 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/02/11 16:00:18 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	error(t_prgm *glob, t_status *info)
 		ft_asprintf(&error, "ft_ls: %s", info->path);
 	perror(error);
 	ft_strdel(&error);
+	ft_strdel(&info->path);
+	ft_strdel(&info->name);
 	glob->error = 1;
 }
 
@@ -34,10 +36,13 @@ void	long_output(t_prgm *glob, t_list *lst)
 	t_status	*tmp;
 
 	init_display(&glob->info);
-	long_padding(lst, &glob->info, NULL, 0);
 	if (glob->args_count)
 		ft_printf("%s:\n", glob->dir);
-	ft_printf("total %d\n", glob->info.total);
+	if (!lst)
+		return ;
+	long_padding(lst, &glob->info, NULL, 0);
+	if (glob->args_count)
+		ft_printf("total %d\n", glob->info.total);
 	while (lst)
 	{
 		tmp = (t_status *)(lst->data);
@@ -51,18 +56,17 @@ void	long_output(t_prgm *glob, t_list *lst)
 void	list_output(t_prgm *glob, t_list *lst)
 {
 	char		*col;
-	t_status	*file;
+	t_status	*tmp;
 
 	if (glob->args_count)
 		ft_printf("%s:\n", glob->dir);
+	col = NULL;
 	while (lst)
 	{
-		file = (t_status *)lst->data;
+		tmp = (t_status *)lst->data;
 		if (glob->option & LS_G)
-			col = display_color(glob, file->info.st_mode);
-		else
-			col = NULL;
-		ft_printf("%@s\n", col ? col : "", file->name);
+			col = display_color(glob, tmp->info.st_mode);
+		ft_printf("%@s\n", col, tmp->name);
 		lst = lst->next;
 	}
 	glob->args_count = 2;
@@ -73,10 +77,12 @@ void	basic_output(t_prgm *glob, t_list *lst)
 	t_status	*tmp;
 
 	init_display(&glob->info);
-	basic_padding(glob, lst, &glob->info);
-	tmp = (t_status *)lst->data;
 	if (glob->args_count)
 		ft_printf("%s:\n", glob->dir);
+	if (!lst)
+		return ;
+	basic_padding(glob, lst, &glob->info);
+	tmp = (t_status *)lst->data;
 	if (glob->option & LS_X)
 		print_basic_line(glob, lst, &glob->info);
 	else if (glob->info.total && glob->info.lst_len)
