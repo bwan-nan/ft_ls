@@ -6,31 +6,11 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 07:04:00 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/11 19:01:53 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/11 19:05:43 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-int			flag_generator(t_status *tmp)
-{
-	DIR			*current;
-
-	if (S_ISDIR(tmp->info.st_mode))
-		return (1);
-	else if (S_ISLNK(tmp->info.st_mode))
-	{
-		if ((current = opendir(tmp->path)))
-		{
-			closedir(current);
-			return (1);
-		}
-		else
-			return (0);
-	}
-	else
-		return (0);
-}
 
 int			listonedir(t_prgm *glob, DIR *current, t_status *tmp)
 {
