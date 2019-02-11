@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 10:03:03 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/08 17:39:50 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/11 16:42:30 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int			generate_lists(t_prgm *glob, t_list *args, t_list **file\
 		return (glob->error = 2);
 	if (lstat((char *)args->data, &glob->tmp.info) == 0)
 	{
-		if (S_ISLNK(glob->tmp.info.st_mode) && !(glob->option & LS_L))
-			stat(glob->tmp.path, &glob->tmp.info);
+		//if (S_ISLNK(glob->tmp.info.st_mode) && !(glob->option & LS_L))
+		//	stat(glob->tmp.path, &glob->tmp.info);
 		if (glob->option & LS_L || glob->option & LS_AR)
 			if (get_chmod(glob) == 2)
 				return (2);
