@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 17:15:00 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/07 20:59:58 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/14 11:02:33 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static char	*str_chmod(t_status *file, char *buffer)
 int			get_chmod(t_prgm *glob)
 {
 	char	*buf[DIR_MAX];
-	char	*acl;
 
 	if (!(glob->tmp.chmod = str_chmod(&glob->tmp, (char *)buf)))
 		return (glob->error = 2);
@@ -74,10 +73,11 @@ int			get_chmod(t_prgm *glob)
 	}
 	if (glob->tmp.acl && glob->option & LS_E)
 	{
-		if (!(acl = acl_to_text(glob->tmp.acl, 0)))
+		if (!(glob->tmp.acl_str = acl_to_text(glob->tmp.acl, 0)))
 			return (glob->error = 2);
-		if (!(glob->tmp.acl_tab = ft_strsplit(acl, ":\n")))
+		if (!(glob->tmp.acl_tab = ft_strsplit(glob->tmp.acl_str, ":\n")))
 			return (glob->error = 2);
+		ft_strdel(&glob->tmp.acl_str);
 	}
 	if ((glob->holder = getgrgid(glob->tmp.info.st_gid)))
 		if (!(glob->tmp.grp = ft_strdup(((t_group *)glob->holder)->gr_name)))

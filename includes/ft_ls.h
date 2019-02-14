@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:47 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/11 19:17:36 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/14 10:55:53 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct			s_status
 	char				*grp;
 	char				*pwd;
 	char				*xattr;
+	char				*acl_str;
 	char				**acl_tab;
 	t_list				*dirlist;
 	ssize_t				xattr_len;

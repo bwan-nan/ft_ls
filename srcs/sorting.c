@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 12:21:04 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/06 20:08:40 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/14 10:51:50 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void			sort_list(t_list **files_list, t_prgm *glob)
 	if (!(glob->option & LS_F))
 	{
 		if (glob->option & LS_S)
-			ft_mergesort(files_list, sort_size);
+			ft_mergesort(files_list, &sort_size);
 		else if (glob->option & LS_T)
 			ft_mergesort(files_list, &sort_time_modified);
 		else

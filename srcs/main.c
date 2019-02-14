@@ -6,7 +6,7 @@
 /*   By: cempassi <cempassi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 02:12:13 by cempassi          #+#    #+#             */
-/*   Updated: 2019/02/13 19:45:23 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/14 11:03:11 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void		glob_init(t_prgm *glob)
 	glob->args_count = 0;
 	glob->ls_colors = NULL;
 	glob->error = 0;
+	glob->tmp.acl_str = NULL;
 	ft_bzero(glob->dir, DIR_MAX);
 	ioctl(0, TIOCGWINSZ, &glob->window);
 	while (i <= 10)
