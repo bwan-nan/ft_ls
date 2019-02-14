@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 22:08:01 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/02/11 18:56:36 by cempassi         ###   ########.fr       */
+/*   Updated: 2019/02/13 20:47:44 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	time_format(t_prgm *glob, t_display *info, time_t timestamp)
 		info->time = 20;
 		info->time2 = 0;
 	}
-	else if (today - timestamp > SIX_MONTHS || timestamp - today > 0)
+	else if (today - timestamp > SIX_MONTHS || timestamp 
+			- today > 0)
 	{
 		info->time = 6;
 		info->time2 = 4;
